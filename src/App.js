@@ -1,23 +1,17 @@
+import { useState } from 'react';
 import logo from './logo.svg';
+import DocsList from './components/DocsList'
 import './App.css';
+import DocumentViewer from './components/DocumentViewer';
+import CheckList from './components/CheckList';
 
 function App() {
+  const [docUrl, setDocUrl] = useState("");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{'display': 'flex'}}>
+      <DocsList/>
+      <DocumentViewer/>
+      <CheckList/>
     </div>
   );
 }
