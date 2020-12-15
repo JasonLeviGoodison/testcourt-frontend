@@ -13,7 +13,7 @@ function DocumentViewer(props) {
   console.log(count)
 
   if (!props.curDoc) {
-    return <p> Please Select a document to review </p>
+    return <p style={{margin: "auto"}}> Please select a document to review </p>
   }
 
   const docs = [

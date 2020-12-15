@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import FolderIcon from '@material-ui/icons/Folder';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { setSelectedDocument, fetchDocuments } from "../redux/actions";
@@ -49,27 +50,29 @@ function DocsList(props) {
             alignItems="flex-start"
             onClick={handleItemSelect(index, item)}
             >
-                <ListItemAvatar>
-                    <Avatar alt={item.alt}> { item.primary[0] } </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary={item.primary}
-                    secondary={
-                    <React.Fragment>
-                        <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.inline}
-                        color="textPrimary"
-                        >
-                        {item.name}
-                        </Typography>
-                        {item.details}
-                    </React.Fragment>
-                    }
-                />
+            <ListItemAvatar>
+                <Avatar>
+                <FolderIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+                primary={"Client: " + item.clientName}
+                secondary={
+                <React.Fragment>
+                    <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                    >
+                    {"Posted By: " + item.postedBy}
+                    </Typography><br/>
+                    {item.description}
+                </React.Fragment>
+                }
+            />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            <Divider component="li" />
             </div>
         )
     }

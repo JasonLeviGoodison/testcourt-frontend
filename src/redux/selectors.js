@@ -2,6 +2,8 @@ import { VISIBILITY_FILTERS } from "../constants";
 
 export const getDocsState = store => store.docs;
 
+export const getCheckListsState = store => store.checkLists;
+
 export const getDocsList = store =>
   getDocsState(store) ? getDocsState(store).documents : [];
 
@@ -10,6 +12,9 @@ export const getCurDoc = (store) =>
 
 export const getCurDocMeta = (store) =>
   getDocsState(store) ? getDocsState(store).documents[getCurDoc(store)] : {};
+
+export const getDocTypeCheckList = (store, docType) =>
+  getCheckListsState(store)[docType] ? getCheckListsState(store)[docType] : [];
 
 /**
  * example of a slightly more complex selector

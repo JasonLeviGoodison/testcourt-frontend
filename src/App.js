@@ -8,7 +8,7 @@ import CheckList from './components/CheckList';
 function App() {
   const [docUrl, setDocUrl] = useState("");
   return (
-    <div className="App" style={{'display': 'flex'}}>
+    <div className="App" style={{'display': 'flex', backgroundColor: "#EEEEEE"}}>
       <DocsList/>
       <DocumentViewer/>
       <CheckList/>

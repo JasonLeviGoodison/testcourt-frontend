@@ -8,9 +8,13 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Button from 'react-bootstrap/Button'
+import Divider from '@material-ui/core/Divider';
+import { fetchCheckListForDocType } from '../redux/actions';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useEffect, useState } from "react";
-import { getCurDocMeta } from "../redux/selectors";
+import Modal from 'react-modal';
+import { getCurDocMeta, getDocTypeCheckList } from "../redux/selectors";
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,23 +26,83 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
+//;
  
 function CheckList(props) {
-  const classes = useStyles();
-  const [checks, setChecks] = useState([])
+    const defautPopupMsg = "Are you sure you want to approve these files?";
+    const classes = useStyles();
+    const [showModal, setShowModal] = useState(false);
+    const curDoc = props.curDoc;
+    const [checklist, setCheckList] = useState([]);
+    const [popupMsg, setPopUpMsg] = useState(defautPopupMsg);
 
-  const handleChange = (index) => {
-      return (event) => {
-        let beforeChecks = [...checks];
-        beforeChecks[index] = event.target.checked
-        setChecks(beforeChecks);
+    function getChecklistFromList(list) {
+    return list.map((label) => ({
+            label,
+            checked: false
+        }));
     }
-};
-
-  if (!props.curDoc) {
-    return <p> Please Select a document to review </p>
-  }
   
+    useEffect(() => {
+        if (curDoc && curDoc.docType && checklist.length == 0) {
+            props.fetchCheckListForDocType(curDoc.docType)
+        }
+    }, [curDoc])
+
+    useEffect(() => {
+        if (props.curDoc && props.curDoc.docType) {
+        setCheckList(getChecklistFromList(props.checkList(props.curDoc.docType)))
+        }
+    }, [props.checkList])
+
+    const handleChange = (index) => {
+        return (event) => {
+            var beforecheck = [...checklist];
+            beforecheck[index].checked = !beforecheck[index].checked;
+            setCheckList(beforecheck);
+        }
+    };
+  
+    const allBoxesChecked = () => {
+        for (var i = 0; i < checklist.length; i++) {
+            if (!checklist[i].checked) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const handleButtonClick = (action) => {
+        return () => {
+            if (action == "approve") {
+                var allChecked = allBoxesChecked();
+                if (!allChecked) {setPopUpMsg("Please check off all items on the checklist") }
+                else {setPopUpMsg(defautPopupMsg) }
+            } else { // action reject
+                setPopUpMsg("Are you sure you want to reject this review");
+            }
+            setShowModal(true);
+        }
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
+    }
+
+
+    if (!curDoc) {
+        return <p></p>
+    }
 
   const docs = [
     { uri:  props.curDoc.url},
@@ -46,61 +110,86 @@ function CheckList(props) {
   ];
   
   return (
-    <div style={{'flex': '1', 'height': '100vh'}}>
-        <Card style={{ width: '100%' }}>
+    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: "scroll"}}>
+        <Card border="dark" style={{ width: '100%' }}>
             <Card.Body>
-                <Card.Title>Jasons Request For Approval</Card.Title>
+                <Card.Title>Doc Review Information</Card.Title>
             </Card.Body>
             <ListGroup className="list-group-flush" style={{textAlign: "left"}}>
-                <ListGroupItem> <b>Description</b>: This is the document that ashley asked for for Jasons case</ListGroupItem>
-                <ListGroupItem><b>Name</b>: Jason Goodison</ListGroupItem>
-                <ListGroupItem><b>Case #</b>: 10293261</ListGroupItem>
-                <ListGroupItem><b>Due Date</b>: 10/10/2021</ListGroupItem>
-                <ListGroupItem><b>Doc type</b>: Will</ListGroupItem>
-                <ListGroupItem><b>Required Approvals</b>: <br/>
-                <div style={{textAlign: "center"}}>
-                    Ashley ✅ <br/>
-                    Steve ⌛ <br/>
-                    Jason ❌
-                </div>
-                </ListGroupItem>
+                <ListGroupItem> <b>Description</b>: {curDoc.description}</ListGroupItem>
+                <ListGroupItem><b>Name</b>: {curDoc.clientName}</ListGroupItem>
+                <ListGroupItem><b>Case #</b>: {curDoc.caseNumber}</ListGroupItem>
+                <ListGroupItem><b>Due Date</b>: {curDoc.dueDate}</ListGroupItem>
+                <ListGroupItem><b>Doc type</b>: {curDoc.docType}</ListGroupItem>
             </ListGroup>
         </Card>
-        <Card style={{ width: '100%' }}>
+        <Card border="dark" style={{ width: '100%' }}>
             <Card.Body>
-                <Card.Title>Check List</Card.Title>
+                <Card.Title>Approval</Card.Title>
             </Card.Body>
-            <FormControl required error={true} component="fieldset" className={classes.formControl}>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox checked={checks[0]} onChange={handleChange(0)} name="gilad" />}
-                        label="Names are correct"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox checked={checks[1]} onChange={handleChange(1)} name="jason" />}
-                        label="Section 8 is crossed out"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox checked={checks[2]} onChange={handleChange(2)} name="antoine" />}
-                        label="Page 2 is on Yellow stock"
-                    />
+            <Divider/>
+            <div style={{marginTop: '10px'}}>Check this list before approving:</div>
+            {/*
+            <div>
+                <b>Approved By:  </b>
+                {
+                    curDoc.requiredApprovals.length > 0 ? curDoc.requiredApprovals.map((x, i) => {
+                        let val = x.name + " ✅ ";
+                        if (i < curDoc.requiredApprovals.length-1) {
+                            val += ",       "
+                        }
+                        return val;
+                    }) : "No one has approved this document"
+                }
+            </div>
+            <Divider/> */}
+            <FormControl  required error={true} component="fieldset" className={classes.formControl}>
+            <FormGroup>
+                {
+                    checklist.map((x, index) => {
+                        return (<FormControlLabel
+                            key={index}
+                            control={<Checkbox key={index} checked={x.checked} onChange={handleChange(index)} name="gilad" />}
+                            label={x.label}/>);
+                    })
+                }
                 </FormGroup>
             </FormControl>
             <Card.Body>
-                <Card.Link href="#">Approve</Card.Link>
-                <Card.Link href="#">Reject</Card.Link>
+                <Card.Link href="#" onClick={handleButtonClick('approve')}>Approve</Card.Link>
+                <Card.Link href="#" onClick={handleButtonClick('reject')}>Reject</Card.Link>
             </Card.Body>
         </Card>
+        {
+        <Modal isOpen={showModal} style={customStyles} contentLabel="Example Modal">
+            <Card style={{ width: '100%' }}>
+                <Card.Body>
+                    <Card.Title>{popupMsg}</Card.Title>
+                </Card.Body>
+                <Card.Body>
+                    <Button variant="primary" style={{ "marginRight": "3px"}}>Confirm</Button>
+                    <Button variant="outline-secondary" onClick={closeModal}>Close</Button>
+                </Card.Body>
+            </Card>
+        </Modal>
+        }
     </div>);
 }
 
 const mapStateToProps = (state) => {
-  return {
-    curDoc: getCurDocMeta(state)
-  }
+    return {
+        curDoc: getCurDocMeta(state),
+        checkList: (docType) => getDocTypeCheckList(state, docType)
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchCheckListForDocType: (docType) => dispatch(fetchCheckListForDocType(docType))
+    }
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CheckList)
