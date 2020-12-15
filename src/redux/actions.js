@@ -1,4 +1,4 @@
-import { SET_SELECTED, FETCH_DOCUMENTS, FETCH_CHECKLIST } from "./actionTypes";
+import { SET_SELECTED, FETCH_DOCUMENTS_SUCCESS, FETCH_CHECKLIST, FETCH_DOCUMENTS_REQUEST } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
   type: SET_SELECTED,
@@ -7,40 +7,17 @@ export const setSelectedDocument = index => ({
   }
 });
 
-export const fetchDocuments = () => {
-  const listItems = []
-  for(var i = 0; i < 100; i++) {
-      listItems[i] = {
-        caseNumber: 10293261,
-        clientName: "Jason Goodison",
-        primary: "Due in " + i + " days",
-        description: "This is the document that ashley asked for for Jasons case",
-        url: "https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf",
-        dueDate: "10/10/2021",
-        postedBy: "Jason Posted",
-        docType: "Will",
-        requiredApprovals: [
-          { 
-            name: "Ashley",
-            status: "approved"
-          },
-          { 
-            name: "Steve",
-            status: "waiting"
-          },
-          {
-            name: "Jason",
-            status: "rejected"
-          }]
-      }
-
-      if (i % 2) {
-        listItems[i].url = "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
-      }
-  }
+export const fetchDocumentsRequest = () => {
   return {
-    type: FETCH_DOCUMENTS,
-    payload: listItems
+    type: FETCH_DOCUMENTS_REQUEST,
+    payload: ""
+  }
+};
+
+export const fetchDocumentsSuccess = (items) => {
+  return {
+    type: FETCH_DOCUMENTS_SUCCESS,
+    payload: items
   }
 };
 

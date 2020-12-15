@@ -9,7 +9,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import FolderIcon from '@material-ui/icons/Folder';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { setSelectedDocument, fetchDocuments } from "../redux/actions";
+import { fetchDocsListThunk } from '../redux/thunks';
+import { setSelectedDocument } from "../redux/actions";
 import { getDocsList, getCurDoc } from "../redux/selectors";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,34 +46,34 @@ function DocsList(props) {
     {
         docs.map((item, index) =>
             <div>
-            <ListItem
-            selected={props.curDoc === index}
-            alignItems="flex-start"
-            onClick={handleItemSelect(index, item)}
-            >
-            <ListItemAvatar>
-                <Avatar>
-                <FolderIcon />
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-                primary={"Client: " + item.clientName}
-                secondary={
-                <React.Fragment>
-                    <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                    >
-                    {"Posted By: " + item.postedBy}
-                    </Typography><br/>
-                    {item.description}
-                </React.Fragment>
-                }
-            />
-            </ListItem>
-            <Divider component="li" />
+                <ListItem
+                selected={props.curDoc === index}
+                alignItems="flex-start"
+                onClick={handleItemSelect(index, item)}
+                >
+                <ListItemAvatar>
+                    <Avatar>
+                    <FolderIcon />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                    primary={"Client: " + item.clientName}
+                    secondary={
+                    <React.Fragment>
+                        <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary"
+                        >
+                        {"Posted By: " + item.postedBy}
+                        </Typography><br/>
+                        {item.description}
+                    </React.Fragment>
+                    }
+                />
+                </ListItem>
+                <Divider component="li" />
             </div>
         )
     }
@@ -90,7 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setCurDoc: (index) => dispatch(setSelectedDocument(index)),
-        fetchDocs: () => dispatch(fetchDocuments())
+        fetchDocs: () => dispatch(fetchDocsListThunk())
     }
 }
 

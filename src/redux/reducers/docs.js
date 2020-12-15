@@ -1,4 +1,4 @@
-import { FETCH_DOCUMENTS, SET_SELECTED } from "../actionTypes";
+import { FETCH_DOCUMENTS_SUCCESS, SET_SELECTED } from "../actionTypes";
 
 const initialState = {
   documents: [{
@@ -20,7 +20,7 @@ export default function(state = initialState, action) {
         curDoc: index
       };
     }
-    case FETCH_DOCUMENTS: {
+    case FETCH_DOCUMENTS_SUCCESS: {
       const { payload } = action;
       return {
         ...state,
