@@ -110,8 +110,8 @@ function CheckList(props) {
   ];
   
   return (
-    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: "scroll"}}>
-        <Card border="dark" style={{ width: '100%' }}>
+    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: 'aliceblue'}}>
+        <Card border="dark" style={{ width: '100%', marginTop: 20 }}>
             <Card.Body>
                 <Card.Title>Doc Review Information</Card.Title>
             </Card.Body>
@@ -123,27 +123,17 @@ function CheckList(props) {
                 <ListGroupItem><b>Doc type</b>: {curDoc.docType}</ListGroupItem>
             </ListGroup>
         </Card>
-        <Card border="dark" style={{ width: '100%' }}>
+        <Card border="dark" style={{ width: '100%', marginTop: 10 }}>
             <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
             <Divider/>
             <div style={{marginTop: '10px'}}>Check this list before approving:</div>
-            {/*
-            <div>
-                <b>Approved By:  </b>
-                {
-                    curDoc.requiredApprovals.length > 0 ? curDoc.requiredApprovals.map((x, i) => {
-                        let val = x.name + " ✅ ";
-                        if (i < curDoc.requiredApprovals.length-1) {
-                            val += ",       "
-                        }
-                        return val;
-                    }) : "No one has approved this document"
-                }
-            </div>
-            <Divider/> */}
-            <FormControl  required error={true} component="fieldset" className={classes.formControl}>
+            <FormControl
+                required error={true}
+                component="fieldset"
+                className={classes.formControl}
+                style={{maxHeight: '250px', overflowY: "scroll"}} >
             <FormGroup>
                 {
                     checklist.map((x, index) => {
