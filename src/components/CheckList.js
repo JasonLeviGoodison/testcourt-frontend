@@ -110,8 +110,8 @@ function CheckList(props) {
   ];
   
   return (
-    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: 'aliceblue'}}>
-        <Card border="dark" style={{ width: '100%', marginTop: 20 }}>
+    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
+        <Card border="dark" style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>Doc Review Information</Card.Title>
             </Card.Body>
@@ -123,7 +123,7 @@ function CheckList(props) {
                 <ListGroupItem><b>Doc type</b>: {curDoc.docType}</ListGroupItem>
             </ListGroup>
         </Card>
-        <Card border="dark" style={{ width: '100%', marginTop: 10 }}>
+        <Card border="dark" style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
@@ -133,7 +133,7 @@ function CheckList(props) {
                 required error={true}
                 component="fieldset"
                 className={classes.formControl}
-                style={{maxHeight: '250px', overflowY: "scroll"}} >
+                style={{maxHeight: '215px', overflowY: "scroll", paddingLeft: 10, paddingRight: 10}} >
             <FormGroup>
                 {
                     checklist.map((x, index) => {

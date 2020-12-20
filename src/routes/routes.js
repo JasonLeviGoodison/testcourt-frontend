@@ -1,0 +1,10 @@
+export const SIGN_UP = "/signup";
+export const SIGN_IN = "/signin";
+export const NEW_REVIEW = "/newreview";
+export const LANDING = "/";
+export const HOME = "/home";
+export const ACCOUNT = "/account";
+export const PASSWORD_FORGET = "/pw-forget";
+export const MEET = "/home"
+export const SELL = "/sell"
+export const CHAT = "/chat"

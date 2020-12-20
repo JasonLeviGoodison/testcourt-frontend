@@ -1,4 +1,12 @@
-import { SET_SELECTED, FETCH_DOCUMENTS_SUCCESS, FETCH_CHECKLIST, FETCH_DOCUMENTS_REQUEST } from "./actionTypes";
+import {
+  SET_SELECTED,
+  FETCH_DOCUMENTS_SUCCESS,
+  FETCH_CHECKLIST,
+  FETCH_DOCUMENTS_REQUEST,
+  SET_NEW_REVIEW_FIELD,
+  UPLOAD_NEW_REQUEST_FORM,
+  UPLOAD_NEW_REQUEST_FORM_SUCCESS
+} from "./actionTypes";
 
 export const setSelectedDocument = index => ({
   type: SET_SELECTED,
@@ -7,9 +15,31 @@ export const setSelectedDocument = index => ({
   }
 });
 
+export const setNewReviewField = (field, value) => ({
+  type: SET_NEW_REVIEW_FIELD,
+  payload: {
+    field,
+    value
+  }
+});
+
 export const fetchDocumentsRequest = () => {
   return {
     type: FETCH_DOCUMENTS_REQUEST,
+    payload: ""
+  }
+};
+
+export const uploadNewRequest = () => {
+  return {
+    type: UPLOAD_NEW_REQUEST_FORM,
+    payload: ""
+  }
+};
+
+export const uploadNewRequestSuccess = () => {
+  return {
+    type: UPLOAD_NEW_REQUEST_FORM_SUCCESS,
     payload: ""
   }
 };

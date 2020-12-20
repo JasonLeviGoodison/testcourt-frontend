@@ -1,0 +1,1 @@
+// Folder taken from https://github.com/LukasMarx/react-file-upload/tree/master/app/src/dropzone

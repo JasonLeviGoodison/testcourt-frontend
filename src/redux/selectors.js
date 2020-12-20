@@ -16,6 +16,8 @@ export const getCurDocMeta = (store) =>
 export const getDocTypeCheckList = (store, docType) =>
   getCheckListsState(store)[docType] ? getCheckListsState(store)[docType] : [];
 
+export const getNewReviewFields = store => store.newReview;
+
 /**
  * example of a slightly more complex selector
  * select from store combining information from multiple reducers

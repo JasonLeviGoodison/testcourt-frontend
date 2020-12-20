@@ -18,6 +18,7 @@ function DocumentViewer(props) {
 
   const docs = [
     { uri:  props.curDoc.url},
+    { uri:  props.curDoc.url},
     //{ uri: require("./example-files/pdf.pdf") }, // Local File
   ];
   
