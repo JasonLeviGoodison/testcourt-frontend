@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import Dropzone from "../dropzone/Dropzone";
 import Progress from "../progress/Progress";
 import { getNewReviewFields } from '../../redux/selectors';
+import { uploadNewRequest } from '../../redux/actions';
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
 import "./Upload.css";
+const BASE_ADDRESS = "http://localhost:3000"
 
 class Upload extends Component {
   constructor(props) {
@@ -34,25 +36,28 @@ class Upload extends Component {
   async uploadReview() {
     const id = guid();
     // attach guid to these files and the review
-    this.setState({id}, () => this.uploadForm()
-                              .then(() => this.uploadFiles()
+    this.setState({id}, () => this.uploadForm(id)
+                              .then(() => this.uploadFiles(id)
                               .catch(err => alert("error message"))))
   }
 
-  async uploadForm() {
-    console.log("Ive been quested to submit the following data", this.state.newReviewForms)
-    if (Object.keys(this.state.newReviewForms).length === 0)
-    {
-      alert("One or more fields is not filled out")
+  async uploadForm(id) {
+    // if (Object.keys(this.state.newReviewForms).length === 0)
+    // {
+    //   alert("One or more fields is not filled out")
+    // }
+    const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(this.state.newReviewForms)
     }
-    return new Promise(() => 'test');
+    return await fetch(`${BASE_ADDRESS}/upload/form/${id}`, requestOptions);
   }
 
-  async uploadFiles() {
+  async uploadFiles(id) {
     this.setState({ uploadProgress: {}, uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
-      promises.push(this.sendRequest(file));
+      promises.push(this.sendRequest(file, id));
     });
     try {
       await Promise.all(promises);
@@ -65,7 +70,7 @@ class Upload extends Component {
     }
   }
 
-  sendRequest(file) {
+  sendRequest(file, id) {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
 
@@ -97,9 +102,7 @@ class Upload extends Component {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      console.log("Trying to post the file")
-
-      req.open("POST", "http://localhost:3000/upload");
+      req.open("POST", `${BASE_ADDRESS}/upload/file/${id}`);
       req.send(formData);
     });
   }
@@ -182,7 +185,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      /*submitNewReview: () => dispatch(submitNewReview(docType))*/
+      submitNewReview: (guid) => dispatch(uploadNewRequest(guid))
   }
 }
 
