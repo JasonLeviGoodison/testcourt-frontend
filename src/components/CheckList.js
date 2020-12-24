@@ -103,11 +103,6 @@ function CheckList(props) {
     if (!curDoc) {
         return <p></p>
     }
-
-  const docs = [
-    { uri:  props.curDoc.url},
-    //{ uri: require("./example-files/pdf.pdf") }, // Local File
-  ];
   
   return (
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
@@ -117,10 +112,10 @@ function CheckList(props) {
             </Card.Body>
             <ListGroup className="list-group-flush" style={{textAlign: "left"}}>
                 <ListGroupItem> <b>Description</b>: {curDoc.description}</ListGroupItem>
-                <ListGroupItem><b>Name</b>: {curDoc.clientName}</ListGroupItem>
-                <ListGroupItem><b>Case #</b>: {curDoc.caseNumber}</ListGroupItem>
+                <ListGroupItem><b>Name</b>: {curDoc.name}</ListGroupItem>
+                <ListGroupItem><b>Case #</b>: {curDoc.case_number}</ListGroupItem>
                 <ListGroupItem><b>Due Date</b>: {curDoc.dueDate}</ListGroupItem>
-                <ListGroupItem><b>Doc type</b>: {curDoc.docType}</ListGroupItem>
+                <ListGroupItem><b>Doc type</b>: {curDoc.doc_types.join(', ')}</ListGroupItem>
             </ListGroup>
         </Card>
         <Card border="dark" style={{ width: '100%' }}>

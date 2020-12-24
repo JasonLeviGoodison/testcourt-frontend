@@ -16,15 +16,17 @@ function DocumentViewer(props) {
     return <p style={{margin: "auto"}}> Please select a document to review </p>
   }
 
-  const docs = [
-    { uri:  props.curDoc.url},
-    { uri:  props.curDoc.url},
-    //{ uri: require("./example-files/pdf.pdf") }, // Local File
-  ];
+  var docs = [];
+  for (var i = 0; i < props.curDoc.urls.length; i++) {
+    docs.push({
+      uri: props.curDoc.urls[i]
+    });
+  }
   
   return (
     <div style={{'flex': '3', 'height': '100vh'}}>
-      <DocViewer style={{'height': '100vh'}} pluginRenderers={DocViewerRenderers} documents={docs} key={count}/>
+      <DocViewer
+      style={{'height': '100vh'}} pluginRenderers={DocViewerRenderers} documents={docs} key={count}/>
     </div>);
 }
 

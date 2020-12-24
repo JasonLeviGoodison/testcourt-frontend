@@ -57,7 +57,7 @@ function DocsList(props) {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={"Client: " + item.clientName}
+                    primary={"Client: " + item.name}
                     secondary={
                     <React.Fragment>
                         <Typography
@@ -66,7 +66,7 @@ function DocsList(props) {
                         className={classes.inline}
                         color="textPrimary"
                         >
-                        {"Posted By: " + item.postedBy}
+                        {"Case #: " + item.case_number}
                         </Typography><br/>
                         {item.description}
                     </React.Fragment>
