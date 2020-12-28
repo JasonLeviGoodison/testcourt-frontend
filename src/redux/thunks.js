@@ -15,7 +15,6 @@ export const fetchDocsListThunk = () => {
         docApi.GetAllDocs()
         .then(res =>
         {
-            console.log("GOt items", res)
             dispatch(fetchDocumentsSuccess(res));
         })
         .catch(err =>

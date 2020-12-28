@@ -14,7 +14,7 @@ import { fetchCheckListForDocType } from '../redux/actions';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import { getCurDocMeta, getDocTypeCheckList } from "../redux/selectors";
+import { getCurDocMeta, getDocTypeCheckList, getCurDoc } from "../redux/selectors";
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,22 +54,33 @@ function CheckList(props) {
     }
   
     useEffect(() => {
-        if (curDoc && curDoc.docType && checklist.length == 0) {
-            props.fetchCheckListForDocType(curDoc.docType)
+        console.log("RENDERERED", props)
+        setCheckList([])
+        if (curDoc && curDoc.doc_types.length > 0 && checklist.length == 0) {
+            curDoc.doc_types.forEach(docType => {
+                if (docType) props.fetchCheckListForDocType(curDoc.docType)
+            });
         }
     }, [curDoc])
 
     useEffect(() => {
-        if (props.curDoc && props.curDoc.docType) {
-        setCheckList(getChecklistFromList(props.checkList(props.curDoc.docType)))
+        console.log("running")
+        if (props.curDoc && props.curDoc.doc_types.length > 0) {
+            var allItems = []
+            props.curDoc.doc_types.forEach(docType => {
+                let items = props.checkList(docType);
+                if (items.length > 0) allItems = allItems.concat(items);
+            });
+
+            setCheckList(getChecklistFromList(allItems))
         }
-    }, [props.checkList])
+    }, [curDoc, props.checkList])
 
     const handleChange = (index) => {
         return (event) => {
-            var beforecheck = [...checklist];
-            beforecheck[index].checked = !beforecheck[index].checked;
-            setCheckList(beforecheck);
+            var copy = [...checklist];
+            copy[index].checked = !copy[index].checked;
+            setCheckList(copy);
         }
     };
   
@@ -106,7 +117,7 @@ function CheckList(props) {
   
   return (
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
-        <Card border="dark" style={{ width: '100%' }}>
+        <Card style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>Doc Review Information</Card.Title>
             </Card.Body>
@@ -118,7 +129,8 @@ function CheckList(props) {
                 <ListGroupItem><b>Doc type</b>: {curDoc.doc_types.join(', ')}</ListGroupItem>
             </ListGroup>
         </Card>
-        <Card border="dark" style={{ width: '100%' }}>
+        <br/>
+        <Card style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
@@ -133,6 +145,7 @@ function CheckList(props) {
                 {
                     checklist.map((x, index) => {
                         return (<FormControlLabel
+                            style={{textAlign: "left"}}
                             key={index}
                             control={<Checkbox key={index} checked={x.checked} onChange={handleChange(index)} name="gilad" />}
                             label={x.label}/>);
@@ -141,8 +154,8 @@ function CheckList(props) {
                 </FormGroup>
             </FormControl>
             <Card.Body>
-                <Card.Link href="#" onClick={handleButtonClick('approve')}>Approve</Card.Link>
-                <Card.Link href="#" onClick={handleButtonClick('reject')}>Reject</Card.Link>
+                <Button variant="success" style={{ "marginRight": 8}} onClick={handleButtonClick('approve')}>Approve</Button>
+                <Button variant="danger" onClick={handleButtonClick('reject')}>Reject</Button>
             </Card.Body>
         </Card>
         {

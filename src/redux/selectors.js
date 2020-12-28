@@ -8,7 +8,7 @@ export const getDocsList = store =>
   getDocsState(store) ? getDocsState(store).documents : [];
 
 export const getCurDoc = (store) =>
-  getDocsState(store) ? getDocsState(store).curDoc : {};
+  getDocsState(store) ? getDocsState(store).curDoc : -1;
 
 export const getCurDocMeta = (store) =>
   getDocsState(store) ? getDocsState(store).documents[getCurDoc(store)] : {};

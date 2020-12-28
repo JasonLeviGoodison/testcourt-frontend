@@ -3,12 +3,12 @@
 */
 
 import React from "react";
-import { firebase } from "../../firebase";
+import { firebase } from "../firebase";
 
 import AuthUserContext from "./AuthUserContext"; //using provider's context api
 
-const Authentication = Component => {
-  class Authentication extends React.Component {
+const withAuthentication = Component => {
+  class WithAuthentication extends React.Component {
     state = {
       authUser: null
     };
@@ -25,7 +25,7 @@ const Authentication = Component => {
       const { authUser } = this.state;
       console.log("withAuthentication file authUser", authUser);
       return (
-        //   passing down the authUser value, so other components can consume it
+        // passing down the authUser value, so other components can consume it
         <AuthUserContext.Provider value={authUser}>
           <Component {...this.props} />
         </AuthUserContext.Provider>
@@ -33,7 +33,7 @@ const Authentication = Component => {
     }
   }
 
-  return Authentication;
+  return WithAuthentication;
 };
 
-export default Authentication;
+export default withAuthentication;

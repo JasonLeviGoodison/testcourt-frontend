@@ -19,7 +19,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '36ch',
     backgroundColor: theme.palette.background.paper,
     overflowY: 'scroll',
-    height: '100vh'
+    height: '100vh',
+    paddingTop: 0,
+    borderRightStyle: 'solid',
+    borderRightWidth: 'thin',
+    borderColor: 'rgba(0, 0, 0, 0.12)'
   },
   inline: {
     display: 'inline',
@@ -47,31 +51,26 @@ function DocsList(props) {
         docs.map((item, index) =>
             <div>
                 <ListItem
+                className="DocElement"
                 selected={props.curDoc === index}
                 alignItems="flex-start"
-                onClick={handleItemSelect(index, item)}
-                >
-                <ListItemAvatar>
-                    <Avatar>
-                    <FolderIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary={"Client: " + item.name}
-                    secondary={
-                    <React.Fragment>
-                        <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.inline}
-                        color="textPrimary"
-                        >
-                        {"Case #: " + item.case_number}
-                        </Typography><br/>
-                        {item.description}
-                    </React.Fragment>
-                    }
-                />
+                onClick={handleItemSelect(index, item)}>
+                    <ListItemText
+                        primary={item.name}
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                component="span"
+                                variant="body2"
+                                className={classes.inline}
+                                color="textPrimary"
+                                >
+                                {item.case_number}
+                                </Typography><br/>
+                                {item.description}
+                            </React.Fragment>
+                        }
+                    />
                 </ListItem>
                 <Divider component="li" />
             </div>

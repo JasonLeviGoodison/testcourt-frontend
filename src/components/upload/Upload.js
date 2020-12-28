@@ -3,6 +3,8 @@ import Dropzone from "../dropzone/Dropzone";
 import Progress from "../progress/Progress";
 import { getNewReviewFields } from '../../redux/selectors';
 import { uploadNewRequest } from '../../redux/actions';
+import * as routes from '../../routes/routes';
+import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
 import "./Upload.css";
@@ -66,6 +68,9 @@ class Upload extends Component {
       await Promise.all(promises);
 
       this.setState({ successfullUploaded: true, uploading: false });
+
+      const { history } = this.props;
+      history.push(routes.HOME);
     } catch (e) {
       // Not Production ready! Do some error handling here instead...
       alert("Could not upload files.");
@@ -192,4 +197,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Upload);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Upload));

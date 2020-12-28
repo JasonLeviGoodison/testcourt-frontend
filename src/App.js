@@ -6,7 +6,9 @@ import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import NewReview from './components/NewReview';
-
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import withAuthentication from "./auth/withAuthentication";
 export const CompanyName = "TestCourt";
 
 function App() {
@@ -19,13 +21,13 @@ function App() {
           <Switch>
               <Route exact path={routes.HOME} component={Home}/>
               <Route exact path={routes.NEW_REVIEW} component={NewReview}/>
-              {/*<Route path={routes.CHAT} component={ChatInformation} />*/}
-            </Switch>
-            {/*<Footer/>*/}
+              <Route exact path={routes.LOG_IN} component={Login}/>
+              <Route exact path={routes.SIGN_UP} component={SignUp} />
+          </Switch>
         </div>
       </Router>
     </div>
   );
 }
 
-export default App;
+export default withAuthentication(App);

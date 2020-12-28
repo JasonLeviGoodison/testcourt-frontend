@@ -1,6 +1,7 @@
 export const SIGN_UP = "/signup";
-export const SIGN_IN = "/signin";
+export const LOG_IN = "/login";
 export const NEW_REVIEW = "/newreview";
+export const PROFILE = "/profile";
 export const LANDING = "/";
 export const HOME = "/home";
 export const ACCOUNT = "/account";
