@@ -9,7 +9,7 @@ import NewReview from './components/NewReview';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import withAuthentication from "./auth/withAuthentication";
-export const CompanyName = "TestCourt";
+export const CompanyName = "ReviewCounsel";
 
 function App() {
   const [docUrl, setDocUrl] = useState("");
@@ -22,7 +22,7 @@ function App() {
               <Route exact path={routes.HOME} component={Home}/>
               <Route exact path={routes.NEW_REVIEW} component={NewReview}/>
               <Route exact path={routes.LOG_IN} component={Login}/>
-              <Route exact path={routes.SIGN_UP} component={SignUp} />
+              {/* <Route exact path={routes.SIGN_UP} component={SignUp} /> */}
           </Switch>
         </div>
       </Router>

@@ -5,7 +5,8 @@ import {
   FETCH_DOCUMENTS_REQUEST,
   SET_NEW_REVIEW_FIELD,
   UPLOAD_NEW_REQUEST_FORM,
-  UPLOAD_NEW_REQUEST_FORM_SUCCESS
+  UPLOAD_NEW_REQUEST_FORM_SUCCESS,
+  SET_IN_REVIEW
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -50,6 +51,13 @@ export const fetchDocumentsSuccess = (items) => {
     payload: items
   }
 };
+
+export const setInReview = (value) => {
+  return {
+    type: SET_IN_REVIEW,
+    payload: value
+  }
+}
 
 export const fetchCheckListForDocType = (docType) => {
   return {

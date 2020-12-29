@@ -10,12 +10,6 @@ function DocumentViewer(props) {
     setCount(count + 1);
   }, [props.curDoc]);
 
-  console.log(count)
-
-  if (!props.curDoc) {
-    return <p style={{margin: "auto"}}> Please select a document to review </p>
-  }
-
   var docs = [];
   for (var i = 0; i < props.curDoc.urls.length; i++) {
     docs.push({

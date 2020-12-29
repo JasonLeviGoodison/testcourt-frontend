@@ -119,19 +119,6 @@ function CheckList(props) {
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
         <Card style={{ width: '100%' }}>
             <Card.Body>
-                <Card.Title>Doc Review Information</Card.Title>
-            </Card.Body>
-            <ListGroup className="list-group-flush" style={{textAlign: "left"}}>
-                <ListGroupItem> <b>Description</b>: {curDoc.description}</ListGroupItem>
-                <ListGroupItem><b>Name</b>: {curDoc.name}</ListGroupItem>
-                <ListGroupItem><b>Case #</b>: {curDoc.case_number}</ListGroupItem>
-                <ListGroupItem><b>Due Date</b>: {curDoc.dueDate}</ListGroupItem>
-                <ListGroupItem><b>Doc type</b>: {curDoc.doc_types.join(', ')}</ListGroupItem>
-            </ListGroup>
-        </Card>
-        <br/>
-        <Card style={{ width: '100%' }}>
-            <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
             <Divider/>
@@ -140,7 +127,7 @@ function CheckList(props) {
                 required error={true}
                 component="fieldset"
                 className={classes.formControl}
-                style={{maxHeight: '215px', overflowY: "scroll", paddingLeft: 10, paddingRight: 10}} >
+                style={{overflowY: "scroll", paddingLeft: 10, paddingRight: 10}} >
             <FormGroup>
                 {
                     checklist.map((x, index) => {

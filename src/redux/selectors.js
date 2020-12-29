@@ -18,6 +18,10 @@ export const getDocTypeCheckList = (store, docType) =>
 
 export const getNewReviewFields = store => store.newReview;
 
+export const getGeneral = store => store.general;
+
+export const getInReview = store => getGeneral(store) ? getGeneral(store).inReview : false;
+
 /**
  * example of a slightly more complex selector
  * select from store combining information from multiple reducers

@@ -18,7 +18,7 @@ const SignInPage = ({ history }) => {
       <div className="marginTop60">
         <h1>Sign In</h1>
         <SignInForm history={history} />
-        <SignUpLink />
+        {/* {<SignUpLink />} */}
         {/* TODO !!!!!!! <PasswordForgetLink />*/}
       </div>
     </div>
