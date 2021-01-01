@@ -6,6 +6,6 @@ export const LANDING = "/";
 export const HOME = "/home";
 export const ACCOUNT = "/account";
 export const PASSWORD_FORGET = "/pw-forget";
-export const MEET = "/home"
 export const SELL = "/sell"
 export const CHAT = "/chat"
+export const REVIEW = "/review";

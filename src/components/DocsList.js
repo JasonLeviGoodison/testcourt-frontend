@@ -31,53 +31,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DocsList(props) {
-  const classes = useStyles();
-  const docs = props.docs || [];
+    const classes = useStyles();
+    const docs = props.docs || [];
 
-  function handleItemSelect(index, meta) {
-      return (e) => {
-          e.preventDefault();
-          props.setCurDoc(index);
-      }
-  }
+    function handleItemSelect(index, meta) {
+        return (e) => {
+            e.preventDefault();
+            props.setCurDoc(index);
+        }
+    }
 
-  useEffect(() => {
-      props.fetchDocs()
+    useEffect(() => {
+        props.fetchDocs()
     }, []);
 
-  return (
-    <List className={classes.root}>
-    {
-        docs.map((item, index) =>
-            <div>
-                <ListItem
-                className="DocElement"
-                selected={props.curDoc === index}
-                alignItems="flex-start"
-                onClick={handleItemSelect(index, item)}>
-                    <ListItemText
-                        primary={item.name}
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textPrimary"
-                                >
-                                {item.case_number}
-                                </Typography><br/>
-                                {item.description}
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider component="li" />
-            </div>
-        )
-    }
-    </List>
-  );
+    return (
+        <List className={classes.root}>
+        {
+            docs.length > 0 ? docs.map((item, index) =>
+                <div>
+                    <ListItem
+                    className="DocElement"
+                    selected={props.curDoc === index}
+                    alignItems="flex-start"
+                    onClick={handleItemSelect(index, item)}>
+                        <ListItemText
+                            primary={item.name}
+                            secondary={
+                                <React.Fragment>
+                                    <Typography
+                                    component="span"
+                                    variant="body2"
+                                    className={classes.inline}
+                                    color="textPrimary"
+                                    >
+                                    {item.case_number}
+                                    </Typography><br/>
+                                    {item.description}
+                                </React.Fragment>
+                            }
+                        />
+                    </ListItem>
+                    <Divider component="li" />
+                </div>
+            ) : "Nothing to review!"
+        }
+        </List>
+    );
 }
 
 const mapStateToProps = (state) => {

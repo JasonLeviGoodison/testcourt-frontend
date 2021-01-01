@@ -6,7 +6,9 @@ import {
   SET_NEW_REVIEW_FIELD,
   UPLOAD_NEW_REQUEST_FORM,
   UPLOAD_NEW_REQUEST_FORM_SUCCESS,
-  SET_IN_REVIEW
+  SET_IN_REVIEW,
+  FETCH_REVIEW_REQUEST,
+  FETCH_REVIEW_SUCCESS
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -59,7 +61,7 @@ export const setInReview = (value) => {
   }
 }
 
-export const fetchCheckListForDocType = (docType) => {
+export const fetchCheckListForPacType = (pacType) => {
   return {
     type: FETCH_CHECKLIST,
     payload: {
@@ -78,5 +80,19 @@ export const fetchCheckListForDocType = (docType) => {
     ]}
   }
 };
+
+export const fetchReviewPackageRequest = () => {
+  return {
+    type: FETCH_REVIEW_REQUEST,
+    payload: {}
+  }
+}
+
+export const fetchReviewPackageSuccess = (id) => {
+  return {
+    type: FETCH_REVIEW_SUCCESS,
+    payload: id
+  }
+}
 
 //export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });

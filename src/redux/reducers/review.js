@@ -1,19 +1,20 @@
-import { SET_IN_REVIEW } from '../actionTypes';
+import { FETCH_REVIEW_REQUEST, FETCH_REVIEW_SUCCESS } from '../actionTypes';
 
 const initialState = {
-    inReview: false,
-    reviewStartTime: null,
-    reviewEndTime: null
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
-      case SET_IN_REVIEW: {
+      case FETCH_REVIEW_REQUEST: {
+        return {
+            ...state,
+        };
+      }
+      case FETCH_REVIEW_SUCCESS: {
         const value = action.payload;
         return {
             ...state,
-            inReview: value,
-            reviewStartTime: Date.now()
+            ...value,
         };
       }
       default:

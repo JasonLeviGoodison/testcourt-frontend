@@ -1,20 +1,19 @@
-
-
+import { fetchCheckListForPacType } from '../redux/actions';
+import { getCurDocMeta, getPacTypeCheckList, getReview, getPacTypeCheckLists, getCheckListsState } from "../redux/selectors";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import { Card, ListGroupItem, ListGroup } from 'react-bootstrap'
+import { Card, ListGroupItem, ListGroup } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
+import { fetchPackageReviewById } from '../redux/thunks';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from 'react-bootstrap/Button'
 import Divider from '@material-ui/core/Divider';
-import { fetchCheckListForDocType } from '../redux/actions';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import { getCurDocMeta, getDocTypeCheckList, getCurDoc } from "../redux/selectors";
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,54 +38,52 @@ const customStyles = {
 //;
  
 function CheckList(props) {
+    const {
+        curReview,
+        checklists
+    } = props;
     const defautPopupMsg = "Are you sure you want to approve these files?";
     const classes = useStyles();
+    const [buttonList, setButtonList] = useState([]); 
     const [showModal, setShowModal] = useState(false);
-    const curDoc = props.curDoc;
-    const [checklist, setCheckList] = useState([]);
     const [popupMsg, setPopUpMsg] = useState(defautPopupMsg);
 
     function getChecklistFromList(list) {
-    return list.map((label) => ({
-            label,
-            checked: false
-        }));
+        return list.map((label) => ({label, checked: false}));
     }
   
     useEffect(() => {
-        console.log("RENDERERED", props)
-        setCheckList([])
-        if (curDoc && curDoc.doc_types.length > 0 && checklist.length == 0) {
-            curDoc.doc_types.forEach(docType => {
-                if (docType) props.fetchCheckListForDocType(curDoc.docType)
+        if (Object.entries(curReview).length > 0) {
+            curReview.package_types.forEach(pacType => {
+                if (pacType) props.fetchCheckListForPacType(pacType)
             });
         }
-    }, [curDoc])
+    }, [curReview]);
 
     useEffect(() => {
-        console.log("running")
-        if (props.curDoc && props.curDoc.doc_types.length > 0) {
-            var allItems = []
-            props.curDoc.doc_types.forEach(docType => {
-                let items = props.checkList(docType);
-                if (items.length > 0) allItems = allItems.concat(items);
-            });
-
-            setCheckList(getChecklistFromList(allItems))
+        console.log("other UseEffect for checklist", checklists);
+        if (curReview.package_types) {
+            console.log("thing", checklists(curReview.package_types));
+            setButtonList(getChecklistFromList(checklists(curReview.package_types)))
         }
-    }, [curDoc, props.checkList])
+
+    }, [props.checkListsState]);
+
+    if (Object.entries(curReview) == 0 || checklists.length == 0) {
+        return <p>Loading</p>
+        }
 
     const handleChange = (index) => {
         return (event) => {
-            var copy = [...checklist];
+            var copy = [...buttonList];
             copy[index].checked = !copy[index].checked;
-            setCheckList(copy);
+            setButtonList(copy);
         }
     };
   
     const allBoxesChecked = () => {
-        for (var i = 0; i < checklist.length; i++) {
-            if (!checklist[i].checked) {
+        for (var i = 0; i < buttonList.length; i++) {
+            if (!buttonList[i].checked) {
                 return false;
             }
         }
@@ -110,14 +107,9 @@ function CheckList(props) {
         setShowModal(false);
     }
 
-
-    if (!curDoc) {
-        return <p></p>
-    }
-  
   return (
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
-        <Card style={{ width: '100%' }}>
+        <Card style={{ width: '100%', height: '93vh' }}>
             <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
@@ -130,7 +122,7 @@ function CheckList(props) {
                 style={{overflowY: "scroll", paddingLeft: 10, paddingRight: 10}} >
             <FormGroup>
                 {
-                    checklist.map((x, index) => {
+                    buttonList.map((x, index) => {
                         return (<FormControlLabel
                             style={{textAlign: "left"}}
                             key={index}
@@ -163,14 +155,16 @@ function CheckList(props) {
 
 const mapStateToProps = (state) => {
     return {
-        curDoc: getCurDocMeta(state),
-        checkList: (docType) => getDocTypeCheckList(state, docType)
+        curReview: getReview(state),
+        checklists: (package_types) => getPacTypeCheckLists(state, package_types),
+        checkListsState: getCheckListsState(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchCheckListForDocType: (docType) => dispatch(fetchCheckListForDocType(docType))
+        fetchReviewById: (id) => dispatch(fetchPackageReviewById(id)),
+        fetchCheckListForPacType: (pacType) => dispatch(fetchCheckListForPacType(pacType))
     }
 }
 

@@ -10,17 +10,32 @@ export const getDocsList = store =>
 export const getCurDoc = (store) =>
   getDocsState(store) ? getDocsState(store).curDoc : -1;
 
-export const getCurDocMeta = (store) =>
-  getDocsState(store) ? getDocsState(store).documents[getCurDoc(store)] : {};
+export const getCurDocMeta = (store) => {
+  if (getDocsState(store) != null && getCurDoc(store) != null) {
+    return getDocsState(store).documents[getCurDoc(store)]
+  }
+  return {};
+}
 
-export const getDocTypeCheckList = (store, docType) =>
-  getCheckListsState(store)[docType] ? getCheckListsState(store)[docType] : [];
+
+export const getPacTypeCheckList = (store, PacType) =>
+  getCheckListsState(store)[PacType] ? getCheckListsState(store)[PacType] : [];
+
+export const getPacTypeCheckLists = (store, package_types) => {
+  let allItems = [];
+  package_types.forEach(PacType => {
+    let items = getPacTypeCheckList(store, PacType);
+    if (items.length > 0) {
+      allItems = allItems.concat(items);
+    }
+  });
+  return allItems;
+}
 
 export const getNewReviewFields = store => store.newReview;
 
-export const getGeneral = store => store.general;
+export const getReview = store => store.review;
 
-export const getInReview = store => getGeneral(store) ? getGeneral(store).inReview : false;
 
 /**
  * example of a slightly more complex selector

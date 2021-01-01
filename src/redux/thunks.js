@@ -4,7 +4,9 @@ import {
     fetchDocumentsRequest,
     fetchDocumentsSuccess,
     uploadNewRequest,
-    uploadNewRequestSuccess
+    uploadNewRequestSuccess,
+    fetchReviewPackageRequest,
+    fetchReviewPackageSuccess
 } from './actions';
 
 
@@ -16,6 +18,23 @@ export const fetchDocsListThunk = () => {
         .then(res =>
         {
             dispatch(fetchDocumentsSuccess(res));
+        })
+        .catch(err =>
+        {
+            console.log("DIDNT GET A SUCCESS", err)
+            //dispatch(fetchDocumentsFailure());
+        })
+    }
+}
+
+export const fetchPackageReviewById = (id) => {
+    return dispatch => {
+        dispatch(fetchReviewPackageRequest());
+
+        docApi.GetReviewPackageById(id)
+        .then(res =>
+        {
+            dispatch(fetchReviewPackageSuccess(res));
         })
         .catch(err =>
         {

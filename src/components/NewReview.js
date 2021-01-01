@@ -37,8 +37,8 @@ function NewReview(props) {
                         <input name="casenumber" onChange={handleChange}/>
                     </label>
                     <label>
-                        <p>Doc Types</p>
-                        <input name="doctypes" onChange={handleChange}/>
+                        <p>Package Types</p>
+                        <input name="packagetypes" onChange={handleChange}/>
                     </label>
                     <label>
                         <p>Brief Description</p>

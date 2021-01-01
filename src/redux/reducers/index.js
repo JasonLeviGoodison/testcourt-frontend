@@ -3,6 +3,6 @@ import visibilityFilter from "./visibilityFilter";
 import docs from "./docs";
 import checkLists from "./checkLists";
 import newReview from "./newReview";
-import general from "./general";
+import review from "./review";
 
-export default combineReducers({ docs, general, checkLists, newReview });
+export default combineReducers({ docs, review, checkLists, newReview });
