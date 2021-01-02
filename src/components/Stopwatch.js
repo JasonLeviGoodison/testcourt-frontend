@@ -15,8 +15,9 @@ function Stopwatch(props) {
                     <>
                         <Prompt
                             when={true}
-                            message={"Not done yet!\n"+
-                                     `You need to Dock-it this time ${formatted}.`}
+                            message={"Not done yet!!\n\n" +
+                                     `You need to Dock-it this time ${formatted}.\n` + 
+                                     "Do it now so you don't forget."}
                         />
                         <div>Reviewing for { formatted }</div>
                     </>
