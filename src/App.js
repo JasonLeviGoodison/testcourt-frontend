@@ -16,8 +16,8 @@ function App() {
   const [docUrl, setDocUrl] = useState("");
   return (
     <div>
-      <Header/>
       <Router>
+      <Header/>
         <div className="App" style={{'display': 'flex', backgroundColor: "#EEEEEE"}}>
           <Switch>
               <Route exact path={routes.HOME} component={Home}/>

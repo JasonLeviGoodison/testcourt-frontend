@@ -3,7 +3,7 @@ import {Card, ListGroupItem, ListGroup} from 'react-bootstrap'
 import { fetchPackageReviewById } from '../redux/thunks';
 import { useEffect, useState } from "react";
 import { getReview } from "../redux/selectors";
-import { Prompt } from 'react-router';
+import Stopwatch from "./Stopwatch";
 import { connect } from 'react-redux';
  
 function DocumentViewer(props) {
@@ -28,10 +28,7 @@ function DocumentViewer(props) {
 
   return (
     <div style={{'flex': '3', 'height': '100vh'}}>
-      <Prompt
-        when={true}
-        message='You havent finished reviewing this document. Are you sure you want to leave?'
-      />
+      <Stopwatch/>
       <DocViewer
         style={{'height': '100vh'}}
         pluginRenderers={DocViewerRenderers}
