@@ -52,8 +52,8 @@ const HeaderNonAuth = ({history}) => {
 }
 
 const HeaderAuth = ({ userInfo, history }) => {
-    const onNewReviewClicked = () => {
-        history.push(routes.NEW_REVIEW);
+    const onAccountPageClicked = () => {
+        history.push(routes.ACCOUNT);
     }
     const homeClicked = () => {
         history.push(routes.HOME);
@@ -70,7 +70,7 @@ const HeaderAuth = ({ userInfo, history }) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                    <Nav.Link onClick={onNewReviewClicked}> <img style={{width: 27}} src="http://localhost:3006/add.svg"/> </Nav.Link>
+                    <Nav.Link onClick={onAccountPageClicked}> Account </Nav.Link>
                     </Nav>
                     {/*<SignOutButton />*/}
                 </Navbar.Collapse>
