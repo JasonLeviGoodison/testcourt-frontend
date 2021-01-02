@@ -12,9 +12,7 @@ import * as routes from "../routes/routes";
 const withAuthorization = authCondition => Component => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
-      console.log(authCondition, Component)
       firebase.auth.onAuthStateChanged(authUser => {
-        console.log(authCondition, Component)
         if (!authCondition(authUser)) {
           //if the authorization fails, redirects to sign in page
           this.props.history.push(routes.LOG_IN);

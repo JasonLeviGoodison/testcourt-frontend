@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { setNewReviewField } from '../redux/actions';
 import { getNewReviewFields } from '../redux/selectors';
 import DatePicker from "react-datepicker";
+import withAuthorization from "../auth/withAuthorization";
 import "react-datepicker/dist/react-datepicker.css";
 import { connect } from 'react-redux';
 
@@ -63,7 +64,7 @@ function NewReview(props) {
                     </label>
                 </fieldset>
             </form>
-            <Upload style={{ margin: 'auto'}}/>
+            <Upload style={{ margin: 'auto'}} loggedUser={props.loggedUser}/>
         </div>
     );
 }
@@ -79,7 +80,8 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+const authCondition = authUser => !!authUser;
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(NewReview)
+  )(withAuthorization(authCondition)(NewReview))

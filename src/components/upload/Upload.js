@@ -14,11 +14,11 @@ class Upload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: [],
-      uploading: false,
-      uploadProgress: {},
-      successfullUploaded: false,
-      newReviewForms: props.newReviewFields
+        files: [],
+        uploading: false,
+        uploadProgress: {},
+        successfullUploaded: false,
+        newReviewForms: props.newReviewFields
     };
 
     this.onFilesAdded = this.onFilesAdded.bind(this);
@@ -47,12 +47,17 @@ class Upload extends Component {
     // if (Object.keys(this.state.newReviewForms).length === 0)
     // {
     //   alert("One or more fields is not filled out")
+    //   throw;
     // }
-    var body = JSON.stringify(this.props.newReviewFields);
+    var fieldsAndId = {
+        ...this.props.newReviewFields,
+        posted_by: this.props.loggedUser.email
+    }
+    var body = JSON.stringify(fieldsAndId);
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body
     }
     return await fetch(`${BASE_ADDRESS}/upload/form/${id}`, requestOptions);
   }
@@ -61,19 +66,19 @@ class Upload extends Component {
     this.setState({ uploadProgress: {}, uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
-      promises.push(this.sendRequest(file, id));
+        promises.push(this.sendRequest(file, id));
     });
     try {
-      await Promise.all(promises);
+        await Promise.all(promises);
 
-      this.setState({ successfullUploaded: true, uploading: false });
+        this.setState({ successfullUploaded: true, uploading: false });
 
-      const { history } = this.props;
-      history.push(routes.HOME);
+        const { history } = this.props;
+        history.push(routes.HOME);
     } catch (e) {
-      // Not Production ready! Do some error handling here instead...
-      alert("Could not upload files.");
-      this.setState({ successfullUploaded: true, uploading: false });
+        // Not Production ready! Do some error handling here instead...
+        alert("Could not upload files.");
+        this.setState({ successfullUploaded: true, uploading: false });
     }
   }
 
@@ -125,8 +130,7 @@ class Upload extends Component {
             alt="done"
             src="baseline-check_circle_outline-24px.svg"
             style={{
-              opacity:
-                uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
+              opacity: uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
             }}
           />
         </div>

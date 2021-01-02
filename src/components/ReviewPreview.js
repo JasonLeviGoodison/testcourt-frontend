@@ -68,8 +68,8 @@ function ReviewPreview(props) {
             {/*TODO: Add a posted by and status field to the reviews*/}
             <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1}}>
                 <ListGroupItem style={{textAlign: 'center'}}><b>Poster info</b></ListGroupItem>
-                <ListGroupItem> <b>Status</b>: Waiting for review</ListGroupItem>
-                <ListGroupItem><b>Name</b>: {curDoc.name}</ListGroupItem>
+                <ListGroupItem> <b>Status</b>: {curDoc.status}</ListGroupItem>
+                <ListGroupItem><b>Posted By</b>: {curDoc.posted_by}</ListGroupItem>
                 <ListGroupItem><b>Created</b>: {new Date(curDoc.created_at).toLocaleDateString("en-US")}</ListGroupItem>
                 <ListGroupItem> <b>Notes</b>: {curDoc.notes}</ListGroupItem>
             </ListGroup>
