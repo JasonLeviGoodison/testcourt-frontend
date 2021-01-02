@@ -56,22 +56,28 @@ function ReviewPreview(props) {
             <Card.Body>
                 <Card.Title>Package Preview</Card.Title>
             </Card.Body>
-            <ListGroup className="list-group-flush" style={{textAlign: "left"}}>
+            <div style={{display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit'}}>
+            <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1, borderRightStyle: 'inset'}}>
+                <ListGroupItem style={{textAlign: 'center'}}><b>Package info</b></ListGroupItem>
                 <ListGroupItem><b>Name</b>: {curDoc.name}</ListGroupItem>
                 <ListGroupItem><b>Case #</b>: {curDoc.case_number}</ListGroupItem>
-                <ListGroupItem><b>Due Date</b>: {curDoc.dueDate}</ListGroupItem>
+                <ListGroupItem><b>Due Date</b>: {new Date(curDoc.due_date).toLocaleDateString("en-US")}</ListGroupItem>
                 <ListGroupItem><b>Package Type</b>: {curDoc.package_types.join(', ')}</ListGroupItem>
                 <ListGroupItem> <b>Description</b>: {curDoc.description}</ListGroupItem>
+            </ListGroup>
+            {/*TODO: Add a posted by and status field to the reviews*/}
+            <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1}}>
+                <ListGroupItem style={{textAlign: 'center'}}><b>Poster info</b></ListGroupItem>
+                <ListGroupItem> <b>Status</b>: Waiting for review</ListGroupItem>
+                <ListGroupItem><b>Name</b>: {curDoc.name}</ListGroupItem>
+                <ListGroupItem><b>Created</b>: {new Date(curDoc.created_at).toLocaleDateString("en-US")}</ListGroupItem>
                 <ListGroupItem> <b>Notes</b>: {curDoc.notes}</ListGroupItem>
             </ListGroup>
+            </div>
             <Divider/>
             <Card.Body>
-                <Card.Title>Start Review</Card.Title>
-            </Card.Body>
-            We keep track of how long it takes to review so you can dock-it your time
-            <Card.Body>
                 <Button variant="primary" onClick={handleButtonClick}>
-                    Start
+                    Start Review
                 </Button>
             </Card.Body>
         </Card>

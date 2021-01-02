@@ -49,7 +49,6 @@ class Upload extends Component {
     //   alert("One or more fields is not filled out")
     // }
     var body = JSON.stringify(this.props.newReviewFields);
-    console.log("body", body)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

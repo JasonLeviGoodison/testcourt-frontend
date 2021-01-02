@@ -4,6 +4,8 @@ import Upload from "./upload/Upload";
 import { makeStyles } from '@material-ui/core/styles';
 import { setNewReviewField } from '../redux/actions';
 import { getNewReviewFields } from '../redux/selectors';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,15 +14,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+new Date().toISOString()
+
 
 function NewReview(props) {
-    console.log("New review fields:", props.newReviewFields);
     const { name } = props.newReviewFields;
     const [submitting, setSubmitting] = useState(false);
+    const [startDate, setStartDate] = useState(null);
     const classes = useStyles();
 
     const handleChange = event => {
         props.setNewReviewField(event.target.name, event.target.value);
+    }
+
+    const handleStartDateChange = date => {
+        setStartDate(date);
+        props.setNewReviewField('due_date', date)
     }
 
     return (
@@ -43,6 +52,10 @@ function NewReview(props) {
                     <label>
                         <p>Brief Description</p>
                         <textarea name="description" rows="5" cols="40" onChange={handleChange}/>
+                    </label>
+                    <label>
+                        <p>Due Date</p>
+                        <DatePicker name="due_date" selected={startDate} onChange={date => handleStartDateChange(date)}/>
                     </label>
                     <label>
                         <p>Additional Notes</p>

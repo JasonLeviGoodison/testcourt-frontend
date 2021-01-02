@@ -1,14 +1,12 @@
 import { fetchCheckListForPacType } from '../redux/actions';
-import { getCurDocMeta, getPacTypeCheckList, getReview, getPacTypeCheckLists, getCheckListsState } from "../redux/selectors";
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import { Card, ListGroupItem, ListGroup } from 'react-bootstrap';
+import { getReview, getPacTypeCheckLists, getCheckListsState } from "../redux/selectors";
+import { Card } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import { fetchPackageReviewById } from '../redux/thunks';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from 'react-bootstrap/Button'
 import Divider from '@material-ui/core/Divider';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -61,9 +59,7 @@ function CheckList(props) {
     }, [curReview]);
 
     useEffect(() => {
-        console.log("other UseEffect for checklist", checklists);
         if (curReview.package_types) {
-            console.log("thing", checklists(curReview.package_types));
             setButtonList(getChecklistFromList(checklists(curReview.package_types)))
         }
 
