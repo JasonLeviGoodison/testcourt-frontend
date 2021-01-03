@@ -1,13 +1,16 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import "../App.css";
 import Upload from "./upload/Upload";
 import { makeStyles } from '@material-ui/core/styles';
 import { setNewReviewField } from '../redux/actions';
-import { getNewReviewFields } from '../redux/selectors';
+import { getAllPackageTypes } from '../redux/thunks';
+import { getNewReviewFields, getPackageOptions } from '../redux/selectors';
 import DatePicker from "react-datepicker";
 import withAuthorization from "../auth/withAuthorization";
 import "react-datepicker/dist/react-datepicker.css";
+import 'react-dropdown/style.css';
 import { connect } from 'react-redux';
+import Dropdown from 'react-dropdown';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -15,22 +18,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-new Date().toISOString()
-
-
 function NewReview(props) {
     const { name } = props.newReviewFields;
     const [submitting, setSubmitting] = useState(false);
     const [startDate, setStartDate] = useState(null);
+    const [packageType, setPackageType] = useState(null);
     const classes = useStyles();
+
+    useEffect(() => {
+        props.getAllPackageTypes();
+    }, []);
 
     const handleChange = event => {
         props.setNewReviewField(event.target.name, event.target.value);
     }
 
+    const handleDropDownChange = option => {
+        console.log("OPTION", option.value)
+        setPackageType(option.value);
+        props.setNewReviewField('packagetypes', option.value);
+    }
+
     const handleStartDateChange = date => {
         setStartDate(date);
-        props.setNewReviewField('due_date', date)
+        props.setNewReviewField('due_date', date);
     }
 
     return (
@@ -47,8 +58,8 @@ function NewReview(props) {
                         <input name="casenumber" onChange={handleChange}/>
                     </label>
                     <label>
-                        <p>Package Types</p>
-                        <input name="packagetypes" onChange={handleChange}/>
+                        <p>Package Type</p>
+                        <Dropdown onChange={handleDropDownChange} options={props.packageOptions} placeholder="Select an option" />
                     </label>
                     <label>
                         <p>Brief Description</p>
@@ -70,13 +81,15 @@ function NewReview(props) {
 }
 const mapStateToProps = (state) => {
     return {
-        newReviewFields: getNewReviewFields(state)
+        newReviewFields: getNewReviewFields(state),
+        packageOptions: getPackageOptions(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setNewReviewField: (field, val) => dispatch(setNewReviewField(field, val))
+        setNewReviewField: (field, val) => dispatch(setNewReviewField(field, val)),
+        getAllPackageTypes: () => dispatch(getAllPackageTypes())
     }
 }
 

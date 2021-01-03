@@ -1,4 +1,4 @@
-import { SET_NEW_REVIEW_FIELD } from '../actionTypes';
+import { SET_NEW_REVIEW_FIELD, FETCH_ALL_PACKAGE_TYPES_SUCCESS } from '../actionTypes';
 
 const initialState = {
 };

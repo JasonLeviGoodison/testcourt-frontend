@@ -18,19 +18,22 @@ export const getCurDocMeta = (store) => {
 }
 
 
-export const getPacTypeCheckList = (store, PacType) =>
-  getCheckListsState(store)[PacType] ? getCheckListsState(store)[PacType] : [];
+export const getPacTypeCheckList = (store, pacType) =>
+  getCheckListsState(store)[pacType] ? getCheckListsState(store)[pacType] : [];
 
 export const getPacTypeCheckLists = (store, package_types) => {
   let allItems = [];
-  package_types.forEach(PacType => {
-    let items = getPacTypeCheckList(store, PacType);
+  package_types.forEach(pacType => {
+    let items = getPacTypeCheckList(store, pacType);
     if (items.length > 0) {
       allItems = allItems.concat(items);
     }
   });
   return allItems;
 }
+
+export const getPackageOptions = (store) => 
+  getCheckListsState(store) ? getCheckListsState(store).packageoptions : [];
 
 export const getNewReviewFields = store => store.newReview;
 

@@ -1,9 +1,8 @@
-import { fetchCheckListForPacType } from '../redux/actions';
 import { getReview, getPacTypeCheckLists, getCheckListsState } from "../redux/selectors";
 import { Card } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
-import { fetchPackageReviewById } from '../redux/thunks';
+import { fetchPackageReviewById, fetchChecklistForPacType } from '../redux/thunks';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -53,7 +52,7 @@ function CheckList(props) {
     useEffect(() => {
         if (Object.entries(curReview).length > 0) {
             curReview.package_types.forEach(pacType => {
-                if (pacType) props.fetchCheckListForPacType(pacType)
+                if (pacType) props.fetchChecklist(pacType)
             });
         }
     }, [curReview]);
@@ -67,7 +66,7 @@ function CheckList(props) {
 
     if (Object.entries(curReview) == 0 || checklists.length == 0) {
         return <p>Loading</p>
-        }
+    }
 
     const handleChange = (index) => {
         return (event) => {
@@ -105,7 +104,7 @@ function CheckList(props) {
 
   return (
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
-        <Card style={{ width: '100%', height: '93vh' }}>
+        <Card style={{ width: '100%'}}>
             <Card.Body>
                 <Card.Title>Approval</Card.Title>
             </Card.Body>
@@ -160,7 +159,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchReviewById: (id) => dispatch(fetchPackageReviewById(id)),
-        fetchCheckListForPacType: (pacType) => dispatch(fetchCheckListForPacType(pacType))
+        fetchChecklist: (pacType) => dispatch(fetchChecklistForPacType(pacType))
     }
 }
 

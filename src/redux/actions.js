@@ -1,14 +1,17 @@
 import {
   SET_SELECTED,
   FETCH_DOCUMENTS_SUCCESS,
-  FETCH_CHECKLIST,
+  FETCH_CHECKLIST_FOR_PACTYPE_REQUEST,
+  FETCH_CHECKLIST_FOR_PACTYPE_SUCCESS,
   FETCH_DOCUMENTS_REQUEST,
   SET_NEW_REVIEW_FIELD,
   UPLOAD_NEW_REQUEST_FORM,
   UPLOAD_NEW_REQUEST_FORM_SUCCESS,
   SET_IN_REVIEW,
   FETCH_REVIEW_REQUEST,
-  FETCH_REVIEW_SUCCESS
+  FETCH_REVIEW_SUCCESS,
+  FETCH_ALL_PACKAGE_TYPES_REQUEST,
+  FETCH_ALL_PACKAGE_TYPES_SUCCESS
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -47,6 +50,20 @@ export const uploadNewRequestSuccess = () => {
   }
 };
 
+export const fetchAllPackageTypesRequest = () => {
+  return {
+    type: FETCH_ALL_PACKAGE_TYPES_REQUEST,
+    payload: ""
+  }
+};
+
+export const fetchAllPackageTypesSuccess = (items) => {
+  return {
+    type: FETCH_ALL_PACKAGE_TYPES_SUCCESS,
+    payload: items
+  }
+};
+
 export const fetchDocumentsSuccess = (items) => {
   return {
     type: FETCH_DOCUMENTS_SUCCESS,
@@ -61,23 +78,17 @@ export const setInReview = (value) => {
   }
 }
 
-export const fetchCheckListForPacType = (pacType) => {
+export const fetchCheckListForPacTypeRequest = (pacType) => {
   return {
-    type: FETCH_CHECKLIST,
-    payload: {
-      "Will": [
-        "Names are correct",
-        "Page 3 is green",
-        "Address is in bold",
-        "Names are correct",
-        "Page 4 is green",
-        "Address is in bold",
-        "Amount is correct on page 1",
-        "Page 5 is green",
-        "name is in bold on page 10",
-        "Page 6 is green",
-        "Address is in bold on page 4"
-    ]}
+    type: FETCH_CHECKLIST_FOR_PACTYPE_REQUEST,
+    payload: pacType
+  }
+};
+
+export const fetchCheckListForPacTypeSuccess = (items) => {
+  return {
+    type: FETCH_CHECKLIST_FOR_PACTYPE_SUCCESS,
+    payload: items
   }
 };
 
