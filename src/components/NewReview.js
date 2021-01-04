@@ -58,20 +58,26 @@ function NewReview(props) {
                         <input name="casenumber" onChange={handleChange}/>
                     </label>
                     <label>
-                        <p>Package Type</p>
-                        <Dropdown onChange={handleDropDownChange} options={props.packageOptions} placeholder="Select an option" />
-                    </label>
-                    <label>
-                        <p>Brief Description</p>
-                        <textarea name="description" rows="5" cols="40" onChange={handleChange}/>
-                    </label>
-                    <label>
                         <p>Due Date</p>
                         <DatePicker name="due_date" selected={startDate} onChange={date => handleStartDateChange(date)}/>
                     </label>
                     <label>
-                        <p>Additional Notes</p>
-                        <textarea name="notes" rows="2" cols="40" onChange={handleChange}/>
+                        <p>Package Type</p>
+                        <Dropdown onChange={handleDropDownChange} options={props.packageOptions} placeholder="Select an option" />
+                    </label>
+                    <label>
+                        <div style={{display:"flex", flexDirection: "column"}}>
+                            <p>Brief Description</p>
+                            <textarea maxlength="254" name="description" rows="5" cols="40" onChange={handleChange}/>
+                            255 char limit
+                        </div>
+                    </label>
+                    <label>
+                        <div style={{display:"flex", flexDirection: "column"}}>
+                            <p>Additional Notes</p>
+                            <textarea name="notes" rows="2" cols="40" onChange={handleChange}/>
+                            255 char limit
+                        </div>
                     </label>
                 </fieldset>
             </form>
