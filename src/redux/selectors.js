@@ -4,8 +4,16 @@ export const getDocsState = store => store.docs;
 
 export const getCheckListsState = store => store.checkLists;
 
-export const getDocsList = store =>
-  getDocsState(store) ? getDocsState(store).documents : [];
+export const getDocsList = store => {
+  if (getDocsState(store)) {
+    let filter = getDocsState(store).reviewFilter;
+    let docs = getDocsState(store).documents;
+    if (docs != null) {
+      return docs.filter(pac => pac.status == filter)
+    }
+  }
+  return [];
+}
 
 export const getCurDoc = (store) =>
   getDocsState(store) ? getDocsState(store).curDoc : -1;

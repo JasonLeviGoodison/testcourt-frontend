@@ -11,7 +11,8 @@ import {
   FETCH_REVIEW_REQUEST,
   FETCH_REVIEW_SUCCESS,
   FETCH_ALL_PACKAGE_TYPES_REQUEST,
-  FETCH_ALL_PACKAGE_TYPES_SUCCESS
+  FETCH_ALL_PACKAGE_TYPES_SUCCESS,
+  SET_REVIEW_FILTER
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -106,4 +107,9 @@ export const fetchReviewPackageSuccess = (id) => {
   }
 }
 
-//export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });
+export const setReviewFilter = (status) =>{
+  return {
+    type: SET_REVIEW_FILTER,
+    payload: status
+  }
+}

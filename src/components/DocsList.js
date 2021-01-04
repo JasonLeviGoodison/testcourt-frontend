@@ -10,34 +10,52 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import FolderIcon from '@material-ui/icons/Folder';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Status from "./Status/Status";
 import { withRouter } from "react-router-dom";
 import { fetchDocsListThunk } from '../redux/thunks';
-import { setSelectedDocument } from "../redux/actions";
+import { setSelectedDocument, setReviewFilter } from "../redux/actions";
 import { getDocsList, getCurDoc } from "../redux/selectors";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import Pill from './Status/Pill';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import * as routes from "../routes/routes";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
-    overflowY: 'scroll',
-    height: '100vh',
-    paddingTop: 0,
-    borderRightStyle: 'solid',
-    borderRightWidth: 'thin',
-    borderColor: 'rgba(0, 0, 0, 0.12)'
-  },
-  inline: {
-    display: 'inline',
-  },
+    root: {
+        width: '100%',
+        maxWidth: '36ch',
+        backgroundColor: theme.palette.background.paper,
+        overflowY: 'scroll',
+        height: '100vh',
+        paddingTop: 0,
+        borderRightStyle: 'solid',
+        borderRightWidth: 'thin',
+        borderColor: 'rgba(0, 0, 0, 0.12)'
+    },
+    inline: {
+        display: 'inline',
+    },
+    tab: {
+        minWidth: 100, // a number of your choice
+        width: 100, // a number of your choice
+    }
 }));
 
 function DocsList(props) {
     const classes = useStyles();
     const docs = props.docs || [];
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        let status = Status.WAITING;
+        if (newValue == 1) status = Status.APPROVED;
+        if (newValue == 2) status = Status.REJECTED;
+        props.setReviewFilter(status);
+        setValue(newValue);
+    };
 
     function handleItemSelect(index, meta) {
         return (e) => {
@@ -57,6 +75,19 @@ function DocsList(props) {
     return (
         <div className={classes.root}>
         <List className={classes.root}>
+            <Paper square>
+                <Tabs
+                    value={value}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="fullWidth"
+                    onChange={handleChange}
+                >
+                    <Tab classes={{ root: classes.tab }} label="Waiting" />
+                    <Tab classes={{ root: classes.tab }} label="Approved" />
+                    <Tab classes={{ root: classes.tab }} label="Rejected" />
+                </Tabs>
+            </Paper>
         {
             docs.length > 0 ? docs.map((item, index) =>
                 <div>
@@ -81,6 +112,7 @@ function DocsList(props) {
                                 </React.Fragment>
                             }
                         />
+                        <Pill status={item.status}/>
                     </ListItem>
                     <Divider component="li" />
                 </div>
@@ -108,7 +140,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setCurDoc: (index) => dispatch(setSelectedDocument(index)),
-        fetchDocs: () => dispatch(fetchDocsListThunk())
+        fetchDocs: () => dispatch(fetchDocsListThunk()),
+        setReviewFilter: (status) => dispatch(setReviewFilter(status))
     }
 }
 

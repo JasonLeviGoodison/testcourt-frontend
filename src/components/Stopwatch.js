@@ -19,7 +19,7 @@ function Stopwatch(props) {
                                      `You need to Dock-it this time ${formatted}.\n` + 
                                      "Do it now so you don't forget."}
                         />
-                        <div>Reviewing for { formatted }</div>
+                        <div>Reviewed for { formatted }</div>
                     </>
                 );
             }}
