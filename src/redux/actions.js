@@ -12,7 +12,9 @@ import {
   FETCH_REVIEW_SUCCESS,
   FETCH_ALL_PACKAGE_TYPES_REQUEST,
   FETCH_ALL_PACKAGE_TYPES_SUCCESS,
-  SET_REVIEW_FILTER
+  SET_REVIEW_FILTER,
+  SUBMIT_VERDICT_REQUEST,
+  SUBMIT_VERDICT_SUCCESS
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -107,9 +109,23 @@ export const fetchReviewPackageSuccess = (id) => {
   }
 }
 
-export const setReviewFilter = (status) =>{
+export const setReviewFilter = (status) => {
   return {
     type: SET_REVIEW_FILTER,
+    payload: status
+  }
+}
+
+export const submitVerdictRequest = () => {
+  return {
+    type: SUBMIT_VERDICT_REQUEST,
+    payload: status
+  }
+}
+
+export const submitVerdictSuccess = () => {
+  return {
+    type: SUBMIT_VERDICT_SUCCESS,
     payload: status
   }
 }

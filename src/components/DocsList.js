@@ -121,7 +121,7 @@ function DocsList(props) {
         </List>
         <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
         <Tooltip title="New Package Review">
-            <Fab onClick={onNewReviewClicked} style={{bottom: 10, position: 'fixed'}} size="large" color="primary" aria-label="add">
+            <Fab onClick={onNewReviewClicked} style={{bottom: 10, position: 'fixed', marginRight: 10}} size="large" color="primary" aria-label="add">
                 <AddIcon />
             </Fab>
         </Tooltip>

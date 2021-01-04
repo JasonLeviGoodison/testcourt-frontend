@@ -11,7 +11,9 @@ import {
     fetchAllPackageTypesRequest,
     fetchAllPackageTypesSuccess,
     fetchCheckListForPacTypeRequest,
-    fetchCheckListForPacTypeSuccess
+    fetchCheckListForPacTypeSuccess,
+    submitVerdictRequest,
+    submitVerdictSuccess
 } from './actions';
 
 
@@ -89,11 +91,27 @@ export const getAllPackageTypes = (form) => {
     return dispatch => {
         dispatch(fetchAllPackageTypesRequest());
 
-        //checklist api
         checklistApi.GetAllPackageTypes()
         .then(res =>
         {
             dispatch(fetchAllPackageTypesSuccess(res));
+        })
+        .catch(err =>
+        {
+            console.log("DIDNT GET A SUCCESS", err)
+            //dispatch(fetchDocumentsFailure());
+        })
+    }
+}
+
+export const submitVerdict = (id, status) => {
+    return dispatch => {
+        dispatch(submitVerdictRequest());
+
+        docApi.SubmitVerdict(id, status)
+        .then(res =>
+        {
+            dispatch(submitVerdictSuccess(res));
         })
         .catch(err =>
         {

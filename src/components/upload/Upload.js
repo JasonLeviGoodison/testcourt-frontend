@@ -39,16 +39,27 @@ class Upload extends Component {
     const id = guid();
     // attach guid to these files and the review
     this.setState({id}, () => this.uploadForm(id)
-                              .then(() => this.uploadFiles(id)
-                              .catch(err => alert("error message"))))
+                              .then(() => this.uploadFiles(id))
+                              .then(() => {
+                                const { history } = this.props;
+                                history.push(routes.HOME);
+                              })
+                              .catch((() => {})))
+  }
+
+  validForm() {
+    let form = this.state.newReviewForms;
+    console.log(form)
+    return (form.name != null &&
+      form.casenumber != null && 
+      form.due_date != null &&
+      form.packagetypes != null &&
+      form.description != null &&
+      this.state.files.length != 0)
   }
 
   async uploadForm(id) {
-    // if (Object.keys(this.state.newReviewForms).length === 0)
-    // {
-    //   alert("One or more fields is not filled out")
-    //   throw;
-    // }
+    if (!this.validForm()) {alert("One or more fields not filled out"); throw '';}
     var fieldsAndId = {
         ...this.props.newReviewFields,
         posted_by: this.props.loggedUser.email
@@ -70,15 +81,12 @@ class Upload extends Component {
     });
     try {
         await Promise.all(promises);
-
         this.setState({ successfullUploaded: true, uploading: false });
-
-        const { history } = this.props;
-        history.push(routes.HOME);
     } catch (e) {
         // Not Production ready! Do some error handling here instead...
         alert("Could not upload files.");
         this.setState({ successfullUploaded: true, uploading: false });
+        throw e;
     }
   }
 
