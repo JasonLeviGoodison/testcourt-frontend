@@ -112,20 +112,20 @@ function DocsList(props) {
                                 </React.Fragment>
                             }
                         />
-                        <Pill status={item.status}/>
+                        <Pill key={item.status + index} status={item.status}/>
                     </ListItem>
                     <Divider component="li" />
                 </div>
             ) : "Nothing to review!"
         }
         </List>
-            <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-            <Tooltip title="New Package Review">
-                <Fab onClick={onNewReviewClicked} style={{bottom: 10, position: 'fixed'}} size="large" color="primary" aria-label="add">
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
-            </div>
+        <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+        <Tooltip title="New Package Review">
+            <Fab onClick={onNewReviewClicked} style={{bottom: 10, position: 'fixed'}} size="large" color="primary" aria-label="add">
+                <AddIcon />
+            </Fab>
+        </Tooltip>
+        </div>
       </div>
     );
 }

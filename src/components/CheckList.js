@@ -39,7 +39,7 @@ function CheckList(props) {
         curReview,
         checklists
     } = props;
-    const defautPopupMsg = "Are you sure you want to approve these files?";
+    const defautPopupMsg = "Are you sure you want to approve this package?";
     const classes = useStyles();
     const [buttonList, setButtonList] = useState([]); 
     const [showModal, setShowModal] = useState(false);

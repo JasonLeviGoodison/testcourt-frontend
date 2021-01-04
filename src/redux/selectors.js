@@ -15,12 +15,26 @@ export const getDocsList = store => {
   return [];
 }
 
+export const getFilteredDocList = (store) => {
+  if (getDocsState(store)) {
+    let filter = getDocsState(store).reviewFilter;
+    let docs = getDocsState(store).documents;
+    if (docs != null) {
+      return docs.filter(pac => pac.status == filter)
+    }
+  }
+  return [];
+}
+
 export const getCurDoc = (store) =>
   getDocsState(store) ? getDocsState(store).curDoc : -1;
 
 export const getCurDocMeta = (store) => {
-  if (getDocsState(store) != null && getCurDoc(store) != null) {
-    return getDocsState(store).documents[getCurDoc(store)]
+  let filteredList = getFilteredDocList(store);
+  let index = getCurDoc(store);
+  if (filteredList != null && filteredList.length > 0 && index != null) {
+    if (index > filteredList.length - 1) index = 0;
+    return filteredList[index]
   }
   return {};
 }

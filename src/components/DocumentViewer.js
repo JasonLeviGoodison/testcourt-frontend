@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 function DocumentViewer(props) {
   const { curReview } = props;
 
-  console.log("id", props.id, " curReview", curReview)
 
   useEffect(() => {
     props.fetchReviewById(props.id)
