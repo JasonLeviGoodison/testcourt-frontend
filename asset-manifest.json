@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/testcourt-frontend/static/css/main.ad48c035.chunk.css",
+    "main.js": "/testcourt-frontend/static/js/main.8ed2ebe0.chunk.js",
+    "main.js.map": "/testcourt-frontend/static/js/main.8ed2ebe0.chunk.js.map",
+    "runtime-main.js": "/testcourt-frontend/static/js/runtime-main.7971433e.js",
+    "runtime-main.js.map": "/testcourt-frontend/static/js/runtime-main.7971433e.js.map",
+    "static/css/2.364f2955.chunk.css": "/testcourt-frontend/static/css/2.364f2955.chunk.css",
+    "static/js/2.27ae36f3.chunk.js": "/testcourt-frontend/static/js/2.27ae36f3.chunk.js",
+    "static/js/2.27ae36f3.chunk.js.map": "/testcourt-frontend/static/js/2.27ae36f3.chunk.js.map",
+    "static/js/3.e000c5a9.chunk.js": "/testcourt-frontend/static/js/3.e000c5a9.chunk.js",
+    "static/js/3.e000c5a9.chunk.js.map": "/testcourt-frontend/static/js/3.e000c5a9.chunk.js.map",
+    "index.html": "/testcourt-frontend/index.html",
+    "static/css/2.364f2955.chunk.css.map": "/testcourt-frontend/static/css/2.364f2955.chunk.css.map",
+    "static/css/main.ad48c035.chunk.css.map": "/testcourt-frontend/static/css/main.ad48c035.chunk.css.map",
+    "static/js/2.27ae36f3.chunk.js.LICENSE.txt": "/testcourt-frontend/static/js/2.27ae36f3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7971433e.js",
+    "static/css/2.364f2955.chunk.css",
+    "static/js/2.27ae36f3.chunk.js",
+    "static/css/main.ad48c035.chunk.css",
+    "static/js/main.8ed2ebe0.chunk.js"
+  ]
+}
