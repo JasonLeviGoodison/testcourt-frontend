@@ -48,7 +48,7 @@ class Upload extends Component {
   }
 
   validForm() {
-    let form = this.state.newReviewForms;
+    let form = this.props.newReviewFields;
     console.log(form)
     return (form.name != null &&
       form.casenumber != null && 

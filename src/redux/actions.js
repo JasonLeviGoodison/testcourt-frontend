@@ -118,14 +118,12 @@ export const setReviewFilter = (status) => {
 
 export const submitVerdictRequest = () => {
   return {
-    type: SUBMIT_VERDICT_REQUEST,
-    payload: status
+    type: SUBMIT_VERDICT_REQUEST
   }
 }
 
 export const submitVerdictSuccess = () => {
   return {
-    type: SUBMIT_VERDICT_SUCCESS,
-    payload: status
+    type: SUBMIT_VERDICT_SUCCESS
   }
 }

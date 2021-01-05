@@ -68,14 +68,14 @@ function NewReview(props) {
                     <label>
                         <div style={{display:"flex", flexDirection: "column"}}>
                             <p>Brief Description</p>
-                            <textarea maxlength="254" name="description" rows="5" cols="40" onChange={handleChange}/>
+                            <textarea maxLength="254" name="description" rows="5" cols="40" onChange={handleChange}/>
                             255 char limit
                         </div>
                     </label>
                     <label>
                         <div style={{display:"flex", flexDirection: "column"}}>
                             <p>Additional Notes</p>
-                            <textarea name="notes" rows="2" cols="40" onChange={handleChange}/>
+                            <textarea maxLength="254" name="notes" rows="2" cols="40" onChange={handleChange}/>
                             (Optional) 255 char limit
                         </div>
                     </label>
