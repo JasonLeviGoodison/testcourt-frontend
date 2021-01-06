@@ -35,7 +35,7 @@ const HeaderNonAuth = ({history}) => {
                 <Navbar.Brand onClick={homeClicked}> {
                     <div>
                     {CompanyName}
-                    <img src={"http://localhost:3006/gavel.svg"}  style={{paddingLeft: 5, paddingBottom: 5}}/>
+                    <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`}  style={{paddingLeft: 5, paddingBottom: 5}}/>
                     </div>
                 } </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -64,7 +64,7 @@ const HeaderAuth = ({ userInfo, history }) => {
                 <Navbar.Brand onClick={homeClicked}> {
                     <div>
                     {CompanyName}
-                    <img src={"http://localhost:3006/gavel.svg"} style={{paddingLeft: 5, paddingBottom: 5}}/>
+                    <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`} style={{paddingLeft: 5, paddingBottom: 5}}/>
                     </div>
                 } </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

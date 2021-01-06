@@ -1,5 +1,4 @@
-//const BASE_ADDRESS = "http://localhost:3000"
-const BASE_ADDRESS = "http://138.197.138.237:3000"
+const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 
 export async function GetAllPackageTypes()
 {

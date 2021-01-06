@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
 import "./Upload.css";
-const BASE_ADDRESS = "http://localhost:3000"
+const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 
 class Upload extends Component {
   constructor(props) {
