@@ -116,7 +116,7 @@ function DocsList(props) {
                     </ListItem>
                     <Divider component="li" />
                 </div>
-            ) : "Nothing to review!"
+            ) : <div style={{paddingTop: 25}} >Nothing Here!</div>
         }
         </List>
         <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
