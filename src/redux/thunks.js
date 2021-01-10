@@ -1,5 +1,5 @@
 import * as docApi from '../api/documentApi';
-import * as newRequestApi from '../api/newRequestApi';
+//import * as newRequestApi from '../api/newRequestApi';
 import * as checklistApi from '../api/checklistApi';
 import {
     fetchDocumentsRequest,
@@ -51,23 +51,23 @@ export const fetchPackageReviewById = (id) => {
     }
 }
 
-export const uploadNewRequestThunk = (form) => {
-    return dispatch => {
-        dispatch(uploadNewRequest());
+// export const uploadNewRequestThunk = (form) => {
+//     return dispatch => {
+//         dispatch(uploadNewRequest());
 
-        newRequestApi.UploadNewRequestForm()
-        .then(res =>
-        {
-            dispatch(/*(res)*/);
-        })
-        .then(() => newRequestApi.UploadNewRequestFiles())
-        .catch(err =>
-        {
-            console.log("DIDNT GET A SUCCESS", err)
-            //dispatch(fetchDocumentsFailure());
-        })
-    }
-}
+//         newRequestApi.UploadNewRequestForm()
+//         .then(res =>
+//         {
+//             dispatch(/*(res)*/);
+//         })
+//         .then(() => newRequestApi.UploadNewRequestFiles())
+//         .catch(err =>
+//         {
+//             console.log("DIDNT GET A SUCCESS", err)
+//             //dispatch(fetchDocumentsFailure());
+//         })
+//     }
+// }
 
 export const fetchChecklistForPacType = (pacType) => {
     return dispatch => {

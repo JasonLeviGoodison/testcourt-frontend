@@ -1,5 +1,3 @@
-
-
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import { Card, ListGroupItem, ListGroup } from 'react-bootstrap'
 import { makeStyles } from '@material-ui/core/styles';

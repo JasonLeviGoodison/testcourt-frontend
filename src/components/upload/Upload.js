@@ -3,12 +3,26 @@ import Dropzone from "../dropzone/Dropzone";
 import Progress from "../progress/Progress";
 import { getNewReviewFields } from '../../redux/selectors';
 import { uploadNewRequest } from '../../redux/actions';
+import * as requestApi from '../../api/newRequestApi';
 import * as routes from '../../routes/routes';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
+import { Card } from 'react-bootstrap';
+import Modal from 'react-modal';
 import "./Upload.css";
 const BASE_ADDRESS = process.env.REACT_APP_API_URL;
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 class Upload extends Component {
   constructor(props) {
@@ -16,7 +30,6 @@ class Upload extends Component {
     this.state = {
         files: [],
         uploading: false,
-        uploadProgress: {},
         successfullUploaded: false,
         newReviewForms: props.newReviewFields
     };
@@ -38,18 +51,22 @@ class Upload extends Component {
   async uploadReview() {
     const id = guid();
     // attach guid to these files and the review
-    this.setState({id}, () => this.uploadForm(id)
-                              .then(() => this.uploadFiles(id))
-                              .then(() => {
-                                const { history } = this.props;
-                                history.push(routes.HOME);
-                              })
-                              .catch((() => {})))
+    this.setState({id},
+      () => this.uploadForm(id)
+        .then(() => this.uploadFiles(id))
+        .then(() => {
+          this.setState({ uploading: false });
+          const { history } = this.props;
+          history.push(routes.HOME);
+        })
+        .catch((() => {
+          this.setState({ uploading: false });
+          alert("Error uploading documents");
+        })))
   }
 
   validForm() {
     let form = this.props.newReviewFields;
-    console.log(form)
     return (form.name != null &&
       form.casenumber != null && 
       form.due_date != null &&
@@ -58,115 +75,54 @@ class Upload extends Component {
       this.state.files.length != 0)
   }
 
-  async uploadForm(id) {
-    if (!this.validForm()) {alert("One or more fields not filled out"); throw '';}
-    var fieldsAndId = {
+  uploadForm(id) {
+    if (!this.validForm()) { alert("One or more fields not filled out"); throw ''; }
+    var form = {
         ...this.props.newReviewFields,
         posted_by: this.props.loggedUser.email
     }
-    var body = JSON.stringify(fieldsAndId);
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body
-    }
-    return await fetch(`${BASE_ADDRESS}/upload/form/${id}`, requestOptions);
+    return requestApi.UploadForm(form, id);
   }
 
-  async uploadFiles(id) {
-    this.setState({ uploadProgress: {}, uploading: true });
+  uploadFiles(id) {
+    this.setState({ uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
         promises.push(this.sendRequest(file, id));
     });
-    try {
-        await Promise.all(promises);
-        this.setState({ successfullUploaded: true, uploading: false });
-    } catch (e) {
-        // Not Production ready! Do some error handling here instead...
+    Promise.all(promises).then(() => {
+        this.setState({ uploading: false });
+      }).catch((e) => {
         alert("Could not upload files.");
-        this.setState({ successfullUploaded: true, uploading: false });
+        this.setState({ uploading: false });
         throw e;
-    }
+    });
   }
 
   sendRequest(file, id) {
     return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
-
-      req.upload.addEventListener("progress", event => {
-        if (event.lengthComputable) {
-          const copy = { ...this.state.uploadProgress };
-          copy[file.name] = {
-            state: "pending",
-            percentage: (event.loaded / event.total) * 100
-          };
-          this.setState({ uploadProgress: copy });
-        }
-      });
-
-      req.upload.addEventListener("load", event => {
-        const copy = { ...this.state.uploadProgress };
-        copy[file.name] = { state: "done", percentage: 100 };
-        this.setState({ uploadProgress: copy });
-        resolve(req.response);
-      });
-
-      req.upload.addEventListener("error", event => {
-        const copy = { ...this.state.uploadProgress };
-        copy[file.name] = { state: "error", percentage: 0 };
-        this.setState({ uploadProgress: copy });
-        reject(req.response);
-      });
-
-      const formData = new FormData();
-      formData.append("file", file, file.name);
-
-      req.open("POST", `${BASE_ADDRESS}/upload/file/${id}`);
-      req.send(formData);
+      return requestApi.UploadFile(file, id);
     });
   }
 
-  renderProgress(file) {
-    const uploadProgress = this.state.uploadProgress[file.name];
-    if (true) {
-      return (
-        <div className="ProgressWrapper">
-          <Progress progress={uploadProgress ? uploadProgress.percentage : 0} />
-          <img
-            className="CheckIcon"
-            alt="done"
-            src="baseline-check_circle_outline-24px.svg"
-            style={{
-              opacity: uploadProgress && uploadProgress.state === "done" ? 0.5 : 0
-            }}
-          />
-        </div>
-      );
-    }
-  }
-
   renderActions() {
-    if (this.state.successfullUploaded) {
-      return (
-        <button
+    return (
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        <button style={{paddingRight: 10}}
           onClick={() =>
             this.setState({ files: [], successfullUploaded: false })
           }
         >
           Clear
         </button>
-      );
-    } else {
-      return (
         <button
           disabled={this.state.files.length < 0 || this.state.uploading}
           onClick={this.uploadReview}
         >
           Submit
         </button>
-      );
-    }
+      </div>
+    );
   }
 
   render() {
@@ -180,17 +136,26 @@ class Upload extends Component {
             />
           </div>
           <div className="Files">
+            Files to upload
             {this.state.files.map(file => {
               return (
                 <div key={file.name} className="Row">
                   <span className="Filename">{file.name}</span>
-                  {this.renderProgress(file)}
                 </div>
               );
             })}
           </div>
         </div>
         <div className="Actions">{this.renderActions()}</div>
+         {
+          <Modal isOpen={this.state.uploading} style={customStyles} contentLabel="WaitModal" ariaHideApp={false}>
+                <Card style={{ width: '100%' }}>
+                    <Card.Body>
+                        <Card.Title>Uploading Documents. Please Wait</Card.Title>
+                    </Card.Body>
+                </Card>
+          </Modal>
+         }
       </div>
     );
   }
