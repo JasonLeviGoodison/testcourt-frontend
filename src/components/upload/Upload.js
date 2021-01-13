@@ -52,14 +52,15 @@ class Upload extends Component {
     const id = guid();
     // attach guid to these files and the review
     this.setState({id},
-      () => this.uploadForm(id)
-        .then(() => this.uploadFiles(id))
+      async () => await this.uploadForm(id)
+        .then(async () => await this.uploadFiles(id))
         .then(() => {
           this.setState({ uploading: false });
           const { history } = this.props;
           history.push(routes.HOME);
         })
         .catch((() => {
+          console.log("error uploading")
           this.setState({ uploading: false });
           alert("Error uploading documents");
         })))
@@ -75,8 +76,8 @@ class Upload extends Component {
       this.state.files.length != 0)
   }
 
-  uploadForm(id) {
-    if (!this.validForm()) { alert("One or more fields not filled out"); throw ''; }
+  async uploadForm(id) {
+    if (!this.validForm()) { alert("One or more fields not filled out"); throw "NOT_FILLED_OUT"; }
     var form = {
         ...this.props.newReviewFields,
         posted_by: this.props.loggedUser.email
@@ -84,19 +85,24 @@ class Upload extends Component {
     return requestApi.UploadForm(form, id);
   }
 
-  uploadFiles(id) {
+  async uploadFiles(id) {
     this.setState({ uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
         promises.push(this.sendRequest(file, id));
     });
-    Promise.all(promises).then(() => {
-        this.setState({ uploading: false });
-      }).catch((e) => {
-        alert("Could not upload files.");
-        this.setState({ uploading: false });
-        throw e;
-    });
+
+    try {
+      console.log("about to wait on promise.all", promises)
+      await Promise.all(promises);
+      console.log("promise.all is finished")
+      this.setState({ uploading: false });
+    }
+    catch(e) {
+      alert("Could not upload files.");
+      this.setState({ uploading: false });
+      throw e;
+    }
   }
 
   sendRequest(file, id) {

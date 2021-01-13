@@ -1,6 +1,7 @@
 import * as docApi from '../api/documentApi';
 //import * as newRequestApi from '../api/newRequestApi';
 import * as checklistApi from '../api/checklistApi';
+import { enqueueSnackbar } from './actions';
 import {
     fetchDocumentsRequest,
     fetchDocumentsSuccess,
@@ -45,8 +46,7 @@ export const fetchPackageReviewById = (id) => {
         })
         .catch(err =>
         {
-            console.log("DIDNT GET A SUCCESS", err)
-            //dispatch(fetchDocumentsFailure());
+            //
         })
     }
 }
@@ -99,7 +99,13 @@ export const getAllPackageTypes = (form) => {
         .catch(err =>
         {
             console.log("DIDNT GET A SUCCESS", err)
-            //dispatch(fetchDocumentsFailure());
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Error - Couldn\'t connect to server',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
         })
     }
 }

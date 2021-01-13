@@ -10,11 +10,14 @@ import {
   SET_IN_REVIEW,
   FETCH_REVIEW_REQUEST,
   FETCH_REVIEW_SUCCESS,
+  FETCH_REVIEW_FAILURE,
   FETCH_ALL_PACKAGE_TYPES_REQUEST,
   FETCH_ALL_PACKAGE_TYPES_SUCCESS,
   SET_REVIEW_FILTER,
   SUBMIT_VERDICT_REQUEST,
-  SUBMIT_VERDICT_SUCCESS
+  SUBMIT_VERDICT_SUCCESS,
+  ENQUEUE_SNACKBAR,
+  REMOVE_SNACKBAR
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -127,3 +130,16 @@ export const submitVerdictSuccess = () => {
     type: SUBMIT_VERDICT_SUCCESS
   }
 }
+
+export const enqueueSnackbar = notification => ({
+  type: ENQUEUE_SNACKBAR,
+  notification: {
+      key: new Date().getTime() + Math.random(),
+      ...notification,
+  },
+});
+
+export const removeSnackbar = key => ({
+  type: REMOVE_SNACKBAR,
+  key,
+});

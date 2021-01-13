@@ -108,7 +108,9 @@ function DocsList(props) {
                                     >
                                     {item.case_number}
                                     </Typography><br/>
-                                    {item.description.substring(0, 50)+"..."}
+                                    {item.description.length > 50 ?
+                                        item.description.substring(0, 50) + "..." : 
+                                        item.description}
                                 </React.Fragment>
                             }
                         />
