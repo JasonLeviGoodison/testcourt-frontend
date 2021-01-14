@@ -18,7 +18,15 @@ function App() {
       <Notifier />
       <Router>
       <Header/>
-        <div className="App" style={{'display': 'flex', backgroundColor: "#EEEEEE"}}>
+        <div className="App"
+          style={{
+            display: 'flex',
+            backgroundColor: "#EEEEEE",
+            top: 57.5,
+            bottom: 0,
+            position: 'absolute',
+            width: '100%'
+          }}>
           <Switch>
               <Route exact path={routes.HOME} component={Home}/>
               <Route exact path={routes.NEW_REVIEW} component={NewReview}/>

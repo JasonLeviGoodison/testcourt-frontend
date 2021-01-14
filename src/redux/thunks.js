@@ -29,8 +29,14 @@ export const fetchDocsListThunk = () => {
         })
         .catch(err =>
         {
-            console.log("DIDNT GET A SUCCESS", err)
-            //dispatch(fetchDocumentsFailure());
+            console.error(err);
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Error - Couldn\'t connect to server. Check your internet connection',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
         })
     }
 }
@@ -46,7 +52,14 @@ export const fetchPackageReviewById = (id) => {
         })
         .catch(err =>
         {
-            //
+            console.error(err);
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Couldn\'t get this package from the server. Check your internet connection',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
         })
     }
 }
@@ -76,13 +89,18 @@ export const fetchChecklistForPacType = (pacType) => {
         checklistApi.GetChecklist(pacType)
         .then(res =>
             {
-                console.log(res)
                 dispatch(fetchCheckListForPacTypeSuccess({[pacType]: res}));
             })
             .catch(err =>
             {
-                console.log("DIDNT GET A SUCCESS", err)
-                //dispatch(fetchDocumentsFailure());
+                console.error(err);
+                dispatch(
+                    enqueueSnackbar({
+                        message: 'Couldn\'t connect to the server. Check your internet connection',
+                        options: {
+                            variant: 'error',
+                        },
+                }));
             })
     }
 }
@@ -98,10 +116,10 @@ export const getAllPackageTypes = (form) => {
         })
         .catch(err =>
         {
-            console.log("DIDNT GET A SUCCESS", err)
+            console.error(err);
             dispatch(
                 enqueueSnackbar({
-                    message: 'Error - Couldn\'t connect to server',
+                    message: 'Couldn\'t connect to the server. Check your internet connection',
                     options: {
                         variant: 'error',
                     },
@@ -121,8 +139,14 @@ export const submitVerdict = (id, status) => {
         })
         .catch(err =>
         {
-            console.log("DIDNT GET A SUCCESS", err)
-            //dispatch(fetchDocumentsFailure());
+            console.error(err);
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Error submitting status',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
         })
     }
 }
