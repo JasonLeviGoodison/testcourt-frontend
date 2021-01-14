@@ -4,7 +4,6 @@ const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 export async function GetAllDocs()
 {
     const authHeaders = await createAuthHeaders();
-    console.log(authHeaders)
     const res = await fetch(`${BASE_ADDRESS}/documents/getAll`, authHeaders)
     const json = await res.json();
     return json;

@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
 import { Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 import Modal from 'react-modal';
 import "./Upload.css";
 const BASE_ADDRESS = process.env.REACT_APP_API_URL;
@@ -52,14 +53,15 @@ class Upload extends Component {
     const id = guid();
     // attach guid to these files and the review
     this.setState({id},
-      () => this.uploadForm(id)
-        .then(() => this.uploadFiles(id))
+      async () => await this.uploadForm(id)
+        .then(async () => await this.uploadFiles(id))
         .then(() => {
           this.setState({ uploading: false });
           const { history } = this.props;
           history.push(routes.HOME);
         })
         .catch((() => {
+          console.log("error uploading")
           this.setState({ uploading: false });
           alert("Error uploading documents");
         })))
@@ -75,8 +77,8 @@ class Upload extends Component {
       this.state.files.length != 0)
   }
 
-  uploadForm(id) {
-    if (!this.validForm()) { alert("One or more fields not filled out"); throw ''; }
+  async uploadForm(id) {
+    if (!this.validForm()) { alert("One or more fields not filled out"); throw "NOT_FILLED_OUT"; }
     var form = {
         ...this.props.newReviewFields,
         posted_by: this.props.loggedUser.email
@@ -84,19 +86,24 @@ class Upload extends Component {
     return requestApi.UploadForm(form, id);
   }
 
-  uploadFiles(id) {
+  async uploadFiles(id) {
     this.setState({ uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
         promises.push(this.sendRequest(file, id));
     });
-    Promise.all(promises).then(() => {
-        this.setState({ uploading: false });
-      }).catch((e) => {
-        alert("Could not upload files.");
-        this.setState({ uploading: false });
-        throw e;
-    });
+
+    try {
+      console.log("about to wait on promise.all", promises)
+      await Promise.all(promises);
+      console.log("promise.all is finished")
+      this.setState({ uploading: false });
+    }
+    catch(e) {
+      alert("Could not upload files.");
+      this.setState({ uploading: false });
+      throw e;
+    }
   }
 
   sendRequest(file, id) {
@@ -107,20 +114,18 @@ class Upload extends Component {
 
   renderActions() {
     return (
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <button style={{paddingRight: 10}}
+      <div >
+        <Button
+          variant="secondary"
+          style={{marginRight : 10}}
           onClick={() =>
             this.setState({ files: [], successfullUploaded: false })
-          }
-        >
+        }>
           Clear
-        </button>
-        <button
-          disabled={this.state.files.length < 0 || this.state.uploading}
-          onClick={this.uploadReview}
-        >
+        </Button>
+        <Button variant="primary" onClick={this.uploadReview}>
           Submit
-        </button>
+        </Button>
       </div>
     );
   }

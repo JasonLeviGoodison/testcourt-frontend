@@ -44,6 +44,8 @@ function NewReview(props) {
         props.setNewReviewField('due_date', date);
     }
 
+    console.log(props.packageOptions)
+
     return (
         <div className="Card" style={{display: 'flex', flexDirection: 'column', margin: 'auto'}}>
             <form  style={{ margin: 'auto', textAlign: 'left'}}>

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useState } from 'react';
 import * as routes from "./routes/routes";
+import Notifier from "./components/Notifier";
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
@@ -14,9 +15,18 @@ export const CompanyName = "ReviewCounsel";
 function App() {
   return (
     <div>
+      <Notifier />
       <Router>
       <Header/>
-        <div className="App" style={{'display': 'flex', backgroundColor: "#EEEEEE"}}>
+        <div className="App"
+          style={{
+            display: 'flex',
+            backgroundColor: "#EEEEEE",
+            top: 57.5,
+            bottom: 0,
+            position: 'absolute',
+            width: '100%'
+          }}>
           <Switch>
               <Route exact path={routes.HOME} component={Home}/>
               <Route exact path={routes.NEW_REVIEW} component={NewReview}/>

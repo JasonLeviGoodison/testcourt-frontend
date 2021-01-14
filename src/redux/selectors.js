@@ -55,7 +55,7 @@ export const getPacTypeCheckLists = (store, package_types) => {
 }
 
 export const getPackageOptions = (store) => 
-  getCheckListsState(store) ? getCheckListsState(store).packageoptions : [];
+  getCheckListsState(store) ? (getCheckListsState(store).packageoptions || []) : [];
 
 export const getNewReviewFields = store => store.newReview;
 
