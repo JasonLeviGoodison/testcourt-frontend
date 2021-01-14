@@ -50,7 +50,7 @@ function ReviewPreview(props) {
     }
   
   return (
-    <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee', padding: 85, paddingTop: 20}}>
+    <div style={{'flex': '1', overflowY: 'scroll', backgroundColor: '#eeeee', padding: 85, paddingTop: 20}}>
         <Card style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>Package Preview</Card.Title>

@@ -73,7 +73,7 @@ function DocsList(props) {
 
     return (
         <div className={classes.root}>
-        <List className={classes.root}>
+        <List>
             <Paper square>
                 <Tabs
                     value={value}

@@ -115,7 +115,7 @@ function CheckList(props) {
 
   return (
       !closeChecklist ?
-        <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee'}}>
+        <div style={{'flex': '1', overflowY: 'scroll', backgroundColor: '#eeeee'}}>
             <Card style={{ width: '100%'}}>
                 <Card.Body>
                     <Card.Title>Approval</Card.Title>

@@ -37,10 +37,9 @@ function DocumentViewer(props) {
 
 
   return (
-    <div style={{'flex': '3', 'height': '100vh'}}>
+    <div style={{'flex': '3'}}>
       <Stopwatch/>
       <DocViewer
-        style={{'height': '100vh'}}
         pluginRenderers={DocViewerRenderers}
         documents={docs}
       />
