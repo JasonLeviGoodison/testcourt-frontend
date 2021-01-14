@@ -47,7 +47,7 @@ function ReviewPreview(props) {
 
     if (Object.entries(curDoc) == 0) {
         return <p style={{margin: "auto"}}> Please select a package to review </p>
-      }
+    }
   
   return (
     <div style={{'flex': '1', 'height': '100vh', maxHeight: "100vh", overflowY: 'scroll', backgroundColor: '#eeeee', padding: 85, paddingTop: 20}}>

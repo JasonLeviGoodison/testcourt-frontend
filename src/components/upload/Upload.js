@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { v4 as guid } from 'uuid';
 import { Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 import Modal from 'react-modal';
 import "./Upload.css";
 const BASE_ADDRESS = process.env.REACT_APP_API_URL;
@@ -113,20 +114,18 @@ class Upload extends Component {
 
   renderActions() {
     return (
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <button style={{paddingRight: 10}}
+      <div >
+        <Button
+          variant="secondary"
+          style={{marginRight : 10}}
           onClick={() =>
             this.setState({ files: [], successfullUploaded: false })
-          }
-        >
+        }>
           Clear
-        </button>
-        <button
-          disabled={this.state.files.length < 0 || this.state.uploading}
-          onClick={this.uploadReview}
-        >
+        </Button>
+        <Button variant="primary" onClick={this.uploadReview}>
           Submit
-        </button>
+        </Button>
       </div>
     );
   }
