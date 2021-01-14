@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '36ch',
         backgroundColor: theme.palette.background.paper,
         overflowY: 'scroll',
-        height: '100vh',
         paddingTop: 0,
         borderRightStyle: 'solid',
         borderRightWidth: 'thin',
