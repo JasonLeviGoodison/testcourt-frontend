@@ -26,7 +26,8 @@ import * as routes from "../routes/routes";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: '36ch',
+        minWidth: '36ch',
+        maxWidth: '40ch',
         backgroundColor: theme.palette.background.paper,
         overflowY: 'scroll',
         paddingTop: 0,
