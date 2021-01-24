@@ -108,7 +108,9 @@ class Upload extends Component {
 
   sendRequest(file, id) {
     return new Promise((resolve, reject) => {
-      return requestApi.UploadFile(file, id);
+      return requestApi.UploadFile(file, id)
+        .then(() => resolve())
+        .catch(err => reject(err))
     });
   }
 
@@ -156,7 +158,7 @@ class Upload extends Component {
           <Modal isOpen={this.state.uploading} style={customStyles} contentLabel="WaitModal" ariaHideApp={false}>
                 <Card style={{ width: '100%' }}>
                     <Card.Body>
-                        <Card.Title>Uploading Documents. Please Wait</Card.Title>
+                        <Card.Title>Uploading Documents. Please Wait ...</Card.Title>
                     </Card.Body>
                 </Card>
           </Modal>

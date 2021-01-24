@@ -18,14 +18,18 @@ export async function GetViewObjectSignedUrl(key)
     return json;
 }
 
-export async function UploadFile(file, id)
+export function UploadFile(file, id)
 {
-    return GetPutObjectSignedUrl(file.name, id).then(({key, url}) => {
+    return new Promise((resolve, reject) => {
+        return GetPutObjectSignedUrl(file.name, id).then(({key, url}) => {
         axios
         .put(url, file, { headers: { 'Content-Type': 'application/octet-stream' } })
+        .then(() => resolve())
         .catch(err => {
             console.log('err', err);
+            reject();
             throw err;
+            });
         });
     });
 }

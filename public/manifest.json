@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Review Counsel",
+  "name": "Review Counsel is the best place for your law firm to review and approve documents before they are sent to court",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
+      "src": "gavel192.svg",
+      "type": "image/svg",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "gavel512.svg",
+      "type": "image/svg",
       "sizes": "512x512"
     }
   ],
