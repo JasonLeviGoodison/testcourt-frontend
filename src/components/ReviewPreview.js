@@ -1,5 +1,6 @@
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import { Card, ListGroupItem, ListGroup } from 'react-bootstrap'
+import { Card, ListGroupItem, ListGroup } from 'react-bootstrap';
+import * as newRequestApi from '../api/newRequestApi';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from 'react-bootstrap/Button'
 import Divider from '@material-ui/core/Divider';
@@ -10,6 +11,7 @@ import Modal from 'react-modal';
 import { getCurDocMeta, getPacTypeCheckList, getCurDoc } from "../redux/selectors";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Status from "./Status/Status";
 import * as routes from '../routes/routes';
 import { withRouter } from "react-router-dom";
 import Pill from "./Status/Pill";
@@ -39,6 +41,18 @@ function ReviewPreview(props) {
     const classes = useStyles();
     const curDoc = props.curDoc;
     const { history } = props;
+    const [ keyToUrl, setKeyToUrl ] = useState({}); // dict key: signedUrl
+
+    if (Object.entries(curDoc) != 0) {
+        for (var i = 0; i < curDoc.keys.length; i++) {
+            let key = curDoc.keys[i];
+            if (!(key in keyToUrl)) {
+                newRequestApi.GetViewObjectSignedUrl(key).then(({url}) => {
+                    setKeyToUrl({... keyToUrl, [key]: url });
+                });
+            }
+        }
+    }
 
     const handleButtonClick = () => {
         //props.setInReview(true);
@@ -52,8 +66,11 @@ function ReviewPreview(props) {
   return (
     <div style={{'flex': '1', overflowY: 'scroll', backgroundColor: '#eeeee', padding: 85, paddingTop: 20}}>
         <Card style={{ width: '100%' }}>
-            <Card.Body>
+            <Card.Body style={{display: 'flex', flexDirection: 'row', justifyContent: "space-between"}}>
                 <Card.Title>Package Preview</Card.Title>
+                <Button variant="primary" onClick={handleButtonClick}>
+                    {curDoc.status === Status.WAITING ? "Start Review" : "Re-review"}
+                </Button>
             </Card.Body>
             <div style={{display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit'}}>
             <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1, borderRightStyle: 'inset'}}>
@@ -74,12 +91,27 @@ function ReviewPreview(props) {
             </ListGroup>
             </div>
             <Divider/>
-            <Card.Body>
-                <Button variant="primary" onClick={handleButtonClick}>
-                    Start Review
-                </Button>
-            </Card.Body>
-        </Card>
+            </Card>
+            <Card style={{ width: '100%', marginTop: 10 }}>
+                <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1}}>
+                    <ListGroupItem ><b>Files</b></ListGroupItem>
+                    {curDoc.keys.map((key) => {
+                        return (
+                        <ListGroupItem style={{
+                            textAlign: "left",
+                            flexDirection: "row",
+                            display: 'flex',
+                            justifyContent: "space-between"}}> <p>{key.substring(key.lastIndexOf("\/") + 1)}</p>
+                            <a
+                                variant="secondary"
+                                href={keyToUrl[key] ? keyToUrl[key] : "#"}
+                                download>
+                                Download
+                            </a>
+                        </ListGroupItem>);
+                    })}
+                </ListGroup>
+            </Card>
     </div>);
 }
 

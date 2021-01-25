@@ -26,6 +26,8 @@ export async function SubmitVerdict(id, status)
         headers: { 'Content-Type': 'application/json', ...await createJustAuthHeader() },
         body
     }
-    const res = await fetch(`${BASE_ADDRESS}/documents/updateStatus/${id}`, requestOptions)
+    const res = await fetch(`${BASE_ADDRESS}/documents/updateStatus/${id}`, requestOptions);
+    if (!res.ok) // or check for response.status
+        throw new Error(res.statusText);
     return res;
 }

@@ -5,8 +5,7 @@ const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 
 export async function GetPutObjectSignedUrl(fileName, id)
 {
-    const newFileName = `${id}--${fileName}`;
-    const res = await fetch(`${BASE_ADDRESS}/upload/getPutObjectSignedUrl/${id}/${newFileName}`, await createAuthHeaders())
+    const res = await fetch(`${BASE_ADDRESS}/upload/getPutObjectSignedUrl/${id}/${fileName}`, await createAuthHeaders())
     const json = await res.json();
     return json;
 }
