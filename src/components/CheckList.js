@@ -91,8 +91,8 @@ function CheckList(props) {
         return () => {
             if (status == Status.APPROVED) {
                 var allChecked = allBoxesChecked();
-                if (!allChecked) {setPopUpMsg("Please check off all items on the checklist");setSubmitVerdict('block')}
-                else {setPopUpMsg(defautPopupMsg) }
+                if (!allChecked) { setPopUpMsg("Please check off all items on the checklist"); setSubmitVerdict('block') }
+                else { setPopUpMsg(defautPopupMsg) }
             } else { // status reject
                 setPopUpMsg("Are you sure you want to reject this review");
                 setSubmitVerdict(status);

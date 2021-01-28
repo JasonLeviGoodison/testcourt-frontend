@@ -97,18 +97,18 @@ function ReviewPreview(props) {
                     <ListGroupItem ><b>Files</b></ListGroupItem>
                     {curDoc.keys.map((key) => {
                         return (
-                        <ListGroupItem style={{
-                            textAlign: "left",
-                            flexDirection: "row",
-                            display: 'flex',
-                            justifyContent: "space-between"}}> <p>{key.substring(key.lastIndexOf("\/") + 1)}</p>
-                            <a
-                                variant="secondary"
-                                href={keyToUrl[key] ? keyToUrl[key] : "#"}
-                                download>
-                                Download
-                            </a>
-                        </ListGroupItem>);
+                            <ListGroupItem style={{
+                                textAlign: "left",
+                                flexDirection: "row",
+                                display: 'flex',
+                                justifyContent: "space-between"}}> <p>{key.substring(key.lastIndexOf("\/") + 1)}</p>
+                                <a
+                                    variant="secondary"
+                                    href={keyToUrl[key] ? keyToUrl[key] : "#"}
+                                    download>
+                                    Download
+                                </a>
+                            </ListGroupItem>);
                     })}
                 </ListGroup>
             </Card>

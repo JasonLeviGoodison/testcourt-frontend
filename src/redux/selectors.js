@@ -61,6 +61,8 @@ export const getNewReviewFields = store => store.newReview;
 
 export const getReview = store => store.review;
 
+export const getVerdictChanged = store => store.general.verdictChanged;
+
 
 /**
  * example of a slightly more complex selector

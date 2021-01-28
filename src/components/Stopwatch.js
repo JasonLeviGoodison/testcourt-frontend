@@ -1,15 +1,18 @@
+import Status from "../components/Status/Status";
 import ReactStopwatch from 'react-stopwatch';
 import { Prompt } from 'react-router';
 import { useState } from 'react';
 
 function Stopwatch(props) {
     const [time, setTime] = useState(null);
+    const verdictChanged = props.verdictChanged;
 
     return (
         <ReactStopwatch
             seconds={0}
             minutes={0}
             hours={0}
+            autoStart={verdictChanged}
             render={({ formatted, hours, minutes, seconds }) => {
                 return (
                     <>

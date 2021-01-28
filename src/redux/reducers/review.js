@@ -1,7 +1,7 @@
 import { FETCH_REVIEW_REQUEST, FETCH_REVIEW_SUCCESS } from '../actionTypes';
+import Status from "../../components/Status/Status";
 
-const initialState = {
-};
+const initialState = {};
 
 export default function(state = initialState, action) {
     switch (action.type) {

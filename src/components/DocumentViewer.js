@@ -2,7 +2,8 @@ import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import {Card, ListGroupItem, ListGroup} from 'react-bootstrap'
 import { fetchPackageReviewById } from '../redux/thunks';
 import * as newRequestApi from '../api/newRequestApi';
-import { getReview } from "../redux/selectors";
+import { getReview, getVerdictChanged } from "../redux/selectors";
+import Status from "../components/Status/Status";
 import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { getFileType } from '../utils';
@@ -11,6 +12,7 @@ import Stopwatch from "./Stopwatch";
 function DocumentViewer(props) {
   const { curReview } = props;
   const [ keyToUrl, setKeyToUrl ] = useState({}); // dict key: signedUrl
+  const verdictChanged = props.verdictChanged;
 
   useEffect(() => {
     props.fetchReviewById(props.id)
@@ -38,18 +40,22 @@ function DocumentViewer(props) {
 
   return (
     <div style={{'flex': '3'}}>
-      <Stopwatch/>
-      <DocViewer
-        style={{height: '100%' }}
-        pluginRenderers={DocViewerRenderers}
-        documents={docs}
-      />
+      <Stopwatch verdictChanged /> // if the verdict changed lets save the thing
+      {
+        !verdictChanged ?
+          <DocViewer
+            style={{height: '100%' }}
+            pluginRenderers={DocViewerRenderers}
+            documents={docs}
+          /> : null
+      }
     </div>);
 }
 
 const mapStateToProps = (state) => {
   return {
-    curReview: getReview(state)
+    curReview: getReview(state),
+    verdictChanged: getVerdictChanged(state)
   }
 }
 
