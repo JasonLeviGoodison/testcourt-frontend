@@ -61,7 +61,6 @@ class Upload extends Component {
           history.push(routes.HOME);
         })
         .catch((() => {
-          console.log("error uploading")
           this.setState({ uploading: false });
           alert("Error uploading documents");
         })))

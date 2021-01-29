@@ -34,7 +34,6 @@ function NewReview(props) {
     }
 
     const handleDropDownChange = option => {
-        console.log("OPTION", option.value)
         setPackageType(option.value);
         props.setNewReviewField('packagetypes', option.value);
     }
@@ -43,8 +42,6 @@ function NewReview(props) {
         setStartDate(date);
         props.setNewReviewField('due_date', date);
     }
-
-    console.log(props.packageOptions)
 
     return (
         <div className="Card" style={{display: 'flex', flexDirection: 'column', margin: 'auto'}}>

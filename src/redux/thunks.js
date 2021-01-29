@@ -1,7 +1,7 @@
 import * as docApi from '../api/documentApi';
 //import * as newRequestApi from '../api/newRequestApi';
 import * as checklistApi from '../api/checklistApi';
-import { enqueueSnackbar } from './actions';
+import { enqueueSnackbar, submitCommentRequest, submitCommentSuccess, fetchReviewEventLogRequest } from './actions';
 import {
     fetchDocumentsRequest,
     fetchDocumentsSuccess,
@@ -14,7 +14,8 @@ import {
     fetchCheckListForPacTypeRequest,
     fetchCheckListForPacTypeSuccess,
     submitVerdictRequest,
-    submitVerdictSuccess
+    submitVerdictSuccess,
+    fetchReviewEventLogSuccess
 } from './actions';
 
 
@@ -135,6 +136,14 @@ export const submitVerdict = (id, status) => {
         docApi.SubmitVerdict(id, status)
         .then(res =>
         {
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Successfully submitted status',
+                    options: {
+                        variant: 'success',
+                    },
+            }));
+
             dispatch(submitVerdictSuccess(res));
         })
         .catch(err =>
@@ -143,6 +152,54 @@ export const submitVerdict = (id, status) => {
             dispatch(
                 enqueueSnackbar({
                     message: 'Error submitting status',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
+        })
+    }
+}
+
+export const addCommentToReview = (reviewId, comment) => {
+    return dispatch => {
+        dispatch(submitCommentRequest());
+
+        docApi.LeaveComment(reviewId, comment)
+        .then(res =>
+        {
+            // find the user somehow if its not in result
+            dispatch(submitCommentSuccess(reviewId, res.user, comment));
+        })
+        .catch(err =>
+        {
+            console.error(err);
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Error submitting comment',
+                    options: {
+                        variant: 'error',
+                    },
+            }));
+        })
+    }
+}
+
+export const fetchEventLogForId = (reviewId) => {
+    return dispatch => {
+        dispatch(fetchReviewEventLogRequest());
+
+        docApi.GetEvents(reviewId)
+        .then(eventLog =>
+        {
+            dispatch(fetchReviewEventLogSuccess(reviewId, eventLog));
+        })
+        .catch(err =>
+        {
+            // If this cant connect then other calls wont connect
+            console.error(err);
+            dispatch(
+                enqueueSnackbar({
+                    message: 'Couldn\'t get comments',
                     options: {
                         variant: 'error',
                     },

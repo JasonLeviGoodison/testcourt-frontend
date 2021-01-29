@@ -9,15 +9,15 @@ import * as routes from "../routes/routes";
 import ReviewPreview from './ReviewPreview';
 import { getInReview } from '../redux/selectors';
 import { connect } from 'react-redux';
+import ReviewEventLog from './ReviewEventLog';
 
 function Review(props) {
   const id = props.match.params.id;
   return (
-    <>
-      {
-        <> <DocumentViewer id={id}/> <CheckList id={id}/> </>
-      }
-    </>
+    // <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+    //     <div style={{display: 'flex', flexDirection: 'row'}}>
+          <><DocumentViewer id={id}/> <div style={{flex: '2', overflow: 'scroll'}}><CheckList id={id}/><ReviewEventLog id={id}/> </div></>
+
   );
 }
 

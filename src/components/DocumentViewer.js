@@ -16,7 +16,7 @@ function DocumentViewer(props) {
     props.fetchReviewById(props.id)
   }, []);
 
-  if (Object.entries(curReview) != 0) {
+  if (Object.entries(curReview) != 0 && curReview.keys) {
     var docs = [];
     for (var i = 0; i < curReview.keys.length; i++) {
       let key = curReview.keys[i];
@@ -40,7 +40,8 @@ function DocumentViewer(props) {
     <div style={{'flex': '3'}}>
       <Stopwatch/>
       <DocViewer
-        style={{height: '100%' }}
+        key={curReview.docs + curReview.eventLog}
+        style={{height: '100%'}}
         pluginRenderers={DocViewerRenderers}
         documents={docs}
       />
