@@ -167,7 +167,6 @@ export const addCommentToReview = (reviewId, comment) => {
         docApi.LeaveComment(reviewId, comment)
         .then(res =>
         {
-            // find the user somehow if its not in result
             dispatch(submitCommentSuccess(reviewId, res.user, comment));
         })
         .catch(err =>
@@ -195,7 +194,6 @@ export const fetchEventLogForId = (reviewId) => {
         })
         .catch(err =>
         {
-            // If this cant connect then other calls wont connect
             console.error(err);
             dispatch(
                 enqueueSnackbar({

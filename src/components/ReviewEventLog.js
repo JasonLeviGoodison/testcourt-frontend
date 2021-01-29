@@ -23,7 +23,7 @@ function ReviewEventLog(props) {
       <CommentsBlock
         comments={comments}
         isLoggedIn={true}
-        reactRouter={false} // set to true if you are using react-router
+        reactRouter={false}
         onSubmit={text => {
           if (text.length > 0) {
             props.addComment(id, text);
@@ -42,7 +42,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // this should be a thunk but on success needs to reduce the comment into the store
     addComment: (reviewId, comment) => dispatch(addCommentToReview(reviewId, comment)),
     fetchReviewEventLog: (reviewId) => dispatch(fetchEventLogForId(reviewId))
   }
