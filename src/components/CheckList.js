@@ -52,7 +52,7 @@ function CheckList(props) {
     }
   
     useEffect(() => {
-        if (Object.entries(curReview).length > 0) {
+        if (Object.entries(curReview).length > 0 && curReview.package_types) {
             curReview.package_types.forEach(pacType => {
                 if (pacType) props.fetchChecklist(pacType)
             });
@@ -116,12 +116,10 @@ function CheckList(props) {
   return (
       !closeChecklist ?
         <div style={{'flex': '1', overflowY: 'scroll', backgroundColor: '#eeeee'}}>
-            <Card style={{ width: '100%'}}>
+            <Card style={{ width: '100%', textAlign: 'center'}}>
                 <Card.Body>
                     <Card.Title>Approval</Card.Title>
                 </Card.Body>
-                <Divider/>
-                <div style={{marginTop: '10px'}}>Check this list before approving:</div>
                 <FormControl
                     required error={true}
                     component="fieldset"

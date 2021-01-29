@@ -61,7 +61,7 @@ export const getNewReviewFields = store => store.newReview;
 
 export const getReview = store => store.review;
 
-
+export const getReviewEventLog = store => getReview(store).eventLog || [];
 /**
  * example of a slightly more complex selector
  * select from store combining information from multiple reducers

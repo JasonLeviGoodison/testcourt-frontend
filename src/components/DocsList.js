@@ -118,7 +118,7 @@ function DocsList(props) {
                     </ListItem>
                     <Divider component="li" />
                 </div>
-            ) : <div style={{paddingTop: 25}} >Nothing Here!</div>
+            ) : <div style={{paddingTop: 25, textAlign: 'center'}} >Nothing Here!</div>
         }
         </List>
         <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>

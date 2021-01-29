@@ -20,3 +20,18 @@ export async function createJustAuthHeader() {
         Authorization: `Bearer ${token}`
     }
 }
+
+export function batchReviewEventToDigestableComment(events) {
+    let cleanedEvents = [];
+    for (var i = 0 ; i < events.length; i++) {
+        let event = events[i];
+        let name = event.getUserName().split("@")[0];
+        cleanedEvents.push({
+            avatarUrl: `https://ui-avatars.com/api/?name=${name}`,
+            createdAt: event.getCreatedAt() || new Date(),
+            fullName: name,
+            text: event.getMetaData(),
+        })
+    }
+    return cleanedEvents;
+}

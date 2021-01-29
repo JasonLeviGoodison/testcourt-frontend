@@ -16,8 +16,6 @@ export async function GetChecklist(pacType)
 {
     const authHeaders = await createAuthHeaders();
     const res = await fetch(`${BASE_ADDRESS}/checklist/${pacType}`, authHeaders)
-    console.log("GETCHECKLIST ", res)
     const json = await res.json();
-
     return json;
 }

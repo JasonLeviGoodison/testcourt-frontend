@@ -17,7 +17,11 @@ import {
   SUBMIT_VERDICT_REQUEST,
   SUBMIT_VERDICT_SUCCESS,
   ENQUEUE_SNACKBAR,
-  REMOVE_SNACKBAR
+  REMOVE_SNACKBAR,
+  SUBMIT_COMMENT_REQUEST,
+  SUBMIT_COMMENT_SUCCESS,
+  FETCH_REVIEW_EVENT_LOG_REQUEST,
+  FETCH_REVIEW_EVENT_LOG_SUCCESS
 } from "./actionTypes";
 
 export const setSelectedDocument = index => ({
@@ -143,3 +147,36 @@ export const removeSnackbar = key => ({
   type: REMOVE_SNACKBAR,
   key,
 });
+
+export const submitCommentRequest = () => {
+  return {
+    type: SUBMIT_COMMENT_REQUEST
+  }
+}
+
+export const submitCommentSuccess = (reviewId, user, comment) => {
+  return {
+    type: SUBMIT_COMMENT_SUCCESS,
+    payload: {
+      reviewId,
+      user,
+      comment
+    }
+  }
+}
+
+export const fetchReviewEventLogRequest = () => {
+  return {
+    type: FETCH_REVIEW_EVENT_LOG_REQUEST
+  }
+}
+
+export const fetchReviewEventLogSuccess = (reviewId, eventLog) => {
+  return {
+    type: FETCH_REVIEW_EVENT_LOG_SUCCESS,
+    payload: {
+      reviewId,
+      eventLog
+    }
+  }
+}
