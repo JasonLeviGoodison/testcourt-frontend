@@ -14,7 +14,7 @@ import Status from "./Status/Status";
 import { withRouter } from "react-router-dom";
 import { fetchDocsListThunk } from '../redux/thunks';
 import { setSelectedDocument, setReviewFilter } from "../redux/actions";
-import { getDocsList, getCurDoc } from "../redux/selectors";
+import { getDocsList, getCurDoc, getReviewFilter } from "../redux/selectors";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -44,15 +44,29 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+const indexFromStatus = (status) => {
+    let index = 0;
+    if (status == Status.APPROVED) index = 1;
+    if (status == Status.REJECTED) index = 2;
+    return index;
+}
+
+const statusFromIndex = (val) => {
+    let status = Status.WAITING;
+    if (val == 1) status = Status.APPROVED;
+    if (val == 2) status = Status.REJECTED;
+    return status;
+}
+
 function DocsList(props) {
     const classes = useStyles();
     const docs = props.docs || [];
-    const [value, setValue] = React.useState(0);
+    console.log(indexFromStatus(props.reviewFilter), props.reviewFilter)
+    const [value, setValue] = React.useState(indexFromStatus(props.reviewFilter));
 
     const handleChange = (event, newValue) => {
-        let status = Status.WAITING;
-        if (newValue == 1) status = Status.APPROVED;
-        if (newValue == 2) status = Status.REJECTED;
+        let status = statusFromIndex(newValue);
         props.setReviewFilter(status);
         setValue(newValue);
     };
@@ -135,7 +149,8 @@ function DocsList(props) {
 const mapStateToProps = (state) => {
     return {
         curDoc: getCurDoc(state),
-        docs: getDocsList(state)
+        docs: getDocsList(state),
+        reviewFilter: getReviewFilter(state)
     }
 }
   

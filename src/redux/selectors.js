@@ -26,6 +26,8 @@ export const getFilteredDocList = (store) => {
   return [];
 }
 
+export const getReviewFilter = (store) => getDocsState(store).reviewFilter;
+
 export const getCurDoc = (store) =>
   getDocsState(store) ? getDocsState(store).curDoc : -1;
 
