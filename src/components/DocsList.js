@@ -24,145 +24,145 @@ import AddIcon from '@material-ui/icons/Add';
 import * as routes from "../routes/routes";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        minWidth: '36ch',
-        maxWidth: '43ch',
-        backgroundColor: theme.palette.background.paper,
-        overflowY: 'scroll',
-        paddingTop: 0,
-        borderRightStyle: 'solid',
-        borderRightWidth: 'thin',
-        borderColor: 'rgba(0, 0, 0, 0.12)'
-    },
-    inline: {
-        display: 'inline',
-    },
-    tab: {
-        minWidth: 100, // a number of your choice
-        width: 100, // a number of your choice
-    }
+  root: {
+    width: '100%',
+    minWidth: '36ch',
+    maxWidth: '43ch',
+    backgroundColor: theme.palette.background.paper,
+    overflowY: 'scroll',
+    paddingTop: 0,
+    borderRightStyle: 'solid',
+    borderRightWidth: 'thin',
+    borderColor: 'rgba(0, 0, 0, 0.12)'
+  },
+  inline: {
+    display: 'inline',
+  },
+  tab: {
+    minWidth: 100, // a number of your choice
+    width: 100, // a number of your choice
+  }
 }));
 
 
 const indexFromStatus = (status) => {
-    let index = 0;
-    if (status == Status.APPROVED) index = 1;
-    if (status == Status.REJECTED) index = 2;
-    return index;
+  let index = 0;
+  if (status == Status.APPROVED) index = 1;
+  if (status == Status.REJECTED) index = 2;
+  return index;
 }
 
 const statusFromIndex = (val) => {
-    let status = Status.WAITING;
-    if (val == 1) status = Status.APPROVED;
-    if (val == 2) status = Status.REJECTED;
-    return status;
+  let status = Status.WAITING;
+  if (val == 1) status = Status.APPROVED;
+  if (val == 2) status = Status.REJECTED;
+  return status;
 }
 
 function DocsList(props) {
-    const classes = useStyles();
-    const docs = props.docs || [];
-    console.log(indexFromStatus(props.reviewFilter), props.reviewFilter)
-    const [value, setValue] = React.useState(indexFromStatus(props.reviewFilter));
+  const classes = useStyles();
+  const docs = props.docs || [];
+  console.log(indexFromStatus(props.reviewFilter), props.reviewFilter)
+  const [value, setValue] = React.useState(indexFromStatus(props.reviewFilter));
 
-    const handleChange = (event, newValue) => {
-        let status = statusFromIndex(newValue);
-        props.setReviewFilter(status);
-        setValue(newValue);
-    };
+  const handleChange = (event, newValue) => {
+    let status = statusFromIndex(newValue);
+    props.setReviewFilter(status);
+    setValue(newValue);
+  };
 
-    function handleItemSelect(index, meta) {
-        return (e) => {
-            e.preventDefault();
-            props.setCurDoc(index);
-        }
+  function handleItemSelect(index, meta) {
+    return (e) => {
+      e.preventDefault();
+      props.setCurDoc(index);
     }
+  }
 
-    useEffect(() => {
-        props.fetchDocs()
-    }, []);
+  useEffect(() => {
+    props.fetchDocs()
+  }, []);
 
-    const onNewReviewClicked = () => {
-        props.history.push(routes.NEW_REVIEW);
-    }
+  const onNewReviewClicked = () => {
+    props.history.push(routes.NEW_REVIEW);
+  }
 
-    return (
-        <div className={classes.root}>
-        <List>
-            <Paper square>
-                <Tabs
-                    value={value}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    onChange={handleChange}
-                >
-                    <Tab classes={{ root: classes.tab }} label="Waiting" />
-                    <Tab classes={{ root: classes.tab }} label="Approved" />
-                    <Tab classes={{ root: classes.tab }} label="Rejected" />
-                </Tabs>
-            </Paper>
+  return (
+    <div className={classes.root}>
+      <List>
+        <Paper square>
+          <Tabs
+            value={value}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            onChange={handleChange}
+          >
+            <Tab classes={{ root: classes.tab }} label="Waiting" />
+            <Tab classes={{ root: classes.tab }} label="Approved" />
+            <Tab classes={{ root: classes.tab }} label="Rejected" />
+          </Tabs>
+        </Paper>
         {
-            docs.length > 0 ? docs.map((item, index) =>
-                <div>
-                    <ListItem
-                    className="DocElement"
-                    selected={props.curDoc === index}
-                    alignItems="flex-start"
-                    onClick={handleItemSelect(index, item)}>
-                        <ListItemText
-                            primary={item.name}
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                    >
-                                    {item.case_number}
-                                    </Typography><br/>
-                                    {item.description.length > 50 ?
-                                        item.description.substring(0, 50) + "..." : 
-                                        item.description}
-                                </React.Fragment>
-                            }
-                        />
-                        <Pill key={item.status + index} status={item.status}/>
-                    </ListItem>
-                    <Divider component="li" />
-                </div>
-            ) : <div style={{paddingTop: 25, textAlign: 'center'}} >Nothing Here!</div>
+          docs.length > 0 ? docs.map((item, index) =>
+            <div>
+              <ListItem
+                className="DocElement"
+                selected={props.curDoc === index}
+                alignItems="flex-start"
+                onClick={handleItemSelect(index, item)}>
+                <ListItemText
+                  primary={item.name}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {item.case_number}
+                      </Typography><br />
+                      {item.description.length > 50 ?
+                        item.description.substring(0, 50) + "..." :
+                        item.description}
+                    </React.Fragment>
+                  }
+                />
+                <Pill key={item.status + index} status={item.status} />
+              </ListItem>
+              <Divider component="li" />
+            </div>
+          ) : <div style={{ paddingTop: 25, textAlign: 'center' }} >Nothing Here!</div>
         }
-        </List>
-        <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+      </List>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
         <Tooltip title="New Package Review">
-            <Fab onClick={onNewReviewClicked} style={{bottom: 10, position: 'fixed', marginRight: 10}} size="large" color="primary" aria-label="add">
-                <AddIcon />
-            </Fab>
+          <Fab onClick={onNewReviewClicked} style={{ bottom: 10, position: 'fixed', marginRight: 10 }} size="large" color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
         </Tooltip>
-        </div>
       </div>
-    );
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {
-    return {
-        curDoc: getCurDoc(state),
-        docs: getDocsList(state),
-        reviewFilter: getReviewFilter(state)
-    }
+  return {
+    curDoc: getCurDoc(state),
+    docs: getDocsList(state),
+    reviewFilter: getReviewFilter(state)
+  }
 }
-  
+
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setCurDoc: (index) => dispatch(setSelectedDocument(index)),
-        fetchDocs: () => dispatch(fetchDocsListThunk()),
-        setReviewFilter: (status) => dispatch(setReviewFilter(status))
-    }
+  return {
+    setCurDoc: (index) => dispatch(setSelectedDocument(index)),
+    fetchDocs: () => dispatch(fetchDocsListThunk()),
+    setReviewFilter: (status) => dispatch(setReviewFilter(status))
+  }
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withRouter(DocsList))
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(DocsList))

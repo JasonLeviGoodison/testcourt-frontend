@@ -5,7 +5,7 @@ import {
 
 const initialState = {};
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case FETCH_ALL_PACKAGE_TYPES_SUCCESS: {
       const items = action.payload;

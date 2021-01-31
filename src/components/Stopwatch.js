@@ -26,10 +26,10 @@ function Stopwatch(props) {
             <Prompt
                 when={true}
                 message={"\n\nNot done yet!\n" +
-                            `You need to Dock-it this time:\n\n${formatter(seconds)}.\n\n` + 
-                            "Do it now so you don't forget."}
+                    `You need to Dock-it this time:\n\n${formatter(seconds)}.\n\n` +
+                    "Do it now so you don't forget."}
             />
-            <div style={{textAlign: 'center'}}>{ formatter(seconds) }</div>
+            <div style={{ textAlign: 'center' }}>{formatter(seconds)}</div>
         </>
     );
 }

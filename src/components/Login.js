@@ -57,7 +57,7 @@ class SignInForm extends Component {
 
     event.preventDefault();
   };
-  
+
   timer = () => {
     this.setState({
       showingAlert: true

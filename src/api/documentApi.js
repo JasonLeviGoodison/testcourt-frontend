@@ -2,26 +2,23 @@ import { createAuthHeaders, createJustAuthHeader } from '../utils';
 import { auth } from '../firebase/firebase';
 const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 
-export async function GetAllDocs()
-{
+export async function GetAllDocs() {
     const authHeaders = await createAuthHeaders();
     const res = await fetch(`${BASE_ADDRESS}/documents/getAll`, authHeaders)
     const json = await res.json();
     return json;
 }
 
-export async function GetReviewPackageById(id)
-{
+export async function GetReviewPackageById(id) {
     const authHeaders = await createAuthHeaders();
     const res = await fetch(`${BASE_ADDRESS}/documents/getReview/${id}`, authHeaders)
     const json = await res.json();
     return json;
 }
 
-export async function SubmitVerdict(id, status)
-{
+export async function SubmitVerdict(id, status) {
     const authHeaders = await createAuthHeaders();
-    var body = JSON.stringify({status});
+    var body = JSON.stringify({ status });
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...await createJustAuthHeader() },
@@ -33,8 +30,7 @@ export async function SubmitVerdict(id, status)
     return res;
 }
 
-export async function LeaveComment(id, comment)
-{
+export async function LeaveComment(id, comment) {
     const authHeaders = await createAuthHeaders();
     var body = JSON.stringify({ comment });
     const requestOptions = {
@@ -48,8 +44,7 @@ export async function LeaveComment(id, comment)
     return await res.json();
 }
 
-export async function GetEvents(id)
-{
+export async function GetEvents(id) {
     const authHeaders = await createAuthHeaders();
     const res = await fetch(`${BASE_ADDRESS}/documents/getEvents/${id}`, authHeaders);
     if (!res.ok)

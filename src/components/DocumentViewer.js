@@ -1,5 +1,5 @@
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import {Card, ListGroupItem, ListGroup} from 'react-bootstrap'
+import { Card, ListGroupItem, ListGroup } from 'react-bootstrap'
 import { fetchPackageReviewById } from '../redux/thunks';
 import * as newRequestApi from '../api/newRequestApi';
 import { getReview } from "../redux/selectors";
@@ -10,7 +10,7 @@ import Stopwatch from "./Stopwatch";
 
 function DocumentViewer(props) {
   const { curReview } = props;
-  const [ keyToUrl, setKeyToUrl ] = useState({}); // dict key: signedUrl
+  const [keyToUrl, setKeyToUrl] = useState({}); // dict key: signedUrl
 
   useEffect(() => {
     props.fetchReviewById(props.id)
@@ -26,8 +26,8 @@ function DocumentViewer(props) {
           fileType: getFileType(key)
         });
       } else {
-        newRequestApi.GetViewObjectSignedUrl(key).then(({url}) => {
-          setKeyToUrl({... keyToUrl, [key]: url });
+        newRequestApi.GetViewObjectSignedUrl(key).then(({ url }) => {
+          setKeyToUrl({ ...keyToUrl, [key]: url });
         });
       }
     }
@@ -37,11 +37,11 @@ function DocumentViewer(props) {
 
 
   return (
-    <div style={{'flex': '3'}}>
-      <Stopwatch/>
+    <div style={{ 'flex': '3' }}>
+      <Stopwatch />
       <DocViewer
         key={curReview.docs + curReview.eventLog}
-        style={{height: '100%'}}
+        style={{ height: '100%' }}
         pluginRenderers={DocViewerRenderers}
         documents={docs}
       />

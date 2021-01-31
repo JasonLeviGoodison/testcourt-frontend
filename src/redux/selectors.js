@@ -56,7 +56,7 @@ export const getPacTypeCheckLists = (store, package_types) => {
   return allItems;
 }
 
-export const getPackageOptions = (store) => 
+export const getPackageOptions = (store) =>
   getCheckListsState(store) ? (getCheckListsState(store).packageoptions || []) : [];
 
 export const getNewReviewFields = store => store.newReview;

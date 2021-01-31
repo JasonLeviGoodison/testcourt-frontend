@@ -14,7 +14,7 @@ function Home(props) {
   return (
     <>
       {
-        <><DocsList/> <ReviewPreview/></>
+        <><DocsList /> <ReviewPreview /></>
       }
     </>
   );

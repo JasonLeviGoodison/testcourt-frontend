@@ -138,8 +138,8 @@ export const submitVerdictSuccess = () => {
 export const enqueueSnackbar = notification => ({
   type: ENQUEUE_SNACKBAR,
   notification: {
-      key: new Date().getTime() + Math.random(),
-      ...notification,
+    key: new Date().getTime() + Math.random(),
+    ...notification,
   },
 });
 

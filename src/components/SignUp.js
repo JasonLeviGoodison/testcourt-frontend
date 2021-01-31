@@ -11,12 +11,12 @@ import * as routes from "../routes/routes";
 import { auth, db } from "../firebase";
 
 const SignUpPage = ({ history }) => (
-    <div className="div-flex">
-        <div className="marginTop60">
-        <h1 className="centered">Sign Up</h1>
-        <SignUpForm history={history} />
-        </div>
+  <div className="div-flex">
+    <div className="marginTop60">
+      <h1 className="centered">Sign Up</h1>
+      <SignUpForm history={history} />
     </div>
+  </div>
 );
 
 //################### Sign Up Form ###################

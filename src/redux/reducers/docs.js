@@ -5,7 +5,7 @@ const initialState = {
   reviewFilter: Status.WAITING
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SET_SELECTED: {
       const { index } = action.payload;

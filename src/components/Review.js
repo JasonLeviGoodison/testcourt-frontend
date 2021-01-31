@@ -15,10 +15,10 @@ function Review(props) {
   const id = props.match.params.id;
   return (
     <>
-      <DocumentViewer id={id}/>
-      <div style={{flex: '2', overflow: 'scroll'}}>
-        <CheckList id={id}/>
-        <ReviewEventLog id={id}/>
+      <DocumentViewer id={id} />
+      <div style={{ flex: '2', overflow: 'scroll' }}>
+        <CheckList id={id} />
+        <ReviewEventLog id={id} />
       </div>
     </>
   );

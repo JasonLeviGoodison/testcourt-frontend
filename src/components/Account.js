@@ -8,25 +8,25 @@ import { auth } from "../firebase";
 
 function Account(props) {
 
-    useEffect(() => {
-    }, []);
+  useEffect(() => {
+  }, []);
 
-    return (
-        <div className="Card" style={{display: 'flex', flexDirection: 'column', margin: 'auto'}}>
-            <Card style={{ width: '100%' }}>
-                <Card.Body>
-                    <Card.Title>Profile</Card.Title>
-                </Card.Body>
-                <div style={{display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit'}}>
-                    <ListGroup className="list-group-flush" style={{textAlign: "left", flex: 1, borderRightStyle: 'inset'}}>
-                        <ListGroupItem><b>Email</b>: {props.loggedUser.email}</ListGroupItem>
-                    </ListGroup>
-                </div>
-            </Card>
-            <Button style={{width: 100, marginLeft: 'auto', marginRight: 'auto'}} color="info" onClick={auth.doSignOut}>
-                    Sign Out
+  return (
+    <div className="Card" style={{ display: 'flex', flexDirection: 'column', margin: 'auto' }}>
+      <Card style={{ width: '100%' }}>
+        <Card.Body>
+          <Card.Title>Profile</Card.Title>
+        </Card.Body>
+        <div style={{ display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit' }}>
+          <ListGroup className="list-group-flush" style={{ textAlign: "left", flex: 1, borderRightStyle: 'inset' }}>
+            <ListGroupItem><b>Email</b>: {props.loggedUser.email}</ListGroupItem>
+          </ListGroup>
+        </div>
+      </Card>
+      <Button style={{ width: 100, marginLeft: 'auto', marginRight: 'auto' }} color="info" onClick={auth.doSignOut}>
+        Sign Out
             </Button>
-        </div>);
+    </div>);
 }
 
 const authCondition = authUser => !!authUser;

@@ -1,7 +1,6 @@
 import { auth } from "./firebase/firebase";
 
-export function getFileType(filename)
-{
+export function getFileType(filename) {
     return filename.split('.').pop();
 }
 
@@ -23,7 +22,7 @@ export async function createJustAuthHeader() {
 
 export function batchReviewEventToDigestableComment(events) {
     let cleanedEvents = [];
-    for (var i = 0 ; i < events.length; i++) {
+    for (var i = 0; i < events.length; i++) {
         let event = events[i];
         let name = event.getUserName().split("@")[0];
         cleanedEvents.push({

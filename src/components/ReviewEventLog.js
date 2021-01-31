@@ -6,7 +6,7 @@ import { addCommentToReview, fetchEventLogForId } from '../redux/thunks';
 import { batchReviewEventToDigestableComment } from '../utils';
 import { Card } from 'react-bootstrap';
 import Divider from '@material-ui/core/Divider';
- 
+
 function ReviewEventLog(props) {
   const comments = batchReviewEventToDigestableComment(props.getEventLog(props.id));
   const id = props.id;
@@ -16,10 +16,10 @@ function ReviewEventLog(props) {
   }, [])
 
   return (
-    <Card style={{ width: '100%', overflow:'scroll', paddingLeft: 10}}>
-    <Card.Body style={{textAlign: 'center'}}>
+    <Card style={{ width: '100%', overflow: 'scroll', paddingLeft: 10 }}>
+      <Card.Body style={{ textAlign: 'center' }}>
         <Card.Title>Comments</Card.Title>
-    </Card.Body>
+      </Card.Body>
       <CommentsBlock
         comments={comments}
         isLoggedIn={true}
@@ -35,9 +35,9 @@ function ReviewEventLog(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {
-      getEventLog: (reviewId) => getReviewEventLog(state, reviewId)
-    }
+  return {
+    getEventLog: (reviewId) => getReviewEventLog(state, reviewId)
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -46,5 +46,5 @@ const mapDispatchToProps = (dispatch) => {
     fetchReviewEventLog: (reviewId) => dispatch(fetchEventLogForId(reviewId))
   }
 }
- 
+
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewEventLog);

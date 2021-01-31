@@ -17,7 +17,7 @@ function App() {
     <div>
       <Notifier />
       <Router>
-      <Header/>
+        <Header />
         <div className="App"
           style={{
             display: 'flex',
@@ -28,12 +28,12 @@ function App() {
             width: '100%'
           }}>
           <Switch>
-              <Route exact path={routes.HOME} component={Home}/>
-              <Route exact path={routes.NEW_REVIEW} component={NewReview}/>
-              <Route exact path={routes.LOG_IN} component={Login}/>
-              <Route path={routes.REVIEW + "/:id"} component={Review}/>
-              <Route path={routes.ACCOUNT} component={Account}/>
-              {/* <Route exact path={routes.SIGN_UP} component={SignUp} /> */}
+            <Route exact path={routes.HOME} component={Home} />
+            <Route exact path={routes.NEW_REVIEW} component={NewReview} />
+            <Route exact path={routes.LOG_IN} component={Login} />
+            <Route path={routes.REVIEW + "/:id"} component={Review} />
+            <Route path={routes.ACCOUNT} component={Account} />
+            {/* <Route exact path={routes.SIGN_UP} component={SignUp} /> */}
           </Switch>
         </div>
       </Router>

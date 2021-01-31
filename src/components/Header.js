@@ -13,71 +13,71 @@ const Header = (props) => {
   return (
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <HeaderAuth userInfo={authUser} history={history} /> : <HeaderNonAuth history={history}/>
+        authUser ? <HeaderAuth userInfo={authUser} history={history} /> : <HeaderNonAuth history={history} />
       }
     </AuthUserContext.Consumer>
   );
 }
 
-const HeaderNonAuth = ({history}) => {
-    const onSignUpClicked = () => {
-        history.push(routes.SIGN_UP);
-    }
-    const onLoginClicked = () => {
-        history.push(routes.LOG_IN);
-    }
-    const homeClicked = () => {
-        history.push(routes.HOME);
-    }
-    return (
-        <div className="header" >
-            <Navbar expand="lg">
-                <Navbar.Brand onClick={homeClicked}> {
-                    <div>
-                    {CompanyName}
-                    <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`}  style={{paddingLeft: 5, paddingBottom: 5}}/>
-                    </div>
-                } </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto">
-                    <Nav.Link onClick={onSignUpClicked}> Sign up </Nav.Link>
-                    <Nav.Link onClick={onLoginClicked}> Login </Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-            <Divider/>
-        </div>
+const HeaderNonAuth = ({ history }) => {
+  const onSignUpClicked = () => {
+    history.push(routes.SIGN_UP);
+  }
+  const onLoginClicked = () => {
+    history.push(routes.LOG_IN);
+  }
+  const homeClicked = () => {
+    history.push(routes.HOME);
+  }
+  return (
+    <div className="header" >
+      <Navbar expand="lg">
+        <Navbar.Brand onClick={homeClicked}> {
+          <div>
+            {CompanyName}
+            <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`} style={{ paddingLeft: 5, paddingBottom: 5 }} />
+          </div>
+        } </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link onClick={onSignUpClicked}> Sign up </Nav.Link>
+            <Nav.Link onClick={onLoginClicked}> Login </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <Divider />
+    </div>
   );
 }
 
 const HeaderAuth = ({ userInfo, history }) => {
-    const onAccountPageClicked = () => {
-        history.push(routes.ACCOUNT);
-    }
-    const homeClicked = () => {
-        history.push(routes.HOME);
-    }
-    return (
-        <div className="header" >
-            <Navbar expand="lg">
-                <Navbar.Brand onClick={homeClicked}> {
-                    <div>
-                    {CompanyName}
-                    <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`} style={{paddingLeft: 5, paddingBottom: 5}}/>
-                    </div>
-                } </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto">
-                    <Nav.Link onClick={onAccountPageClicked}> Account </Nav.Link>
-                    </Nav>
-                    {/*<SignOutButton />*/}
-                </Navbar.Collapse>
-            </Navbar>
-            <Divider/>
-        </div>
-    );
+  const onAccountPageClicked = () => {
+    history.push(routes.ACCOUNT);
+  }
+  const homeClicked = () => {
+    history.push(routes.HOME);
+  }
+  return (
+    <div className="header" >
+      <Navbar expand="lg">
+        <Navbar.Brand onClick={homeClicked}> {
+          <div>
+            {CompanyName}
+            <img src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`} style={{ paddingLeft: 5, paddingBottom: 5 }} />
+          </div>
+        } </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link onClick={onAccountPageClicked}> Account </Nav.Link>
+          </Nav>
+          {/*<SignOutButton />*/}
+        </Navbar.Collapse>
+      </Navbar>
+      <Divider />
+    </div>
+  );
 }
 //style={{background: "#1CB0F6"}}
 

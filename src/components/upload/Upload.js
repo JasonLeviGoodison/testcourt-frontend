@@ -15,13 +15,13 @@ import "./Upload.css";
 const BASE_ADDRESS = process.env.REACT_APP_API_URL;
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
   }
 };
 
@@ -29,10 +29,10 @@ class Upload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        files: [],
-        uploading: false,
-        successfullUploaded: false,
-        newReviewForms: props.newReviewFields
+      files: [],
+      uploading: false,
+      successfullUploaded: false,
+      newReviewForms: props.newReviewFields
     };
 
     this.onFilesAdded = this.onFilesAdded.bind(this);
@@ -52,7 +52,7 @@ class Upload extends Component {
   async uploadReview() {
     const id = guid();
     // attach guid to these files and the review
-    this.setState({id},
+    this.setState({ id },
       async () => await this.uploadForm(id)
         .then(async () => await this.uploadFiles(id))
         .then(() => {
@@ -69,7 +69,7 @@ class Upload extends Component {
   validForm() {
     let form = this.props.newReviewFields;
     return (form.name != null &&
-      form.casenumber != null && 
+      form.casenumber != null &&
       form.due_date != null &&
       form.packagetypes != null &&
       form.description != null &&
@@ -79,8 +79,8 @@ class Upload extends Component {
   async uploadForm(id) {
     if (!this.validForm()) { alert("One or more fields not filled out"); throw "NOT_FILLED_OUT"; }
     var form = {
-        ...this.props.newReviewFields,
-        posted_by: this.props.loggedUser.email
+      ...this.props.newReviewFields,
+      posted_by: this.props.loggedUser.email
     }
     return requestApi.UploadForm(form, id);
   }
@@ -89,7 +89,7 @@ class Upload extends Component {
     this.setState({ uploading: true });
     const promises = [];
     this.state.files.forEach(file => {
-        promises.push(this.sendRequest(file, id));
+      promises.push(this.sendRequest(file, id));
     });
 
     try {
@@ -98,7 +98,7 @@ class Upload extends Component {
       console.log("promise.all is finished")
       this.setState({ uploading: false });
     }
-    catch(e) {
+    catch (e) {
       alert("Could not upload files.");
       this.setState({ uploading: false });
       throw e;
@@ -118,10 +118,10 @@ class Upload extends Component {
       <div >
         <Button
           variant="secondary"
-          style={{marginRight : 10}}
+          style={{ marginRight: 10 }}
           onClick={() =>
             this.setState({ files: [], successfullUploaded: false })
-        }>
+          }>
           Clear
         </Button>
         <Button variant="primary" onClick={this.uploadReview}>
@@ -135,7 +135,7 @@ class Upload extends Component {
     return (
       <div className="Upload">
         <div className="Content">
-          <div style={{paddingLeft: '5px'}}>
+          <div style={{ paddingLeft: '5px' }}>
             <Dropzone
               onFilesAdded={this.onFilesAdded}
               disabled={this.state.uploading || this.state.successfullUploaded}
@@ -153,15 +153,15 @@ class Upload extends Component {
           </div>
         </div>
         <div className="Actions">{this.renderActions()}</div>
-         {
+        {
           <Modal isOpen={this.state.uploading} style={customStyles} contentLabel="WaitModal" ariaHideApp={false}>
-                <Card style={{ width: '100%' }}>
-                    <Card.Body>
-                        <Card.Title>Uploading Documents. Please Wait ...</Card.Title>
-                    </Card.Body>
-                </Card>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>Uploading Documents. Please Wait ...</Card.Title>
+              </Card.Body>
+            </Card>
           </Modal>
-         }
+        }
       </div>
     );
   }
@@ -175,7 +175,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      submitNewReview: (guid) => dispatch(uploadNewRequest(guid))
+    submitNewReview: (guid) => dispatch(uploadNewRequest(guid))
   }
 }
 
