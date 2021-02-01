@@ -1,9 +1,8 @@
-import review from "../redux/reducers/review";
-
 const EVENT_TYPE = {
   COMMENT: 'COMMENT',
-  STATUS_UPDATE: 'STATUS_UPDATE'
-}
+  STATUS_UPDATE: 'STATUS_UPDATE',
+};
+
 export default class ReviewEvent {
   constructor(reviewId, userName, eventType, metaData, createdAt) {
     this.reviewId = reviewId;
@@ -22,21 +21,23 @@ export default class ReviewEvent {
   }
 
   static batchConvert(objs) {
-    let events = [];
-    for (var i = 0; i < objs.length; i++) {
+    const events = [];
+    for (let i = 0; i < objs.length; i += 1) {
       let newEvent;
-      if (objs[i].event_type == EVENT_TYPE.COMMENT) {
+      if (objs[i].event_type === EVENT_TYPE.COMMENT) {
         newEvent = ReviewEvent.newComment(
           objs[i].review_id,
           objs[i].user,
           objs[i].meta_data,
-          new Date(objs[i].created_at));
+          new Date(objs[i].created_at),
+        );
       } else {
         newEvent = ReviewEvent.newStatusEvent(
           objs[i].review_id,
-          "Status Update",
-          objs[i].user.split("@")[0] + " updated status to " + objs[i].meta_data,
-          new Date(objs[i].created_at));
+          'Status Update',
+          `${objs[i].user.split('@')[0]} updated status to ${objs[i].meta_data}`,
+          new Date(objs[i].created_at),
+        );
       }
       events.push(newEvent);
     }
@@ -46,15 +47,19 @@ export default class ReviewEvent {
   getReviewId() {
     return this.reviewId;
   }
+
   getUserName() {
     return this.userName;
   }
+
   getEventType() {
     return this.eventType;
   }
+
   getMetaData() {
     return this.metaData;
   }
+
   getCreatedAt() {
     return this.createdAt;
   }
