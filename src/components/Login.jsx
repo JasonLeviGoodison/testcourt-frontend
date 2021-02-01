@@ -2,44 +2,43 @@
     Code largely taken from psatler/react-firebase-authentication on Github
 */
 
-import React, { Component } from "react";
-import { Form, FormGroup, Input, Alert } from "reactstrap";
-import Button from 'react-bootstrap/Button'
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import {
+  Form, FormGroup, Input, Alert,
+} from 'reactstrap';
+import Button from 'react-bootstrap/Button';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { auth } from '../firebase';
+import * as routes from '../routes/routes';
 
-import { SignUpLink } from "./SignUp";
-//import { PasswordForgetLink } from "./PasswordForget";
-import { auth, db } from "../firebase";
-import * as routes from "../routes/routes";
-
-const SignInPage = ({ history }) => {
-  return (
-    <div className="div-flex">
-      <div className="marginTop60">
-        <h1>Sign In</h1>
-        <SignInForm history={history} />
-        {/* {<SignUpLink />} */}
-        {/* TODO !!!!!!! <PasswordForgetLink />*/}
-      </div>
+const SignInPage = ({ history }) => (
+  <div className="div-flex">
+    <div className="marginTop60">
+      <h1>Sign In</h1>
+      <SignInForm history={history} />
     </div>
-  );
-};
+  </div>
+);
 
 const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value
+  [propertyName]: value,
 });
 
 const INITIAL_STATE = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
   error: null,
-  showingAlert: false
+  showingAlert: false,
 };
 
 class SignInForm extends Component {
-  state = { ...INITIAL_STATE };
+  constructor() {
+    super();
+    this.state = { ...INITIAL_STATE };
+  }
 
-  onSubmit = event => {
+  onSubmit(event) {
     const { email, password } = this.state;
 
     const { history } = this.props;
@@ -50,30 +49,32 @@ class SignInForm extends Component {
         this.setState({ ...INITIAL_STATE });
         history.push(routes.HOME);
       })
-      .catch(error => {
-        this.setState(byPropKey("error", error));
-        this.timer(); //defined below
+      .catch((error) => {
+        this.setState(byPropKey('error', error));
+        this.timer(); // defined below
       });
 
     event.preventDefault();
-  };
+  }
 
-  timer = () => {
+  timer() {
     this.setState({
-      showingAlert: true
+      showingAlert: true,
     });
 
     setTimeout(() => {
       this.setState({
-        showingAlert: false
+        showingAlert: false,
       });
     }, 4000);
-  };
+  }
 
   render() {
-    const { email, password, error, showingAlert } = this.state;
+    const {
+      email, password, error, showingAlert,
+    } = this.state;
 
-    const isInvalid = password === "" || email === "";
+    const isInvalid = password === '' || email === '';
 
     return (
       <div>
@@ -91,9 +92,7 @@ class SignInForm extends Component {
               id="exampleEmail"
               placeholder="Email"
               value={email}
-              onChange={event =>
-                this.setState(byPropKey("email", event.target.value))
-              }
+              onChange={(event) => this.setState(byPropKey('email', event.target.value))}
             />
           </FormGroup>
           <FormGroup>
@@ -103,9 +102,7 @@ class SignInForm extends Component {
               id="examplePassword"
               placeholder="Password"
               value={password}
-              onChange={event =>
-                this.setState(byPropKey("password", event.target.value))
-              }
+              onChange={(event) => this.setState(byPropKey('password', event.target.value))}
             />
           </FormGroup>
 
@@ -121,6 +118,14 @@ class SignInForm extends Component {
     );
   }
 }
+
+SignInPage.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+SignInForm.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default withRouter(SignInPage);
 

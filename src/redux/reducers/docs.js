@@ -1,8 +1,8 @@
-import { FETCH_DOCUMENTS_SUCCESS, SET_SELECTED, SET_REVIEW_FILTER } from "../actionTypes";
-import Status from "../../components/Status/Status";
+import { FETCH_DOCUMENTS_SUCCESS, SET_SELECTED, SET_REVIEW_FILTER } from '../actionTypes';
+import Status from '../../components/Status/Status';
 
 const initialState = {
-  reviewFilter: Status.WAITING
+  reviewFilter: Status.WAITING,
 };
 
 export default function (state = initialState, action) {
@@ -11,21 +11,21 @@ export default function (state = initialState, action) {
       const { index } = action.payload;
       return {
         ...state,
-        curDoc: index
+        curDoc: index,
       };
     }
     case FETCH_DOCUMENTS_SUCCESS: {
       const { payload } = action;
       return {
         ...state,
-        documents: payload
+        documents: payload,
       };
     }
     case SET_REVIEW_FILTER: {
       const filter = action.payload;
       return {
         ...state,
-        reviewFilter: filter
+        reviewFilter: filter,
       };
     }
     default:
