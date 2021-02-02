@@ -36,6 +36,8 @@ class SignInForm extends Component {
   constructor() {
     super();
     this.state = { ...INITIAL_STATE };
+    this.timer = this.timer.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(event) {
