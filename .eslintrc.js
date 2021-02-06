@@ -24,5 +24,6 @@ module.exports = {
     'no-continue': 'off',
     'func-names': 'off',
     'class-methods-use-this': 'off',
+    'no-unused-vars': 'warn',
   },
 };

@@ -9,3 +9,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const SELL = '/sell';
 export const CHAT = '/chat';
 export const REVIEW = '/review';
+export const MODIFY_CHECKLISTS = '/modify-checklists';

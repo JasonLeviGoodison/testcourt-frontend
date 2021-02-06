@@ -14,6 +14,8 @@ import {
   submitVerdictRequest,
   submitVerdictSuccess,
   fetchReviewEventLogSuccess,
+  fetchAllCompanyChecklistsSuccess,
+  deleteCompanyChecklistSuccess,
 } from './actions';
 
 export const fetchDocsListThunk = () => (dispatch) => {
@@ -84,6 +86,72 @@ export const getAllPackageTypes = () => (dispatch) => {
       dispatch(
         enqueueSnackbar({
           message: 'Couldn\'t connect to the server. Check your internet connection',
+          options: {
+            variant: 'error',
+          },
+        }),
+      );
+    });
+};
+
+export const updatePackageType = (name, list) => (dispatch) => {
+  checklistApi.UpdatePackageType(name, list)
+    .then(() => {
+      dispatch(
+        enqueueSnackbar({
+          message: `Successfully updated ${name}`,
+          options: {
+            variant: 'success',
+          },
+        }),
+      );
+    })
+    .catch(() => {
+      dispatch(
+        enqueueSnackbar({
+          message: `Couldn't update ${name}`,
+          options: {
+            variant: 'error',
+          },
+        }),
+      );
+    });
+};
+
+export const fetchAllCompanyChecklists = () => (dispatch) => {
+  checklistApi.GetAllCompanyChecklists()
+    .then((res) => {
+      dispatch(fetchAllCompanyChecklistsSuccess(res));
+    })
+    .catch(() => {
+      dispatch(
+        enqueueSnackbar({
+          message: 'Couldn\'t get checklists',
+          options: {
+            variant: 'error',
+          },
+        }),
+      );
+    });
+};
+
+export const deleteCompanyChecklist = (name) => (dispatch) => {
+  checklistApi.DeleteCompanyChecklist(name)
+    .then(() => {
+      dispatch(deleteCompanyChecklistSuccess(name));
+      dispatch(
+        enqueueSnackbar({
+          message: 'Successfully deleted checklist',
+          options: {
+            variant: 'success',
+          },
+        }),
+      );
+    })
+    .catch(() => {
+      dispatch(
+        enqueueSnackbar({
+          message: 'Couldn\'t delete checklist',
           options: {
             variant: 'error',
           },

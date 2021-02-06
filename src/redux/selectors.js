@@ -57,6 +57,8 @@ export const getPacTypeCheckLists = (store, packageTypes) => {
 // eslint-disable-next-line max-len
 export const getPackageOptions = (store) => (getCheckListsState(store) ? (getCheckListsState(store).packageoptions || []) : []);
 
+export const getAllChecklists = (store) => getCheckListsState(store) || {};
+
 export const getNewReviewFields = (store) => store.newReview;
 
 export const getReview = (store) => store.review;

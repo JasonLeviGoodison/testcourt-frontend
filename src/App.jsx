@@ -9,6 +9,7 @@ import NewReview from './components/NewReview';
 import Login from './components/Login';
 import Review from './components/Review';
 import Account from './components/Account';
+import ChecklistPage from './components/ChecklistPage';
 import withAuthentication from './auth/withAuthentication';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route exact path={routes.LOG_IN} component={Login} />
             <Route path={`${routes.REVIEW}/:id`} component={Review} />
             <Route path={routes.ACCOUNT} component={Account} />
+            <Route exact path={routes.MODIFY_CHECKLISTS} component={ChecklistPage} />
           </Switch>
         </div>
       </Router>

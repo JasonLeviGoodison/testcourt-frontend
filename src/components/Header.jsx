@@ -65,6 +65,9 @@ const HeaderAuth = ({ history }) => {
   const homeClicked = () => {
     history.push(routes.HOME);
   };
+  const onChecklistsClicked = () => {
+    history.push(routes.MODIFY_CHECKLISTS);
+  };
   return (
     <div className="header">
       <Navbar expand="lg">
@@ -84,6 +87,7 @@ const HeaderAuth = ({ history }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            <Nav.Link onClick={onChecklistsClicked}> Checklists </Nav.Link>
             <Nav.Link onClick={onAccountPageClicked}> Account </Nav.Link>
           </Nav>
           {/* <SignOutButton /> */}

@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
 NewReview.propTypes = {
   setNewReviewField: PropTypes.func.isRequired,
   getAllPackageTypes: PropTypes.func.isRequired,
-  packageOptions: PropTypes.object.isRequired,
+  packageOptions: PropTypes.array.isRequired,
   loggedUser: PropTypes.object.isRequired,
 };
 

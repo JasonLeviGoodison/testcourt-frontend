@@ -21,6 +21,8 @@ import {
   SUBMIT_COMMENT_SUCCESS,
   FETCH_REVIEW_EVENT_LOG_REQUEST,
   FETCH_REVIEW_EVENT_LOG_SUCCESS,
+  FETCH_ALL_COMPANY_CHECKLISTS_SUCCESS,
+  DELETE_COMPANY_CHECKLIST_SUCCESS,
 } from './actionTypes';
 
 export const setSelectedDocument = (index) => ({
@@ -61,6 +63,16 @@ export const fetchAllPackageTypesRequest = () => ({
 export const fetchAllPackageTypesSuccess = (items) => ({
   type: FETCH_ALL_PACKAGE_TYPES_SUCCESS,
   payload: items,
+});
+
+export const fetchAllCompanyChecklistsSuccess = (checklistsList) => ({
+  type: FETCH_ALL_COMPANY_CHECKLISTS_SUCCESS,
+  payload: checklistsList,
+});
+
+export const deleteCompanyChecklistSuccess = (name) => ({
+  type: DELETE_COMPANY_CHECKLIST_SUCCESS,
+  payload: name,
 });
 
 export const fetchDocumentsSuccess = (items) => ({

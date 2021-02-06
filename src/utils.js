@@ -34,3 +34,9 @@ export function batchReviewEventToDigestableComment(events) {
   }
   return cleanedEvents;
 }
+
+export function cleanChecklistOfOptions(allChecklists) {
+  const cleanedChecklists = { ...allChecklists };
+  delete cleanedChecklists.packageoptions;
+  return cleanedChecklists;
+}
