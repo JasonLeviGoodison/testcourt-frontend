@@ -9,6 +9,8 @@ import NewReview from './components/NewReview';
 import Login from './components/Login';
 import Review from './components/Review';
 import Account from './components/Account';
+import WaitingVerify from './components/WaitingVerify';
+import SignUpPage from './components/SignUp';
 import ChecklistPage from './components/ChecklistPage';
 import withAuthentication from './auth/withAuthentication';
 
@@ -36,6 +38,8 @@ function App() {
             <Route path={`${routes.REVIEW}/:id`} component={Review} />
             <Route path={routes.ACCOUNT} component={Account} />
             <Route exact path={routes.MODIFY_CHECKLISTS} component={ChecklistPage} />
+            <Route path={routes.SIGN_UP} component={SignUpPage} />
+            <Route path={routes.WAITING_VERIFY} component={WaitingVerify} />
           </Switch>
         </div>
       </Router>

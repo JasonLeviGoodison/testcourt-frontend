@@ -68,7 +68,7 @@ class SignInForm extends Component {
       this.setState({
         showingAlert: false,
       });
-    }, 4000);
+    }, 8000);
   }
 
   render() {
