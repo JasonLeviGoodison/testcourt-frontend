@@ -182,7 +182,6 @@ Upload.propTypes = {
   newReviewFields: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object.isRequired,
-
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Upload));

@@ -1,4 +1,9 @@
-import { FETCH_DOCUMENTS_SUCCESS, SET_SELECTED, SET_REVIEW_FILTER } from '../actionTypes';
+import {
+  FETCH_DOCUMENTS_SUCCESS,
+  SET_SELECTED,
+  SET_REVIEW_FILTER,
+  SET_CUR_DOC_FIELD,
+} from '../actionTypes';
 import Status from '../../components/Status/Status';
 
 const initialState = {
@@ -26,6 +31,21 @@ export default function (state = initialState, action) {
       return {
         ...state,
         reviewFilter: filter,
+      };
+    }
+    case SET_CUR_DOC_FIELD: {
+      const { field, value, id } = action.payload;
+      let position = -1;
+      for (let i = 0; i < state.documents.length; i += 1) {
+        if (state.documents[i].id === id) {
+          position = i;
+          break;
+        }
+      }
+      const newState = { ...state };
+      newState.documents[position][field] = value;
+      return {
+        ...newState,
       };
     }
     default:

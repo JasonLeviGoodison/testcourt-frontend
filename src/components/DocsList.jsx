@@ -101,7 +101,7 @@ function DocsList(props) {
         </Paper>
         {
           docs.length > 0 ? docs.map((item, index) => (
-            <div>
+            <div key={`${index}`}>
               <ListItem
                 className="DocElement"
                 selected={props.curDoc === index}
@@ -164,7 +164,7 @@ DocsList.propTypes = {
   setCurDoc: PropTypes.func.isRequired,
   fetchDocs: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  curDoc: PropTypes.object.isRequired,
+  curDoc: PropTypes.number,
 };
 
 export default connect(
