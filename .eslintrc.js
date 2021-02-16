@@ -25,5 +25,6 @@ module.exports = {
     'func-names': 'off',
     'class-methods-use-this': 'off',
     'no-unused-vars': 'warn',
+    'react/no-array-index-key': 'off',
   },
 };

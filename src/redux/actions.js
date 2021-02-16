@@ -17,6 +17,7 @@ import {
   SUBMIT_VERDICT_SUCCESS,
   ENQUEUE_SNACKBAR,
   REMOVE_SNACKBAR,
+  SET_CUR_DOC_FIELD,
   SUBMIT_COMMENT_REQUEST,
   SUBMIT_COMMENT_SUCCESS,
   FETCH_REVIEW_EVENT_LOG_REQUEST,
@@ -83,6 +84,15 @@ export const fetchDocumentsSuccess = (items) => ({
 export const setInReview = (value) => ({
   type: SET_IN_REVIEW,
   payload: value,
+});
+
+export const setCurrentDocField = (field, value, id) => ({
+  type: SET_CUR_DOC_FIELD,
+  payload: {
+    field,
+    value,
+    id,
+  },
 });
 
 export const fetchCheckListForPacTypeRequest = (pacType) => ({

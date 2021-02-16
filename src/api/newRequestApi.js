@@ -38,3 +38,17 @@ export async function UploadForm(form, id) {
   };
   return fetch(`${BASE_ADDRESS}/upload/form/${id}`, requestOptions);
 }
+
+export async function UpdateForm(form, id) {
+  const body = JSON.stringify(form);
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...await createJustAuthHeader() },
+    body,
+  };
+  const res = await fetch(`${BASE_ADDRESS}/upload/edit-form/${id}`, requestOptions);
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res;
+}

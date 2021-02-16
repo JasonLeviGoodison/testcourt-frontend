@@ -5,17 +5,22 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import SaveIcon from '@material-ui/icons/Save';
+import EditIcon from '@material-ui/icons/Edit';
 import { getCurDocMeta } from '../redux/selectors';
 import Status from './Status/Status';
 import * as routes from '../routes/routes';
-import { setInReview } from '../redux/actions';
+import { setInReview, setCurrentDocField, enqueueSnackbar } from '../redux/actions';
 import * as newRequestApi from '../api/newRequestApi';
 import Pill from './Status/Pill';
 
 function ReviewPreview(props) {
   const { curDoc } = props;
+  const [editMode, setEditMode] = useState(false);
   const { history } = props;
+  const { enqueueNotification } = props;
   const [keyToUrl, setKeyToUrl] = useState({}); // dict key: signedUrl
+  const [refreshFields, setRefreshFields] = useState(0);
 
   if (Object.entries(curDoc) !== 0 && curDoc.keys !== undefined) {
     for (let i = 0; i < curDoc.keys.length; i += 1) {
@@ -27,9 +32,40 @@ function ReviewPreview(props) {
       }
     }
   }
+  const handleEditClicked = () => {
+    setEditMode(true);
+  };
+
+  const handleSavedClicked = () => {
+    const { id } = curDoc;
+    const form = {
+      name: curDoc.name,
+      casenumber: curDoc.casenumber,
+      description: curDoc.description,
+      notes: curDoc.notes,
+    };
+    setEditMode(false);
+    newRequestApi.UpdateForm(form, id)
+      .then(() => {
+        enqueueNotification(
+          'Successfully updated Package',
+          'success',
+        );
+      })
+      .catch((err) => {
+        enqueueNotification(
+          `Error: ${err}`,
+          'error',
+        );
+      });
+  };
+
+  const handleChange = (event) => {
+    props.setCurDocField(event.target.name, event.target.value, curDoc.id);
+    setRefreshFields(refreshFields + 1);
+  };
 
   const handleButtonClick = () => {
-    // props.setInReview(true);
     history.push(`${routes.REVIEW}/${curDoc.id}`);
   };
 
@@ -45,9 +81,14 @@ function ReviewPreview(props) {
       <Card style={{ width: '100%' }}>
         <Card.Body style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <Card.Title>Package Preview</Card.Title>
-          <Button variant="primary" onClick={handleButtonClick}>
-            {curDoc.status === Status.WAITING ? 'Start Review' : 'Re-review'}
-          </Button>
+          <div>
+            {editMode
+              ? <SaveIcon style={{ cursor: 'pointer', marginRight: 15 }} onClick={handleSavedClicked} />
+              : <EditIcon style={{ cursor: 'pointer', marginRight: 15 }} onClick={handleEditClicked} />}
+            <Button variant="primary" onClick={handleButtonClick}>
+              {curDoc.status === Status.WAITING ? 'Start Review' : 'Re-review'}
+            </Button>
+          </div>
         </Card.Body>
         <div style={{ display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit' }}>
           <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1, borderRightStyle: 'inset' }}>
@@ -56,13 +97,15 @@ function ReviewPreview(props) {
               <b>Client Name</b>
               :
               {' '}
-              {curDoc.name}
+              {editMode ? <input name="name" value={curDoc.name} key="name" onChange={handleChange} />
+                : curDoc.name}
             </ListGroupItem>
             <ListGroupItem>
               <b>Case #</b>
               :
               {' '}
-              {curDoc.case_number}
+              {editMode ? <input name="case_number" key="case_number" value={curDoc.case_number} onChange={handleChange} />
+                : curDoc.case_number}
             </ListGroupItem>
             <ListGroupItem>
               <b>Due Date</b>
@@ -81,10 +124,10 @@ function ReviewPreview(props) {
               <b>Description</b>
               :
               {' '}
-              {curDoc.description}
+              {editMode ? <textarea name="description" key="description" style={{ width: '100%' }} value={curDoc.description || ''} onChange={handleChange} />
+                : curDoc.description}
             </ListGroupItem>
           </ListGroup>
-          {/* TODO: Add a posted by and status field to the reviews */}
           <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1 }}>
             <ListGroupItem style={{ textAlign: 'center' }}><b>Poster info</b></ListGroupItem>
             <ListGroupItem>
@@ -112,7 +155,8 @@ function ReviewPreview(props) {
               <b>Notes</b>
               :
               {' '}
-              {curDoc.notes}
+              {editMode ? <textarea name="notes" key="notes" style={{ width: '100%' }} value={curDoc.notes || ''} onChange={handleChange} />
+                : curDoc.notes}
             </ListGroupItem>
           </ListGroup>
         </div>
@@ -122,12 +166,14 @@ function ReviewPreview(props) {
         <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1 }}>
           <ListGroupItem><b>Files</b></ListGroupItem>
           {curDoc.keys.map((key) => (
-            <ListGroupItem style={{
-              textAlign: 'left',
-              flexDirection: 'row',
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
+            <ListGroupItem
+              key={key}
+              style={{
+                textAlign: 'left',
+                flexDirection: 'row',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
             >
               {' '}
               <p>{key.substring(key.lastIndexOf('/') + 1)}</p>
@@ -152,11 +198,22 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setInReview: (value) => dispatch(setInReview(value)),
+  setCurDocField: (field, value, id) => dispatch(setCurrentDocField(field, value, id)),
+  enqueueNotification: (message, variant) => dispatch(
+    enqueueSnackbar({
+      message,
+      options: {
+        variant,
+      },
+    }),
+  ),
 });
 
 ReviewPreview.propTypes = {
   curDoc: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  setCurDocField: PropTypes.func.isRequired,
+  enqueueNotification: PropTypes.func.isRequired,
 };
 
 export default connect(
