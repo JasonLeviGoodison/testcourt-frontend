@@ -27,10 +27,16 @@ const customStyles = {
 class Upload extends Component {
   constructor(props) {
     super(props);
+
+    const { isReviewPreview = false, id = '', uploadedCallback = null } = props;
     this.state = {
       files: [],
       uploading: false,
       successfullUploaded: false,
+      // Used for ReviewPreview version
+      uploadedCallback,
+      isReviewPreview,
+      id,
     };
 
     this.onFilesAdded = this.onFilesAdded.bind(this);
@@ -48,21 +54,35 @@ class Upload extends Component {
   }
 
   async uploadReview() {
-    const id = guid();
-    // attach guid to these files and the review
-    await this.uploadForm(id)
-      .then(async () => this.uploadFiles(id))
-      .then(() => {
-        this.setState({ uploading: false });
-        const { history } = this.props;
-        history.push(routes.HOME);
-      })
-      .catch((() => {
-        this.setState({ uploading: false });
-        // TODO: Have a better error handling method
-        // eslint-disable-next-line no-alert
-        alert('Error uploading documents');
-      }));
+    const { isReviewPreview } = this.state;
+    if (isReviewPreview) {
+      const { id, uploadedCallback } = this.state;
+      await this.uploadFiles(id)
+        .then(() => {
+          this.setState({ uploading: false });
+          uploadedCallback();
+        })
+        .catch((() => {
+          this.setState({ uploading: false });
+          // eslint-disable-next-line no-alert
+          alert('Error uploading documents');
+        }));
+    } else {
+      const id = guid();
+      await this.uploadForm(id)
+        .then(async () => this.uploadFiles(id))
+        .then(() => {
+          this.setState({ uploading: false });
+          const { history } = this.props;
+          history.push(routes.HOME);
+        })
+        .catch((() => {
+          this.setState({ uploading: false });
+          // TODO: Have a better error handling method
+          // eslint-disable-next-line no-alert
+          alert('Error uploading documents');
+        }));
+    }
   }
 
   validForm() {
@@ -97,11 +117,11 @@ class Upload extends Component {
     const { files } = this.state;
     this.setState({ uploading: true });
     const promises = [];
-    files.forEach((file) => {
-      promises.push(this.sendRequest(file, id));
-    });
 
     try {
+      files.forEach((file) => {
+        promises.push(this.sendRequest(file, id));
+      });
       await Promise.all(promises);
       this.setState({ uploading: false });
     } catch (e) {
@@ -117,7 +137,10 @@ class Upload extends Component {
   sendRequest(file, id) {
     return new Promise((resolve, reject) => requestApi.UploadFile(file, id)
       .then(() => resolve())
-      .catch((err) => reject(err)));
+      .catch((err) => {
+        reject(err);
+        throw err;
+      }));
   }
 
   renderActions() {
@@ -131,7 +154,7 @@ class Upload extends Component {
           Clear
         </Button>
         <Button variant="primary" onClick={this.uploadReview}>
-          Submit
+          Upload
         </Button>
       </div>
     );
@@ -150,8 +173,8 @@ class Upload extends Component {
           </div>
           <div className="Files">
             Files to upload
-            {files.map((file) => (
-              <div key={file.name} className="Row">
+            {files.map((file, i) => (
+              <div key={`${file.name} ${i}`} className="Row">
                 <span className="Filename">{file.name}</span>
               </div>
             ))}
@@ -181,7 +204,10 @@ const mapDispatchToProps = (dispatch) => ({
 Upload.propTypes = {
   newReviewFields: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object,
+  isReviewPreview: PropTypes.bool,
+  id: PropTypes.string,
+  uploadedCallback: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Upload));

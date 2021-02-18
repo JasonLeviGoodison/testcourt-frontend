@@ -24,6 +24,7 @@ import {
   FETCH_REVIEW_EVENT_LOG_SUCCESS,
   FETCH_ALL_COMPANY_CHECKLISTS_SUCCESS,
   DELETE_COMPANY_CHECKLIST_SUCCESS,
+  REQUEST_DELETE_KEY_SUCCESS,
 } from './actionTypes';
 
 export const setSelectedDocument = (index) => ({
@@ -76,6 +77,14 @@ export const deleteCompanyChecklistSuccess = (name) => ({
   payload: name,
 });
 
+export const requestDeletekeySuccess = (key, id) => ({
+  type: REQUEST_DELETE_KEY_SUCCESS,
+  payload: {
+    key,
+    id,
+  },
+});
+
 export const fetchDocumentsSuccess = (items) => ({
   type: FETCH_DOCUMENTS_SUCCESS,
   payload: items,
@@ -110,9 +119,12 @@ export const fetchReviewPackageRequest = () => ({
   payload: {},
 });
 
-export const fetchReviewPackageSuccess = (id) => ({
+export const fetchReviewPackageSuccess = (review, id) => ({
   type: FETCH_REVIEW_SUCCESS,
-  payload: id,
+  payload: {
+    review,
+    id,
+  },
 });
 
 export const setReviewFilter = (status) => ({

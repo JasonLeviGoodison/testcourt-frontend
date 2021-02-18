@@ -3,6 +3,8 @@ import {
   SET_SELECTED,
   SET_REVIEW_FILTER,
   SET_CUR_DOC_FIELD,
+  REQUEST_DELETE_KEY_SUCCESS,
+  FETCH_REVIEW_SUCCESS,
 } from '../actionTypes';
 import Status from '../../components/Status/Status';
 
@@ -44,6 +46,40 @@ export default function (state = initialState, action) {
       }
       const newState = { ...state };
       newState.documents[position][field] = value;
+      return {
+        ...newState,
+      };
+    }
+    case REQUEST_DELETE_KEY_SUCCESS: {
+      const { key, id } = action.payload;
+      let position = -1;
+      for (let i = 0; i < state.documents.length; i += 1) {
+        if (state.documents[i].id === id) {
+          position = i;
+          break;
+        }
+      }
+      const newState = { ...state };
+      newState.documents[position].keys = newState.documents[position]
+        .keys
+        .filter((x) => x !== key);
+
+      return {
+        ...newState,
+      };
+    }
+    case FETCH_REVIEW_SUCCESS: {
+      const { review, id } = action.payload;
+
+      let position = -1;
+      for (let i = 0; i < state.documents.length; i += 1) {
+        if (state.documents[i].id === id) {
+          position = i;
+          break;
+        }
+      }
+      const newState = { ...state };
+      newState.documents[position] = review;
       return {
         ...newState,
       };
