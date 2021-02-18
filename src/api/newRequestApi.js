@@ -17,15 +17,20 @@ export async function GetViewObjectSignedUrl(key) {
 
 export function UploadFile(file, id) {
   return new Promise(
-    (resolve, reject) => GetPutObjectSignedUrl(file.name, id).then(({ url }) => {
-      axios
-        .put(url, file, { headers: { 'Content-Type': 'application/octet-stream' } })
-        .then(() => resolve())
-        .catch((err) => {
-          reject();
-          throw err;
-        });
-    }),
+    (resolve, reject) => GetPutObjectSignedUrl(file.name, id)
+      .then(({ url }) => {
+        axios
+          .put(url, file, { headers: { 'Content-Type': 'application/octet-stream' } })
+          .then(() => resolve())
+          .catch((err) => {
+            reject(err);
+            throw err;
+          });
+      })
+      .catch((err) => {
+        reject(err);
+        throw err;
+      }),
   );
 }
 
@@ -47,6 +52,20 @@ export async function UpdateForm(form, id) {
     body,
   };
   const res = await fetch(`${BASE_ADDRESS}/upload/edit-form/${id}`, requestOptions);
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res;
+}
+
+export async function DeleteKey(key, id) {
+  const body = JSON.stringify({ key });
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...await createJustAuthHeader() },
+    body,
+  };
+  const res = await fetch(`${BASE_ADDRESS}/upload/delete-key/${id}`, requestOptions);
   if (!res.ok) {
     throw new Error(res.statusText);
   }

@@ -16,10 +16,10 @@ export default function (state = initialState, action) {
       };
     }
     case FETCH_REVIEW_SUCCESS: {
-      const value = action.payload;
+      const { review } = action.payload;
       return {
         ...state,
-        ...value,
+        ...review,
       };
     }
 

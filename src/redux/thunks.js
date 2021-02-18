@@ -1,5 +1,5 @@
 import * as docApi from '../api/documentApi';
-// import * as newRequestApi from '../api/newRequestApi';
+import * as newRequestApi from '../api/newRequestApi';
 import * as checklistApi from '../api/checklistApi';
 import {
   enqueueSnackbar, submitCommentRequest, submitCommentSuccess, fetchReviewEventLogRequest,
@@ -16,6 +16,7 @@ import {
   fetchReviewEventLogSuccess,
   fetchAllCompanyChecklistsSuccess,
   deleteCompanyChecklistSuccess,
+  requestDeletekeySuccess,
 } from './actions';
 
 export const fetchDocsListThunk = () => (dispatch) => {
@@ -42,7 +43,7 @@ export const fetchPackageReviewById = (id) => (dispatch) => {
 
   docApi.GetReviewPackageById(id)
     .then((res) => {
-      dispatch(fetchReviewPackageSuccess(res));
+      dispatch(fetchReviewPackageSuccess(res, id));
     })
     .catch(() => {
       dispatch(
@@ -225,3 +226,48 @@ export const fetchEventLogForId = (reviewId) => (dispatch) => {
       );
     });
 };
+
+export const requestDeleteKey = (key, id) => (dispatch) => newRequestApi.DeleteKey(key, id)
+  .then(() => {
+    dispatch(requestDeletekeySuccess(key, id));
+    dispatch(
+      enqueueSnackbar({
+        message: 'Successfully deleted file',
+        options: {
+          variant: 'success',
+        },
+      }),
+    );
+  })
+  .catch((err) => {
+    dispatch(
+      enqueueSnackbar({
+        message: `Error: Failed to delete file. ${err}`,
+        options: {
+          variant: 'error',
+        },
+      }),
+    );
+  });
+
+export const requestUpdateForm = (form, id) => (dispatch) => newRequestApi.UpdateForm(form, id)
+  .then(() => {
+    dispatch(
+      enqueueSnackbar({
+        message: 'Successfully updated package',
+        options: {
+          variant: 'success',
+        },
+      }),
+    );
+  })
+  .catch((err) => {
+    dispatch(
+      enqueueSnackbar({
+        message: `Error: ${err}`,
+        options: {
+          variant: 'error',
+        },
+      }),
+    );
+  });
