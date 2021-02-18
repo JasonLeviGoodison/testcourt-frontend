@@ -1,7 +1,7 @@
 import { Card, ListGroupItem, ListGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -10,7 +10,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Modal from 'react-modal';
 import { getCurDocMeta } from '../redux/selectors';
-import withAuthorization from '../auth/withAuthorization';
 import Status from './Status/Status';
 import Upload from './upload/Upload';
 import * as routes from '../routes/routes';
@@ -59,6 +58,11 @@ function ReviewPreview(props) {
       }
     }
   }
+
+  useEffect(() => {
+    setEditMode(false);
+    setEditFileMode(false);
+  }, [curDoc]);
 
   const handleEditClicked = () => {
     setEditMode(true);
@@ -278,9 +282,7 @@ ReviewPreview.propTypes = {
   fetchReviewById: PropTypes.func.isRequired,
 };
 
-const authCondition = (authUser) => !!authUser;
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(withAuthorization(authCondition)(ReviewPreview)));
+)(withRouter(ReviewPreview));

@@ -204,7 +204,7 @@ const mapDispatchToProps = (dispatch) => ({
 Upload.propTypes = {
   newReviewFields: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object,
   isReviewPreview: PropTypes.bool,
   id: PropTypes.string,
   uploadedCallback: PropTypes.func,
