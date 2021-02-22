@@ -34,7 +34,6 @@ function ReviewPreview(props) {
     curDoc,
     deleteFile,
     updateForm,
-    loggedUser,
     fetchReviewById,
   } = props;
 
@@ -237,7 +236,6 @@ function ReviewPreview(props) {
                 setEditFileMode(false);
                 fetchReviewById(curDoc.id);
               }}
-              loggedUser={loggedUser}
             />
           )
           : null}
@@ -278,7 +276,6 @@ ReviewPreview.propTypes = {
   setCurDocField: PropTypes.func.isRequired,
   deleteFile: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object.isRequired,
   fetchReviewById: PropTypes.func.isRequired,
 };
 

@@ -72,14 +72,21 @@ export default function (state = initialState, action) {
       const { review, id } = action.payload;
 
       let position = -1;
-      for (let i = 0; i < state.documents.length; i += 1) {
+      const length = state.documents ? state.documents.length : 0;
+      for (let i = 0; i < length; i += 1) {
         if (state.documents[i].id === id) {
           position = i;
           break;
         }
       }
       const newState = { ...state };
-      newState.documents[position] = review;
+      if (position === -1) {
+        newState.documents = [];
+        newState.documents.push(review);
+      } else {
+        newState.documents[position] = review;
+      }
+
       return {
         ...newState,
       };

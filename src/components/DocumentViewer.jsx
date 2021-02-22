@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchPackageReviewById } from '../redux/thunks';
 import * as newRequestApi from '../api/newRequestApi';
 import { getReview } from '../redux/selectors';
+import ExcelRenderer from '../custom_renderers/Excel';
 import { getFileType } from '../utils';
 import Stopwatch from './Stopwatch';
 
@@ -42,7 +43,7 @@ function DocumentViewer(props) {
       <DocViewer
         key={curReview.docs + curReview.eventLog}
         style={{ height: '100%' }}
-        pluginRenderers={DocViewerRenderers}
+        pluginRenderers={[ExcelRenderer, ...DocViewerRenderers]}
         documents={docs}
       />
     </div>

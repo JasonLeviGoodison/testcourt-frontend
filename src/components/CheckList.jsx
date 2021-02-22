@@ -139,8 +139,8 @@ function CheckList(props) {
                 buttonList.map((x, index) => (
                   <FormControlLabel
                     style={{ textAlign: 'left' }}
-                    key={x}
-                    control={<Checkbox key={x} checked={x.checked} onChange={handleChange(index)} name="gilad" />}
+                    key={`${x.name}name${index}`}
+                    control={<Checkbox key={`${x.name}checkbox${index}`} checked={x.checked} onChange={handleChange(index)} name="gilad" />}
                     label={x.label}
                   />
                 ))
@@ -183,8 +183,8 @@ CheckList.propTypes = {
   curReview: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
   fetchChecklist: PropTypes.func.isRequired,
-  checklists: PropTypes.array.isRequired,
-  checkListsState: PropTypes.bool,
+  checklists: PropTypes.func.isRequired,
+  checkListsState: PropTypes.object,
   submitVerdictRequest: PropTypes.func.isRequired,
 };
 
