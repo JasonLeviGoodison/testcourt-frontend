@@ -5,6 +5,7 @@ import {
   SET_CUR_DOC_FIELD,
   REQUEST_DELETE_KEY_SUCCESS,
   FETCH_REVIEW_SUCCESS,
+  SUBMIT_VERDICT_SUCCESS,
 } from '../actionTypes';
 import Status from '../../components/Status/Status';
 
@@ -86,6 +87,26 @@ export default function (state = initialState, action) {
       } else {
         newState.documents[position] = review;
       }
+
+      return {
+        ...newState,
+      };
+    }
+
+    case SUBMIT_VERDICT_SUCCESS: {
+      const { status, id } = action.payload;
+
+      let position = -1;
+      const length = state.documents ? state.documents.length : 0;
+      for (let i = 0; i < length; i += 1) {
+        if (state.documents[i].id === id) {
+          position = i;
+          break;
+        }
+      }
+
+      const newState = { ...state };
+      newState.documents[position].status = status;
 
       return {
         ...newState,

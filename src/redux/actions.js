@@ -136,8 +136,12 @@ export const submitVerdictRequest = () => ({
   type: SUBMIT_VERDICT_REQUEST,
 });
 
-export const submitVerdictSuccess = () => ({
+export const submitVerdictSuccess = (id, status) => ({
   type: SUBMIT_VERDICT_SUCCESS,
+  payload: {
+    id,
+    status,
+  },
 });
 
 export const enqueueSnackbar = (notification) => ({

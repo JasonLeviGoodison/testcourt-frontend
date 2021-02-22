@@ -165,7 +165,7 @@ export const submitVerdict = (id, status) => (dispatch) => {
   dispatch(submitVerdictRequest());
 
   docApi.SubmitVerdict(id, status)
-    .then((res) => {
+    .then(() => {
       dispatch(
         enqueueSnackbar({
           message: 'Successfully submitted status',
@@ -175,7 +175,7 @@ export const submitVerdict = (id, status) => (dispatch) => {
         }),
       );
 
-      dispatch(submitVerdictSuccess(res));
+      dispatch(submitVerdictSuccess(id, status));
     })
     .catch(() => {
       dispatch(

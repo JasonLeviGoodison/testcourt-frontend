@@ -7,13 +7,19 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Modal from 'react-modal';
 import { getCurDocMeta } from '../redux/selectors';
 import Status from './Status/Status';
 import Upload from './upload/Upload';
 import * as routes from '../routes/routes';
-import { requestDeleteKey, requestUpdateForm, fetchPackageReviewById } from '../redux/thunks';
+import {
+  requestDeleteKey,
+  requestUpdateForm,
+  fetchPackageReviewById,
+  submitVerdict,
+} from '../redux/thunks';
 import { setInReview, setCurrentDocField } from '../redux/actions';
 import * as newRequestApi from '../api/newRequestApi';
 import Pill from './Status/Pill';
@@ -35,6 +41,7 @@ function ReviewPreview(props) {
     deleteFile,
     updateForm,
     fetchReviewById,
+    resetVerdict,
   } = props;
 
   const [editMode, setEditMode] = useState(false);
@@ -96,6 +103,10 @@ function ReviewPreview(props) {
       .then(() => {
         setDeleteFileKey('');
       });
+  };
+
+  const resetStatus = () => {
+    resetVerdict(curDoc.id);
   };
 
   if (Object.entries(curDoc) < 2) {
@@ -165,6 +176,16 @@ function ReviewPreview(props) {
               :
               {' '}
               <Pill key={curDoc.status + curDoc.id} status={curDoc.status} />
+              {
+                curDoc.status === Status.REJECTED ? (
+                  <Tooltip title="Change status to waiting">
+                    <Button variant="outline-secondary" style={{ marginLeft: 10 }} onClick={resetStatus}>
+                      Reset status
+                    </Button>
+                  </Tooltip>
+                ) : null
+              }
+
               {' '}
             </ListGroupItem>
             <ListGroupItem>
@@ -268,6 +289,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteFile: (key, id) => dispatch(requestDeleteKey(key, id)),
   updateForm: (form, id) => dispatch(requestUpdateForm(form, id)),
   fetchReviewById: (id) => dispatch(fetchPackageReviewById(id)),
+  resetVerdict: (id) => dispatch(submitVerdict(id, Status.WAITING)),
 });
 
 ReviewPreview.propTypes = {
@@ -277,6 +299,7 @@ ReviewPreview.propTypes = {
   deleteFile: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   fetchReviewById: PropTypes.func.isRequired,
+  resetVerdict: PropTypes.func.isRequired,
 };
 
 export default connect(
