@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   tab: {
     minWidth: 100, // a number of your choice
     width: 100, // a number of your choice
+    indicatorColor: 'secondary',
   },
 }));
 

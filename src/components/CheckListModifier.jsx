@@ -96,7 +96,8 @@ function CheckListModifier(props) {
           <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 15 }}>
             <Tooltip title="Add item">
               <AddCircleIcon
-                style={{ color: green[500], cursor: 'pointer' }}
+                color="primary"
+                style={{ cursor: 'pointer' }}
                 fontSize="large"
                 onClick={addInputRow}
               />
