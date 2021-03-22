@@ -50,8 +50,15 @@ function CheckList(props) {
   const [popupMsg, setPopUpMsg] = useState(defautPopupMsg);
   const { checkListsState } = props;
 
+  let checkedOffItems = [];
+  if (curReview != null && curReview.checked_off_items != null) {
+    checkedOffItems = curReview.checked_off_items;
+  }
+
   function getChecklistFromList(list) {
-    return list.map((label) => ({ label, checked: false }));
+    return list.filter(
+      (x) => curReview.checked_off_items.indexOf(x) === -1,
+    ).map((label) => ({ label, checked: false }));
   }
 
   useEffect(() => {
@@ -110,12 +117,15 @@ function CheckList(props) {
   const submitWithVerdictRequest = () => {
     const status = submitVerdict;
     const { id } = props;
+    let checkedItems = [];
 
     closeModal();
     if (status === 'block') {
       return;
     }
-    props.submitVerdictRequest(id, status);
+
+    checkedItems = buttonList.filter((x) => x.checked).map((x) => x.label);
+    props.submitVerdictRequest(id, status, checkedItems);
     setCloseChecklist(true);
   };
 
@@ -144,6 +154,24 @@ function CheckList(props) {
                     label={x.label}
                   />
                 ))
+              }
+              </FormGroup>
+              <FormGroup>
+                {
+                checkedOffItems.length !== 0
+                  ? (
+                    <>
+                      Already Seen
+                      {checkedOffItems.map((x, index) => (
+                        <FormControlLabel
+                          style={{ textAlign: 'left' }}
+                          key={`${x}name${index}`}
+                          control={<Checkbox key={`${x}checkbox${index}`} checked disabled onChange={handleChange(index)} name="gilad" />}
+                          label={x}
+                        />
+                      ))}
+                    </>
+                  ) : null
               }
               </FormGroup>
             </FormControl>
@@ -176,7 +204,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchReviewById: (id) => dispatch(fetchPackageReviewById(id)),
   fetchChecklist: (pacType) => dispatch(fetchChecklistForPacType(pacType)),
-  submitVerdictRequest: (id, status) => dispatch(submitVerdictDispatch(id, status)),
+  submitVerdictRequest:
+  (id, status, checkedItems) => dispatch(submitVerdictDispatch(id, status, checkedItems)),
 });
 
 CheckList.propTypes = {

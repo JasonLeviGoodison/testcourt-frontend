@@ -16,13 +16,18 @@ export async function GetReviewPackageById(id) {
   return json;
 }
 
-export async function SubmitVerdict(id, status) {
-  const body = JSON.stringify({ status });
+export async function SubmitVerdict(id, status, checkedItems = {}) {
+  const body = JSON.stringify({
+    status,
+    checkedItems,
+  });
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...await createJustAuthHeader() },
     body,
   };
+
   const res = await fetch(`${BASE_ADDRESS}/documents/updateStatus/${id}`, requestOptions);
   if (!res.ok) { throw new Error(res.statusText); }
   return res;

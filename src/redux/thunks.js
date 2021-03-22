@@ -161,10 +161,10 @@ export const deleteCompanyChecklist = (name) => (dispatch) => {
     });
 };
 
-export const submitVerdict = (id, status) => (dispatch) => {
+export const submitVerdict = (id, status, checkedItems) => (dispatch) => {
   dispatch(submitVerdictRequest());
 
-  docApi.SubmitVerdict(id, status)
+  docApi.SubmitVerdict(id, status, checkedItems)
     .then(() => {
       dispatch(
         enqueueSnackbar({

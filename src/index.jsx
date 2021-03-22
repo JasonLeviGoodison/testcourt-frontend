@@ -2,7 +2,6 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import purple from '@material-ui/core/colors/purple';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import store from './redux/store';

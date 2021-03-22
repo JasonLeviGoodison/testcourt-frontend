@@ -9,7 +9,6 @@ import { ListGroupItem, ListGroup } from 'react-bootstrap';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { green } from '@material-ui/core/colors';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { getAllPackageTypes, updatePackageType } from '../redux/thunks';
