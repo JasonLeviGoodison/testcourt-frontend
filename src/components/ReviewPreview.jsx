@@ -106,7 +106,7 @@ function ReviewPreview(props) {
   };
 
   const resetStatus = () => {
-    resetVerdict(curDoc.id);
+    resetVerdict(curDoc.id, curDoc.checked_off_items);
   };
 
   if (Object.entries(curDoc) < 2) {
@@ -289,7 +289,8 @@ const mapDispatchToProps = (dispatch) => ({
   deleteFile: (key, id) => dispatch(requestDeleteKey(key, id)),
   updateForm: (form, id) => dispatch(requestUpdateForm(form, id)),
   fetchReviewById: (id) => dispatch(fetchPackageReviewById(id)),
-  resetVerdict: (id) => dispatch(submitVerdict(id, Status.WAITING)),
+  resetVerdict:
+  (id, checkedOffItems) => dispatch(submitVerdict(id, Status.WAITING, checkedOffItems)),
 });
 
 ReviewPreview.propTypes = {
