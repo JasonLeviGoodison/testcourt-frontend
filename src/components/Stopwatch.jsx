@@ -22,12 +22,12 @@ function Stopwatch() {
 
   return (
     <>
-      <Prompt
+      {/* {<Prompt
         when
         message={'\n\nNot done yet!\n'
           + `You need to Dock-it this time:\n\n${formatter(seconds)}.\n\n`
           + "Do it now so you don't forget."}
-      />
+      />} */}
       <div style={{ textAlign: 'center' }}>{formatter(seconds)}</div>
     </>
   );

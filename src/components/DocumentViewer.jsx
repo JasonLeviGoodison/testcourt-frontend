@@ -6,6 +6,7 @@ import { fetchPackageReviewById } from '../redux/thunks';
 import * as newRequestApi from '../api/newRequestApi';
 import { getReview } from '../redux/selectors';
 import ExcelRenderer from '../custom_renderers/Excel';
+import Mp4Renderer from '../custom_renderers/Mp4';
 import { getFileType } from '../utils';
 import Stopwatch from './Stopwatch';
 
@@ -43,7 +44,7 @@ function DocumentViewer(props) {
       <DocViewer
         key={curReview.docs + curReview.eventLog}
         style={{ height: '100%' }}
-        pluginRenderers={[ExcelRenderer, ...DocViewerRenderers]}
+        pluginRenderers={[ExcelRenderer, Mp4Renderer, ...DocViewerRenderers]}
         documents={docs}
       />
     </div>

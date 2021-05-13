@@ -37,8 +37,9 @@ const HeaderNonAuth = ({ history }) => {
           <div>
             {CompanyName}
             <img
+              width={35}
               alt="Company logo"
-              src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`}
+              src={`${process.env.REACT_APP_REACT_URL}/checklist.png`}
               style={{ paddingLeft: 5, paddingBottom: 5 }}
             />
           </div>
@@ -77,8 +78,8 @@ const HeaderAuth = ({ history }) => {
             {CompanyName}
             <img
               alt="Company logo"
-              src={`${process.env.REACT_APP_REACT_URL}/gavel.svg`}
-              style={{ paddingLeft: 5, paddingBottom: 5 }}
+              src={`${process.env.REACT_APP_REACT_URL}/checklist.png`}
+              style={{ paddingLeft: 5, paddingBottom: 5, width: 35 }}
             />
           </div>
           {' '}

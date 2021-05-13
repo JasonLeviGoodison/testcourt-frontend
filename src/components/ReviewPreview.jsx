@@ -10,6 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Modal from 'react-modal';
+import ReviewEventLog from './ReviewEventLog';
 import { getCurDocMeta } from '../redux/selectors';
 import Status from './Status/Status';
 import Upload from './upload/Upload';
@@ -80,7 +81,6 @@ function ReviewPreview(props) {
       name: curDoc.name,
       casenumber: curDoc.casenumber,
       description: curDoc.description,
-      notes: curDoc.notes,
     };
     setEditMode(false);
     updateForm(form, id);
@@ -120,7 +120,31 @@ function ReviewPreview(props) {
     >
       <Card style={{ width: '100%' }}>
         <Card.Body style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Card.Title>Package Preview</Card.Title>
+          <Card.Title style={{ width: '70%' }}>
+            {' '}
+            <div>
+
+              {editMode ? <input style={{ width: '100%' }} name="name" value={curDoc.name} key="name" onChange={handleChange} />
+                : curDoc.name}
+              <div style={{ fontSize: 14, paddingTop: 5 }}>
+                <Pill
+                  key={curDoc.status + curDoc.id}
+                  status={curDoc.status}
+                />
+                {'  '}
+                <span style={{ fontSize: 12, paddingLeft: 5 }}>{new Date(curDoc.created_at).toLocaleDateString('en-US')}</span>
+                {'  '}
+                <span style={{ paddingLeft: 5 }}>
+                  {' '}
+                  {curDoc.posted_by}
+                  {' '}
+                </span>
+                <br />
+
+              </div>
+            </div>
+
+          </Card.Title>
           <div>
             {editMode
               ? <SaveIcon style={{ cursor: 'pointer', marginRight: 15 }} onClick={handleSavedClicked} />
@@ -132,21 +156,6 @@ function ReviewPreview(props) {
         </Card.Body>
         <div style={{ display: 'flex', borderTopStyle: 'solid', borderBlockColor: 'inherit' }}>
           <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1, borderRightStyle: 'inset' }}>
-            <ListGroupItem style={{ textAlign: 'center' }}><b>Package info</b></ListGroupItem>
-            <ListGroupItem>
-              <b>Client Name</b>
-              :
-              {' '}
-              {editMode ? <input name="name" value={curDoc.name} key="name" onChange={handleChange} />
-                : curDoc.name}
-            </ListGroupItem>
-            <ListGroupItem>
-              <b>Case #</b>
-              :
-              {' '}
-              {editMode ? <input name="case_number" key="case_number" value={curDoc.case_number} onChange={handleChange} />
-                : curDoc.case_number}
-            </ListGroupItem>
             <ListGroupItem>
               <b>Due Date</b>
               :
@@ -168,51 +177,10 @@ function ReviewPreview(props) {
                 : curDoc.description}
             </ListGroupItem>
           </ListGroup>
-          <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1 }}>
-            <ListGroupItem style={{ textAlign: 'center' }}><b>Poster info</b></ListGroupItem>
-            <ListGroupItem>
-              {' '}
-              <b>Status</b>
-              :
-              {' '}
-              <Pill key={curDoc.status + curDoc.id} status={curDoc.status} />
-              {
-                curDoc.status === Status.REJECTED ? (
-                  <Tooltip title="Change status to waiting">
-                    <Button variant="outline-secondary" style={{ marginLeft: 10 }} onClick={resetStatus}>
-                      Reset status
-                    </Button>
-                  </Tooltip>
-                ) : null
-              }
-
-              {' '}
-            </ListGroupItem>
-            <ListGroupItem>
-              <b>Posted By</b>
-              :
-              {' '}
-              {curDoc.posted_by}
-            </ListGroupItem>
-            <ListGroupItem>
-              <b>Created</b>
-              :
-              {' '}
-              {new Date(curDoc.created_at).toLocaleDateString('en-US')}
-            </ListGroupItem>
-            <ListGroupItem>
-              {' '}
-              <b>Notes</b>
-              :
-              {' '}
-              {editMode ? <textarea name="notes" key="notes" style={{ width: '100%' }} value={curDoc.notes || ''} onChange={handleChange} />
-                : curDoc.notes}
-            </ListGroupItem>
-          </ListGroup>
         </div>
         <Divider />
       </Card>
-      <Card style={{ width: '100%', marginTop: 10 }}>
+      <Card style={{ width: '100%', marginTop: 10, marginBottom: 10 }}>
         <ListGroup className="list-group-flush" style={{ textAlign: 'left', flex: 1 }}>
           <ListGroupItem>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -261,6 +229,7 @@ function ReviewPreview(props) {
           )
           : null}
       </Card>
+      <ReviewEventLog id={curDoc.id} />
       {/* Delete Modal for files */}
       <Modal isOpen={deleteFileKey !== ''} style={modalStyles} contentLabel="Confirmation modal" ariaHideApp={false}>
         <Card style={{ width: '100%' }}>

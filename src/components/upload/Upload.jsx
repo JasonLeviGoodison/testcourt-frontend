@@ -91,7 +91,6 @@ class Upload extends Component {
     const form = newReviewFields;
 
     return (form.name != null
-      && form.casenumber != null
       && form.due_date != null
       && form.packagetypes != null
       && form.description != null

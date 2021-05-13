@@ -13,7 +13,7 @@ function ReviewEventLog(props) {
 
   useEffect(() => {
     props.fetchReviewEventLog(id);
-  }, []);
+  }, [id]);
 
   return (
     <Card style={{ width: '100%', overflow: 'scroll', paddingLeft: 10 }}>

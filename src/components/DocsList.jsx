@@ -113,15 +113,6 @@ function DocsList(props) {
                   primary={item.name}
                   secondary={(
                     <>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.inline}
-                        color="textPrimary"
-                      >
-                        {item.case_number}
-                      </Typography>
-                      <br />
                       {item.description.length > 50
                         ? `${item.description.substring(0, 50)}...`
                         : item.description}

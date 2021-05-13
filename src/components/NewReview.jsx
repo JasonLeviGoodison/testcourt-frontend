@@ -43,12 +43,8 @@ function NewReview(props) {
         <h2 style={{ textAlign: 'center', paddingBottom: 25 }}>New Review</h2>
         <fieldset style={{ display: 'flex', flexDirection: 'column' }}>
           <label>
-            <p>Client Name</p>
+            <p>Title</p>
             <input name="name" onChange={handleChange} />
-          </label>
-          <label>
-            <p>Case #</p>
-            <input name="casenumber" onChange={handleChange} />
           </label>
           <label>
             <p>Due Date</p>
@@ -63,13 +59,6 @@ function NewReview(props) {
               <p>Brief Description</p>
               <textarea maxLength="254" name="description" rows="5" cols="40" onChange={handleChange} />
               255 char limit
-            </div>
-          </label>
-          <label>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <p>Additional Notes</p>
-              <textarea maxLength="254" name="notes" rows="2" cols="40" onChange={handleChange} />
-              (Optional) 255 char limit
             </div>
           </label>
         </fieldset>

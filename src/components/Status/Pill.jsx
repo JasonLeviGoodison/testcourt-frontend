@@ -18,7 +18,7 @@ class Pill extends Component {
       case Status.WAITING:
         return (
           <Badge pill variant="primary">
-            Waiting For Review
+            Active
           </Badge>
         );
       case Status.APPROVED:
