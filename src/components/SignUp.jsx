@@ -6,15 +6,20 @@ import React, { Component } from 'react';
 import {
   Form, FormGroup, Input, Alert,
 } from 'reactstrap';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import Button from 'react-bootstrap/Button';
+import Switch from 'react-switch';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import * as routes from '../routes/routes';
-import { auth, db } from '../firebase';
+import * as accountApi from '../api/accountApi';
 
 const SignUpPage = ({ history }) => (
   <div className="div-flex">
     <div className="marginTop60">
-      <h1 className="centered">Sign Up</h1>
+      <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
       <SignUpForm history={history} />
     </div>
   </div>
@@ -26,12 +31,15 @@ SignUpPage.propTypes = {
 
 // ################### Sign Up Form ###################
 const INITIAL_STATE = {
-  username: '',
+  firstName: '',
+  lastname: '',
   email: '',
+  company: '',
   passwordOne: '',
   passwordTwo: '',
   error: null,
   showingAlert: false,
+  isNewCompany: false,
 };
 
 // A Higher order function with prop name as key and the value to be assigned to
@@ -45,31 +53,27 @@ class SignUpForm extends Component {
     this.state = {
       ...INITIAL_STATE,
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(event) {
-    const { username, email, passwordOne } = this.state;
+    const {
+      firstName, lastName, email, passwordOne, company, isNewCompany,
+    } = this.state;
     const { history } = this.props;
-    auth
-      .doCreateUserWithEmailAndPassword(email, passwordOne)
-      // it the above functions resolves, reset the state to
-      // its initial state values, otherwise, set the error object
-      .then((authUser) => {
-        // creating a user in the database after the sign up through Firebase auth API
-        db.doCreateUser(authUser.user.uid, username, email)
-          .then(() => {
-            this.setState({
-              ...INITIAL_STATE,
-            });
-            history.push(routes.HOME); // redirects to Home Page
-          })
-          .catch((error) => {
-            this.setState(byPropKey('error', error));
-            this.timer(); // show alert message for some seconds
-          });
+    accountApi.signUp(firstName, lastName, company, email, passwordOne, isNewCompany)
+      .then(() => {
+        this.setState({
+          ...INITIAL_STATE,
+        });
+        if (!isNewCompany) {
+          history.push(routes.WAITING_VERIFY);
+        } else {
+          history.push(routes.HOME);
+        }
       })
-      .catch((err) => {
-        this.setState(byPropKey('error', err));
+      .catch((error) => {
+        this.setState(byPropKey('error', error));
         this.timer(); // show alert message for some seconds
       });
 
@@ -90,18 +94,23 @@ class SignUpForm extends Component {
 
   render() {
     const {
-      username,
+      firstName,
+      lastName,
       email,
+      company,
       passwordOne,
       passwordTwo,
       error,
       showingAlert,
+      isNewCompany,
     } = this.state;
     // a boolen to perform validation
-    const isInvalid = passwordOne !== passwordTwo
+    const isInvalid = (passwordOne !== passwordTwo
       || passwordOne === ''
       || email === ''
-      || username === '';
+      || firstName === ''
+      || lastName === '')
+      || company === '';
 
     return (
       <div>
@@ -113,12 +122,22 @@ class SignUpForm extends Component {
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Input
-              type="username"
-              name="username"
-              id="userName"
-              placeholder="First and Last Name"
-              value={username}
-              onChange={(e) => this.setState(byPropKey('username', e.target.value))}
+              type="first"
+              name="first"
+              id="firstName"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => this.setState(byPropKey('firstName', e.target.value))}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="second"
+              name="last"
+              id="lastName"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => this.setState(byPropKey('lastName', e.target.value))}
             />
           </FormGroup>
           <FormGroup>
@@ -151,7 +170,46 @@ class SignUpForm extends Component {
               onChange={(e) => this.setState(byPropKey('passwordTwo', e.target.value))}
             />
           </FormGroup>
+          <FormGroup style={{ textAlign: 'center' }}>
+            {!isNewCompany ? 'Join a firm' : 'Create a firm'}
+            <br />
+            <Switch
+              onChange={(checked) => {
+                this.setState(byPropKey('company', ''));
+                this.setState(byPropKey('isNewCompany', !checked));
+              }}
+              checked={!isNewCompany}
+              onColor="#86d3ff"
+              onHandleColor="#2693e6"
+              handleDiameter={30}
+              uncheckedIcon={false}
+              checkedIcon={false}
+              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+              height={20}
+              width={48}
+              className="react-switch"
+              id="material-switch"
+            />
+            <br />
+            {isNewCompany
+              ? (
+                <TextField
+                  style={{ width: '100%' }}
+                  onChange={(e) => this.setState(byPropKey('company', e.target.value))}
+                  value={company}
+                  placeholder="Firm Name"
+                />
+              )
+              : (
+                <Dropdown
+                  onChange={(option) => this.setState(byPropKey('company', option.value))}
+                  options={['Legal Focus']}
+                  placeholder="Choose Firm"
+                />
+              )}
 
+          </FormGroup>
           <div className="text-center">
             <Button disabled={isInvalid} type="submit">
               Sign Up
@@ -167,11 +225,5 @@ SignUpForm.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-// ################### Sign Up Link ###################
-// used in the sign in when the user don't have an account registered yet
-const SignUpLink = () => (
-  <p>
-    Dont have an account?
-  </p>
-);
-export { SignUpForm, SignUpLink };
+export { SignUpForm };
+export default withRouter(SignUpPage);

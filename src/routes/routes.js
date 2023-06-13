@@ -10,3 +10,4 @@ export const SELL = '/sell';
 export const CHAT = '/chat';
 export const REVIEW = '/review';
 export const MODIFY_CHECKLISTS = '/modify-checklists';
+export const WAITING_VERIFY = '/waiting-verify';
